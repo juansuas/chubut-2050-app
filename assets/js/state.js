@@ -1,17 +1,20 @@
 const STORAGE_KEY='chubut2050.v2.filters';
+const DEFAULTS_REVISION=2;
 import {DEFAULT_CAPACITY_THRESHOLDS} from './config.js';
-const defaults={module:'demografia',year:2022,demographyYear:2022,capacityYear:2024,territory:'all',educationSelection:'all',sex:'all',demographyMapMetric:'population',capacitySchool:'all',capacityMode:'scenario',capacityComparisonMode:'scenario',capacityTrendView:'group',capacityDistributionMode:'count',capacityAttendanceLevels:['INI','PRI','SEC','AGE18'],capacityRates:{},capacityThresholds:{...DEFAULT_CAPACITY_THRESHOLDS}};
+const defaults={defaultsRevision:DEFAULTS_REVISION,module:'demografia',year:2050,demographyYear:2050,capacityYear:2024,territory:'all',educationSelection:'all',sex:'all',demographyMapMetric:'variation',capacitySchool:'all',capacityMode:'scenario',capacityComparisonMode:'scenario',capacityTrendView:'group',capacityDistributionMode:'count',capacityAttendanceLevels:['INI','PRI','SEC','AGE18'],capacityRates:{},capacityThresholds:{...DEFAULT_CAPACITY_THRESHOLDS}};
 const listeners=new Set();
 const ranges={all:'0-100','level:INI':'0-5','group:0_3':'0-3','group:4_5':'4-5','level:PRI':'6-11','group:6_11':'6-11','level:SEC':'12-17','group:12_14':'12-14','group:15_17':'15-17','group:18_SEC':'18-18'};
 function saved(){try{return JSON.parse(localStorage.getItem(STORAGE_KEY))||{};}catch{return{};}}
 function migrate(value){
   const territory=value.territory??value.capacityTerritory??value.demographyTerritory??'all';
-  const module=location.hash.slice(1)||value.module||defaults.module,demographyYear=Number(value.demographyYear??2022),capacityYear=Math.max(2024,Number(value.capacityYear??2024)),year=module==='oferta'?capacityYear:module==='demografia'?demographyYear:Number(value.year??demographyYear);
+  const hasCurrentDefaults=Number(value.defaultsRevision||0)>=DEFAULTS_REVISION;
+  const module=location.hash.slice(1)||value.module||defaults.module,demographyYear=Number(hasCurrentDefaults?(value.demographyYear??defaults.demographyYear):defaults.demographyYear),capacityYear=Math.max(2024,Number(value.capacityYear??defaults.capacityYear)),year=module==='oferta'?capacityYear:module==='demografia'?demographyYear:Number(value.year??demographyYear);
+  const demographyMapMetric=hasCurrentDefaults?(value.demographyMapMetric??defaults.demographyMapMetric):defaults.demographyMapMetric;
   const sex=value.sex??value.capacitySex??value.demographySex??'all';
   let educationSelection=value.educationSelection;
   if(!educationSelection){if(value.capacityGroup&&value.capacityGroup!=='all')educationSelection=`group:${value.capacityGroup}`;else if(value.capacityLevel&&value.capacityLevel!=='all')educationSelection=`level:${value.capacityLevel}`;else educationSelection='all';}
   const capacityAttendanceLevels=Array.isArray(value.capacityAttendanceLevels)?value.capacityAttendanceLevels.filter(id=>['INI','PRI','SEC','AGE18'].includes(id)):[...defaults.capacityAttendanceLevels];
-  return {...defaults,...value,territory,year,demographyYear,capacityYear,sex,educationSelection,capacityAttendanceLevels,capacityThresholds:{...DEFAULT_CAPACITY_THRESHOLDS,...(value.capacityThresholds||{})},module};
+  return {...defaults,...value,defaultsRevision:DEFAULTS_REVISION,territory,year,demographyYear,capacityYear,sex,educationSelection,demographyMapMetric,capacityAttendanceLevels,capacityThresholds:{...DEFAULT_CAPACITY_THRESHOLDS,...(value.capacityThresholds||{})},module};
 }
 let state=migrate(saved());
 function aliases(){

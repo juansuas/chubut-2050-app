@@ -66,7 +66,7 @@
         </div>
         <section id="demography-control-panel" class="scenario-panel" data-floating-panel data-panel-module="demografia" aria-labelledby="demography-control-title">
           <header class="scenario-panel-header" data-panel-drag-handle>
-            <div><p class="label">Exploración</p><h3 id="demography-control-title">Filtros demográficos</h3><p class="scenario-panel-summary" data-panel-summary>2022 · Toda la provincia</p></div>
+            <div><p class="label">Exploración</p><h3 id="demography-control-title">Filtros demográficos</h3><p class="scenario-panel-summary" data-panel-summary>2050 · Toda la provincia</p></div>
             <div class="scenario-panel-actions">
               <button class="panel-minimize" data-panel-minimize type="button" aria-controls="demography-control-body" hidden>— Minimizar</button>
               <button class="panel-float-toggle" data-panel-float-toggle type="button" aria-pressed="false" aria-controls="demography-control-panel">↗ Mantener visible</button>
@@ -77,11 +77,11 @@
               <label>Departamento<select id="demography-territory"></select></label>
               <label>Nivel / Grupo de edad<select id="age-group"></select></label>
               <label>Sexo<select id="demography-sex"><option value="all" selected>Ambos sexos</option><option value="M">Varones</option><option value="F">Mujeres</option></select></label>
-              <label>Variable del mapa<select id="demography-map-metric"><option value="population" selected>Población</option><option value="variation">Cambio desde 2022 (+/−)</option></select></label>
+              <label>Variable del mapa<select id="demography-map-metric"><option value="population">Población</option><option value="variation" selected>Cambio desde 2022 (+/−)</option></select></label>
               <div id="demography-year-slot" class="demography-year-slot">
                 <div id="shared-year-control" class="demography-year-control">
-                  <div><label for="shared-year">Año</label><output id="shared-year-output" for="shared-year">2022</output></div>
-                  <input id="shared-year" type="range" min="2022" max="2050" step="1" value="2022">
+                  <div><label for="shared-year">Año</label><output id="shared-year-output" for="shared-year">2050</output></div>
+                  <input id="shared-year" type="range" min="2022" max="2050" step="1" value="2050">
                   <div class="range-limits"><span id="shared-year-min">2022</span><span>2050</span></div>
                   <div class="timeline-actions"><button id="shared-year-play" class="timeline-play" type="button" aria-pressed="false">▶ Reproducir años</button></div>
                 </div>
@@ -166,6 +166,6 @@
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
   <script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8"></script>
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
-  <script type="module" src="assets/js/app.js?v=2.7.0"></script>
+  <script type="module" src="assets/js/app.js?v=2.7.2"></script>
 </body>
 </html>

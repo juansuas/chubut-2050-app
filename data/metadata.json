@@ -1,6 +1,6 @@
 {
   "nombre_app": "Chubut 2050 V2",
-  "version": "2.7.1-proyeccion-corregida-2040-2050",
+  "version": "2.7.2-default-demografia-2050",
   "fecha_actualizacion": "2026-09-15",
   "modulos_disponibles": [
     "demografia",
