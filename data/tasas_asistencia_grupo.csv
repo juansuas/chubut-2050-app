@@ -1,0 +1,289 @@
+﻿ambito_tasa,territorio_id,territorio_nombre,grupo_edad_id,sexo_id,tasa_asistencia,numerador,denominador,metrica,fuente_id,estado_dato
+DEP,26049,Gastre,0_3,F,0.107,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26042,Gaiman,0_3,F,0.414,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26035,Futaleufú,0_3,F,0.461,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26070,Paso de Indios,0_3,F,0.48700000000000004,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26063,Mártires,0_3,F,0.133,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26056,Languiñeo,0_3,F,0.20600000000000002,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26007,Biedma,0_3,F,0.423,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26028,Florentino Ameghino,0_3,F,0.196,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26021,Escalante,0_3,F,0.29600000000000004,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26014,Cushamen,0_3,F,0.39899999999999997,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26091,Sarmiento,0_3,F,0.376,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26084,Río Senguer,0_3,F,0.42100000000000004,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26077,Rawson,0_3,F,0.386,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26098,Tehuelches,0_3,F,0.231,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26105,Telsen,0_3,F,0.21100000000000002,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26049,Gastre,0_3,T,0.111,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26042,Gaiman,0_3,T,0.387,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26035,Futaleufú,0_3,T,0.462,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26070,Paso de Indios,0_3,T,0.46799999999999997,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26063,Mártires,0_3,T,0.16699999999999998,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26056,Languiñeo,0_3,T,0.19399999999999998,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26007,Biedma,0_3,T,0.418,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26028,Florentino Ameghino,0_3,T,0.218,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26021,Escalante,0_3,T,0.285,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26014,Cushamen,0_3,T,0.41,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26091,Sarmiento,0_3,T,0.353,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26084,Río Senguer,0_3,T,0.42100000000000004,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26077,Rawson,0_3,T,0.376,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26098,Tehuelches,0_3,T,0.25,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26105,Telsen,0_3,T,0.171,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26049,Gastre,12_14,T,1.0,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26042,Gaiman,12_14,T,0.988,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26035,Futaleufú,12_14,T,0.986,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26070,Paso de Indios,12_14,T,0.972,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26063,Mártires,12_14,T,0.973,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26056,Languiñeo,12_14,T,0.97,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26007,Biedma,12_14,T,0.9790000000000001,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26028,Florentino Ameghino,12_14,T,0.9470000000000001,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26021,Escalante,12_14,T,0.986,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26014,Cushamen,12_14,T,0.987,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26091,Sarmiento,12_14,T,0.988,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26084,Río Senguer,12_14,T,0.986,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26077,Rawson,12_14,T,0.988,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26098,Tehuelches,12_14,T,0.966,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26105,Telsen,12_14,T,0.9570000000000001,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26049,Gastre,15_17,T,0.9,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26042,Gaiman,15_17,T,0.934,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26035,Futaleufú,15_17,T,0.965,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26070,Paso de Indios,15_17,T,0.789,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26063,Mártires,15_17,T,0.9229999999999999,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26056,Languiñeo,15_17,T,0.9440000000000001,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26007,Biedma,15_17,T,0.948,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26028,Florentino Ameghino,15_17,T,0.9009999999999999,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26021,Escalante,15_17,T,0.9590000000000001,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26014,Cushamen,15_17,T,0.951,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26091,Sarmiento,15_17,T,0.929,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26084,Río Senguer,15_17,T,0.9390000000000001,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26077,Rawson,15_17,T,0.956,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26098,Tehuelches,15_17,T,0.9209999999999999,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26105,Telsen,15_17,T,0.937,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26049,Gastre,4_5,T,1.0,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26042,Gaiman,4_5,T,0.99,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26035,Futaleufú,4_5,T,0.9890000000000001,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26070,Paso de Indios,4_5,T,0.948,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26063,Mártires,4_5,T,0.941,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26056,Languiñeo,4_5,T,1.0,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26007,Biedma,4_5,T,0.981,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26028,Florentino Ameghino,4_5,T,0.986,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26021,Escalante,4_5,T,0.983,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26014,Cushamen,4_5,T,0.972,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26091,Sarmiento,4_5,T,0.98,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26084,Río Senguer,4_5,T,1.0,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26077,Rawson,4_5,T,0.9840000000000001,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26098,Tehuelches,4_5,T,0.9840000000000001,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26105,Telsen,4_5,T,1.0,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26049,Gastre,6_11,T,1.0,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26042,Gaiman,6_11,T,0.992,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26035,Futaleufú,6_11,T,0.9890000000000001,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26070,Paso de Indios,6_11,T,1.0,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26063,Mártires,6_11,T,0.983,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26056,Languiñeo,6_11,T,0.992,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26007,Biedma,6_11,T,0.987,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26028,Florentino Ameghino,6_11,T,0.9890000000000001,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26021,Escalante,6_11,T,0.992,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26014,Cushamen,6_11,T,0.988,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26091,Sarmiento,6_11,T,0.991,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26084,Río Senguer,6_11,T,0.9840000000000001,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26077,Rawson,6_11,T,0.992,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26098,Tehuelches,6_11,T,0.995,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26105,Telsen,6_11,T,0.986,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26049,Gastre,12_14,F,1.0,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26042,Gaiman,12_14,F,0.9940000000000001,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26035,Futaleufú,12_14,F,0.993,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26070,Paso de Indios,12_14,F,1.0,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26063,Mártires,12_14,F,1.0,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26056,Languiñeo,12_14,F,1.0,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26007,Biedma,12_14,F,0.982,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26028,Florentino Ameghino,12_14,F,0.9790000000000001,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26021,Escalante,12_14,F,0.988,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26014,Cushamen,12_14,F,0.983,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26091,Sarmiento,12_14,F,0.988,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26084,Río Senguer,12_14,F,0.993,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26077,Rawson,12_14,F,0.992,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26098,Tehuelches,12_14,F,0.98,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26105,Telsen,12_14,F,0.971,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26049,Gastre,15_17,F,0.9259999999999999,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26042,Gaiman,15_17,F,0.97,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26035,Futaleufú,15_17,F,0.975,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26070,Paso de Indios,15_17,F,0.889,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26063,Mártires,15_17,F,1.0,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26056,Languiñeo,15_17,F,0.9840000000000001,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26007,Biedma,15_17,F,0.958,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26028,Florentino Ameghino,15_17,F,0.968,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26021,Escalante,15_17,F,0.9640000000000001,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26014,Cushamen,15_17,F,0.9590000000000001,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26091,Sarmiento,15_17,F,0.9490000000000001,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26084,Río Senguer,15_17,F,0.9840000000000001,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26077,Rawson,15_17,F,0.9690000000000001,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26098,Tehuelches,15_17,F,0.985,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26105,Telsen,15_17,F,1.0,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26049,Gastre,4_5,F,1.0,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26042,Gaiman,4_5,F,0.9840000000000001,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26035,Futaleufú,4_5,F,0.9940000000000001,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26070,Paso de Indios,4_5,F,0.9329999999999999,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26063,Mártires,4_5,F,0.889,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26056,Languiñeo,4_5,F,1.0,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26007,Biedma,4_5,F,0.98,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26028,Florentino Ameghino,4_5,F,0.978,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26021,Escalante,4_5,F,0.982,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26014,Cushamen,4_5,F,0.983,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26091,Sarmiento,4_5,F,0.987,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26084,Río Senguer,4_5,F,1.0,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26077,Rawson,4_5,F,0.986,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26098,Tehuelches,4_5,F,1.0,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26105,Telsen,4_5,F,1.0,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26049,Gastre,6_11,F,1.0,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26042,Gaiman,6_11,F,0.992,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26035,Futaleufú,6_11,F,0.99,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26070,Paso de Indios,6_11,F,1.0,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26063,Mártires,6_11,F,1.0,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26056,Languiñeo,6_11,F,0.992,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26007,Biedma,6_11,F,0.987,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26028,Florentino Ameghino,6_11,F,0.99,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26021,Escalante,6_11,F,0.993,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26014,Cushamen,6_11,F,0.9890000000000001,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26091,Sarmiento,6_11,F,0.99,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26084,Río Senguer,6_11,F,0.988,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26077,Rawson,6_11,F,0.993,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26098,Tehuelches,6_11,F,0.9940000000000001,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26105,Telsen,6_11,F,0.973,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26049,Gastre,0_3,M,0.11800000000000001,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26042,Gaiman,0_3,M,0.364,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26035,Futaleufú,0_3,M,0.46399999999999997,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26070,Paso de Indios,0_3,M,0.45,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26063,Mártires,0_3,M,0.2,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26056,Languiñeo,0_3,M,0.183,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26007,Biedma,0_3,M,0.41200000000000003,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26028,Florentino Ameghino,0_3,M,0.244,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26021,Escalante,0_3,M,0.27399999999999997,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26014,Cushamen,0_3,M,0.42,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26091,Sarmiento,0_3,M,0.332,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26084,Río Senguer,0_3,M,0.42200000000000004,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26077,Rawson,0_3,M,0.366,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26098,Tehuelches,0_3,M,0.265,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26105,Telsen,0_3,M,0.132,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26049,Gastre,12_14,M,1.0,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26042,Gaiman,12_14,M,0.981,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26035,Futaleufú,12_14,M,0.9790000000000001,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26070,Paso de Indios,12_14,M,0.9490000000000001,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26063,Mártires,12_14,M,0.955,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26056,Languiñeo,12_14,M,0.9440000000000001,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26007,Biedma,12_14,M,0.976,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26028,Florentino Ameghino,12_14,M,0.915,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26021,Escalante,12_14,M,0.983,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26014,Cushamen,12_14,M,0.992,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26091,Sarmiento,12_14,M,0.988,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26084,Río Senguer,12_14,M,0.98,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26077,Rawson,12_14,M,0.9840000000000001,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26098,Tehuelches,12_14,M,0.9520000000000001,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26105,Telsen,12_14,M,0.9440000000000001,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26049,Gastre,15_17,M,0.87,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26042,Gaiman,15_17,M,0.899,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26035,Futaleufú,15_17,M,0.956,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26070,Paso de Indios,15_17,M,0.7,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26063,Mártires,15_17,M,0.846,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26056,Languiñeo,15_17,M,0.9109999999999999,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26007,Biedma,15_17,M,0.938,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26028,Florentino Ameghino,15_17,M,0.85,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26021,Escalante,15_17,M,0.9540000000000001,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26014,Cushamen,15_17,M,0.943,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26091,Sarmiento,15_17,M,0.91,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26084,Río Senguer,15_17,M,0.9,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26077,Rawson,15_17,M,0.9440000000000001,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26098,Tehuelches,15_17,M,0.8640000000000001,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26105,Telsen,15_17,M,0.8909999999999999,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26049,Gastre,4_5,M,1.0,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26042,Gaiman,4_5,M,0.995,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26035,Futaleufú,4_5,M,0.985,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26070,Paso de Indios,4_5,M,0.9640000000000001,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26063,Mártires,4_5,M,1.0,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26056,Languiñeo,4_5,M,1.0,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26007,Biedma,4_5,M,0.981,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26028,Florentino Ameghino,4_5,M,1.0,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26021,Escalante,4_5,M,0.9840000000000001,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26014,Cushamen,4_5,M,0.96,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26091,Sarmiento,4_5,M,0.973,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26084,Río Senguer,4_5,M,1.0,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26077,Rawson,4_5,M,0.982,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26098,Tehuelches,4_5,M,0.9690000000000001,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26105,Telsen,4_5,M,1.0,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26049,Gastre,6_11,M,1.0,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26042,Gaiman,6_11,M,0.993,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26035,Futaleufú,6_11,M,0.988,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26070,Paso de Indios,6_11,M,1.0,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26063,Mártires,6_11,M,0.968,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26056,Languiñeo,6_11,M,0.992,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26007,Biedma,6_11,M,0.986,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26028,Florentino Ameghino,6_11,M,0.9890000000000001,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26021,Escalante,6_11,M,0.991,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26014,Cushamen,6_11,M,0.988,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26091,Sarmiento,6_11,M,0.991,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26084,Río Senguer,6_11,M,0.981,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26077,Rawson,6_11,M,0.992,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26098,Tehuelches,6_11,M,0.997,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+DEP,26105,Telsen,6_11,M,1.0,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+PROV,26,Chubut,0_3,F,0.36200000000000004,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+PROV,26,Chubut,0_3,T,0.355,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+PROV,26,Chubut,12_14,T,0.985,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+PROV,26,Chubut,15_17,T,0.9540000000000001,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+PROV,26,Chubut,4_5,T,0.983,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+PROV,26,Chubut,6_11,T,0.991,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+PROV,26,Chubut,12_14,F,0.988,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+PROV,26,Chubut,15_17,F,0.965,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+PROV,26,Chubut,4_5,F,0.9840000000000001,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+PROV,26,Chubut,6_11,F,0.991,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+PROV,26,Chubut,0_3,M,0.34700000000000003,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+PROV,26,Chubut,12_14,M,0.981,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+PROV,26,Chubut,15_17,M,0.943,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+PROV,26,Chubut,4_5,M,0.982,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+PROV,26,Chubut,6_11,M,0.99,,,asistencia_a_establecimiento_educativo,INDEC_CENSO_2022_GEOJSON_ASISTENCIA,OBSERVADO
+PROV,26,Chubut,18_SEC,T,0.48479770169978453,4050.0,8354.0,asistencia_al_nivel_secundario,INDEC_CENSO_2022_CUADRO_2_5,OBSERVADO
+PROV,26,Chubut,18_SEC,F,0.4340498290180752,1777.0,4094.0,asistencia_al_nivel_secundario,INDEC_CENSO_2022_CUADRO_2_5,OBSERVADO
+PROV,26,Chubut,18_SEC,M,0.5335680751173709,2273.0,4260.0,asistencia_al_nivel_secundario,INDEC_CENSO_2022_CUADRO_2_5,OBSERVADO
+DEP,26007,Biedma,18_SEC,T,0.47107969151670953,733.0,1556.0,asistencia_al_nivel_secundario,INDEC_CENSO_2022_CUADRO_2_5,OBSERVADO
+DEP,26007,Biedma,18_SEC,F,0.4316069057104914,325.0,753.0,asistencia_al_nivel_secundario,INDEC_CENSO_2022_CUADRO_2_5,OBSERVADO
+DEP,26007,Biedma,18_SEC,M,0.5080946450809465,408.0,803.0,asistencia_al_nivel_secundario,INDEC_CENSO_2022_CUADRO_2_5,OBSERVADO
+DEP,26014,Cushamen,18_SEC,T,0.4732824427480916,186.0,393.0,asistencia_al_nivel_secundario,INDEC_CENSO_2022_CUADRO_2_5,OBSERVADO
+DEP,26014,Cushamen,18_SEC,F,0.44502617801047123,85.0,191.0,asistencia_al_nivel_secundario,INDEC_CENSO_2022_CUADRO_2_5,OBSERVADO
+DEP,26014,Cushamen,18_SEC,M,0.5,101.0,202.0,asistencia_al_nivel_secundario,INDEC_CENSO_2022_CUADRO_2_5,OBSERVADO
+DEP,26021,Escalante,18_SEC,T,0.43900826446280994,1328.0,3025.0,asistencia_al_nivel_secundario,INDEC_CENSO_2022_CUADRO_2_5,OBSERVADO
+DEP,26021,Escalante,18_SEC,F,0.36496350364963503,550.0,1507.0,asistencia_al_nivel_secundario,INDEC_CENSO_2022_CUADRO_2_5,OBSERVADO
+DEP,26021,Escalante,18_SEC,M,0.5125164690382081,778.0,1518.0,asistencia_al_nivel_secundario,INDEC_CENSO_2022_CUADRO_2_5,OBSERVADO
+DEP,26028,Florentino Ameghino,18_SEC,T,0.6521739130434783,15.0,23.0,asistencia_al_nivel_secundario,INDEC_CENSO_2022_CUADRO_2_5,OBSERVADO
+DEP,26028,Florentino Ameghino,18_SEC,F,0.7777777777777778,7.0,9.0,asistencia_al_nivel_secundario,INDEC_CENSO_2022_CUADRO_2_5,OBSERVADO
+DEP,26028,Florentino Ameghino,18_SEC,M,0.5714285714285714,8.0,14.0,asistencia_al_nivel_secundario,INDEC_CENSO_2022_CUADRO_2_5,OBSERVADO
+DEP,26035,Futaleufú,18_SEC,T,0.5438871473354232,347.0,638.0,asistencia_al_nivel_secundario,INDEC_CENSO_2022_CUADRO_2_5,OBSERVADO
+DEP,26035,Futaleufú,18_SEC,F,0.4875,156.0,320.0,asistencia_al_nivel_secundario,INDEC_CENSO_2022_CUADRO_2_5,OBSERVADO
+DEP,26035,Futaleufú,18_SEC,M,0.60062893081761,191.0,318.0,asistencia_al_nivel_secundario,INDEC_CENSO_2022_CUADRO_2_5,OBSERVADO
+DEP,26042,Gaiman,18_SEC,T,0.48484848484848486,96.0,198.0,asistencia_al_nivel_secundario,INDEC_CENSO_2022_CUADRO_2_5,OBSERVADO
+DEP,26042,Gaiman,18_SEC,F,0.4387755102040816,43.0,98.0,asistencia_al_nivel_secundario,INDEC_CENSO_2022_CUADRO_2_5,OBSERVADO
+DEP,26042,Gaiman,18_SEC,M,0.53,53.0,100.0,asistencia_al_nivel_secundario,INDEC_CENSO_2022_CUADRO_2_5,OBSERVADO
+DEP,26049,Gastre,18_SEC,T,0.4444444444444444,4.0,9.0,asistencia_al_nivel_secundario,INDEC_CENSO_2022_CUADRO_2_5,OBSERVADO
+DEP,26049,Gastre,18_SEC,F,0.2,1.0,5.0,asistencia_al_nivel_secundario,INDEC_CENSO_2022_CUADRO_2_5,OBSERVADO
+DEP,26049,Gastre,18_SEC,M,0.75,3.0,4.0,asistencia_al_nivel_secundario,INDEC_CENSO_2022_CUADRO_2_5,OBSERVADO
+DEP,26056,Languiñeo,18_SEC,T,0.7096774193548387,22.0,31.0,asistencia_al_nivel_secundario,INDEC_CENSO_2022_CUADRO_2_5,OBSERVADO
+DEP,26056,Languiñeo,18_SEC,F,0.8125,13.0,16.0,asistencia_al_nivel_secundario,INDEC_CENSO_2022_CUADRO_2_5,OBSERVADO
+DEP,26056,Languiñeo,18_SEC,M,0.6,9.0,15.0,asistencia_al_nivel_secundario,INDEC_CENSO_2022_CUADRO_2_5,OBSERVADO
+DEP,26063,Mártires,18_SEC,T,0.2,1.0,5.0,asistencia_al_nivel_secundario,INDEC_CENSO_2022_CUADRO_2_5,OBSERVADO
+DEP,26063,Mártires,18_SEC,F,,,,asistencia_al_nivel_secundario,INDEC_CENSO_2022_CUADRO_2_5,SIN_DENOMINADOR
+DEP,26063,Mártires,18_SEC,M,0.2,1.0,5.0,asistencia_al_nivel_secundario,INDEC_CENSO_2022_CUADRO_2_5,OBSERVADO
+DEP,26070,Paso de Indios,18_SEC,T,0.4666666666666667,14.0,30.0,asistencia_al_nivel_secundario,INDEC_CENSO_2022_CUADRO_2_5,OBSERVADO
+DEP,26070,Paso de Indios,18_SEC,F,0.3333333333333333,4.0,12.0,asistencia_al_nivel_secundario,INDEC_CENSO_2022_CUADRO_2_5,OBSERVADO
+DEP,26070,Paso de Indios,18_SEC,M,0.5555555555555556,10.0,18.0,asistencia_al_nivel_secundario,INDEC_CENSO_2022_CUADRO_2_5,OBSERVADO
+DEP,26077,Rawson,18_SEC,T,0.5242053789731052,1072.0,2045.0,asistencia_al_nivel_secundario,INDEC_CENSO_2022_CUADRO_2_5,OBSERVADO
+DEP,26077,Rawson,18_SEC,F,0.4847250509164969,476.0,982.0,asistencia_al_nivel_secundario,INDEC_CENSO_2022_CUADRO_2_5,OBSERVADO
+DEP,26077,Rawson,18_SEC,M,0.5606773283160865,596.0,1063.0,asistencia_al_nivel_secundario,INDEC_CENSO_2022_CUADRO_2_5,OBSERVADO
+DEP,26084,Río Senguer,18_SEC,T,0.5178571428571429,29.0,56.0,asistencia_al_nivel_secundario,INDEC_CENSO_2022_CUADRO_2_5,OBSERVADO
+DEP,26084,Río Senguer,18_SEC,F,0.5217391304347826,12.0,23.0,asistencia_al_nivel_secundario,INDEC_CENSO_2022_CUADRO_2_5,OBSERVADO
+DEP,26084,Río Senguer,18_SEC,M,0.5151515151515151,17.0,33.0,asistencia_al_nivel_secundario,INDEC_CENSO_2022_CUADRO_2_5,OBSERVADO
+DEP,26091,Sarmiento,18_SEC,T,0.6101694915254238,144.0,236.0,asistencia_al_nivel_secundario,INDEC_CENSO_2022_CUADRO_2_5,OBSERVADO
+DEP,26091,Sarmiento,18_SEC,F,0.616,77.0,125.0,asistencia_al_nivel_secundario,INDEC_CENSO_2022_CUADRO_2_5,OBSERVADO
+DEP,26091,Sarmiento,18_SEC,M,0.6036036036036037,67.0,111.0,asistencia_al_nivel_secundario,INDEC_CENSO_2022_CUADRO_2_5,OBSERVADO
+DEP,26098,Tehuelches,18_SEC,T,0.5357142857142857,45.0,84.0,asistencia_al_nivel_secundario,INDEC_CENSO_2022_CUADRO_2_5,OBSERVADO
+DEP,26098,Tehuelches,18_SEC,F,0.5526315789473685,21.0,38.0,asistencia_al_nivel_secundario,INDEC_CENSO_2022_CUADRO_2_5,OBSERVADO
+DEP,26098,Tehuelches,18_SEC,M,0.5217391304347826,24.0,46.0,asistencia_al_nivel_secundario,INDEC_CENSO_2022_CUADRO_2_5,OBSERVADO
+DEP,26105,Telsen,18_SEC,T,0.56,14.0,25.0,asistencia_al_nivel_secundario,INDEC_CENSO_2022_CUADRO_2_5,OBSERVADO
+DEP,26105,Telsen,18_SEC,F,0.4666666666666667,7.0,15.0,asistencia_al_nivel_secundario,INDEC_CENSO_2022_CUADRO_2_5,OBSERVADO
+DEP,26105,Telsen,18_SEC,M,0.7,7.0,10.0,asistencia_al_nivel_secundario,INDEC_CENSO_2022_CUADRO_2_5,OBSERVADO

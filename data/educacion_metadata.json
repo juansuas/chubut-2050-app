@@ -1,0 +1,52 @@
+{
+  "serie_id": "RA_CHUBUT_SECCIONES_2011_2024",
+  "serie_nombre": "Matrícula y secciones observadas",
+  "cobertura": "2011-2024",
+  "grano_publicado": "año + departamento + establecimiento + subnivel + grado",
+  "grano_canonico_detallado": "año + departamento + establecimiento + turno + sección + grado",
+  "fuente": "Escuelas Tecnicas con matricula.xlsx, hoja Base",
+  "universo": "Modalidad Común, ofertas activas, Inicial 3-5, Primario 1-6 y Secundario 1-7",
+  "regla_etp": "Clasificación por CUE y año mediante Técnica=si u orientación técnica, agraria, agropecuaria o Producción de Bienes y Servicios.",
+  "advertencias": [
+    "Secciones_grado cuenta combinaciones sección-grado y no aulas físicas únicas.",
+    "Desde 2023, ante id_seccion vacío, se usa una clave sustituta documentada.",
+    "No se incluyen proyecciones educativas ni capacidad física en esta publicación."
+  ],
+  "controles": {
+    "filas_seccion_grado": 97448,
+    "filas_establecimiento_grado": 42480,
+    "anios": 14,
+    "departamentos": 15,
+    "establecimientos": 711,
+    "cue_etp_2024": 28,
+    "matricula_2024_inicial": 20160,
+    "matricula_2024_primaria": 58045,
+    "matricula_2024_secundaria_comun": 47159,
+    "matricula_2024_secundaria_etp": 13848,
+    "matricula_2024_secundaria_total": 61007,
+    "establecimientos_georreferenciados_2024": 635
+  },
+  "incidencias_origen": [
+    {
+      "incidencia": "FILAS_GRADO_FUERA_MODELO",
+      "cantidad": 3888,
+      "detalle": "maternal, no graduada o grado vacío; fuera de edades normativas"
+    },
+    {
+      "incidencia": "FILAS_ID_SECCION_VACIO",
+      "cantidad": 14639,
+      "detalle": "usa clave sustituta año+CUEAnexo+turno+grado+nombre_seccion"
+    },
+    {
+      "incidencia": "CUE_ETP_DISTINTOS_2011_2024",
+      "cantidad": 40,
+      "detalle": "alguna señal Técnica=si u orientación técnica/agraria/producción"
+    },
+    {
+      "incidencia": "CUE_ETP_2024",
+      "cantidad": 28,
+      "detalle": "clasificación institucional anual usada como base de proyección"
+    }
+  ],
+  "fecha_preparacion": "2026-09-05"
+}

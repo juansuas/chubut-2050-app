@@ -1,0 +1,15 @@
+{
+  "nombre_app": "Chubut 2050 V2",
+  "version": "2.7.1-proyeccion-corregida-2040-2050",
+  "fecha_actualizacion": "2026-09-15",
+  "modulos_disponibles": [
+    "demografia",
+    "oferta"
+  ],
+  "modulos_pendientes": [
+    "resumen",
+    "productivos",
+    "comparador"
+  ],
+  "advertencia_datos": "Demografía usa la proyección departamental ajustada por Santiago Linares, con corrección local documentada de los perfiles etarios de 2040 y 2050 sin alterar sus totales por departamento y sexo. Capacidad y matrícula proyectada son resultados modelados, calibrados en secciones-grado-oferta 2024; no representan capacidad física observada."
+}

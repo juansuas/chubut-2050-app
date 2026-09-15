@@ -1,0 +1,79 @@
+{
+  "version": "2.4-capacidad-escenario",
+  "fecha_preparacion": "2026-09-10",
+  "year_base_matricula": 2024,
+  "rango_proyeccion": [
+    2022,
+    2050
+  ],
+  "unidad_operativa": "seccion-grado-oferta modelada",
+  "universo_educativo": {
+    "modalidad": "Común",
+    "estado_oferta": "Activo",
+    "niveles": [
+      "Inicial",
+      "Primario",
+      "Secundario"
+    ]
+  },
+  "clave_sustituta_seccion": "año|FB|CUE-anexo|nivel_id|turno|grado|nombre_seccion|orientacion|titulo",
+  "grupos_visibles": [
+    "0_3",
+    "4_5",
+    "6_11",
+    "12_14",
+    "15_17"
+  ],
+  "grupo_auxiliar": "18_SEC",
+  "umbrales_capacidad": {
+    "INI": 18,
+    "PRI": 22,
+    "SEC": 26
+  },
+  "categorias_ocupacion": [
+    {
+      "id": "CAPACIDAD_DISPONIBLE",
+      "min": 0,
+      "max_exclusive": 0.6
+    },
+    {
+      "id": "EQUILIBRIO",
+      "min": 0.6,
+      "max_exclusive": 0.85
+    },
+    {
+      "id": "ALTA_PRESION",
+      "min": 0.85,
+      "max_inclusive": 1.0
+    },
+    {
+      "id": "SATURADA",
+      "min_exclusive": 1.0
+    }
+  ],
+  "formula_ancla": "matricula_seccion_2024_sexo * (P_y_sexo * tasa_parametro_sexo) / (P_2024_sexo * tasa_actual_sexo)",
+  "fallback_tasas": "departamento; si falta el valor, provincia del mismo grupo y sexo",
+  "control_18": "La tasa específica de asistencia a secundario a los 18 años usa el mismo avance relativo hacia 100% que el slider 15-17.",
+  "advertencias": [
+    "La unidad es sección-grado-oferta. En 2024 id_seccion está vacío y la clave sustituta separa orientación y título.",
+    "La capacidad es modelada con umbrales normativos del proyecto; no representa aulas físicas observadas.",
+    "La matrícula se asigna al departamento de la escuela y la población/tasa al departamento de residencia.",
+    "La distribución proporcional entre secciones existentes es un supuesto MVP reemplazable por accesibilidad territorial."
+  ],
+  "controles": {
+    "filas_universo_2024": 7641,
+    "filas_seleccionadas": 7612,
+    "filas_fuera_mapeo": 29,
+    "matricula_fuera_mapeo": 11,
+    "secciones_grado_oferta_modeladas": 7612,
+    "id_seccion_vacio": 7612,
+    "establecimientos": 637,
+    "establecimientos_georreferenciados": 630,
+    "matricula_total": 141408,
+    "matricula_varones": 71233,
+    "matricula_mujeres": 70175,
+    "tasas_departamentales": 270,
+    "tasas_provinciales": 18,
+    "tasas_sin_denominador": 1
+  }
+}

@@ -1,0 +1,88 @@
+{
+  "version_modelo": "2.4-proyeccion-linares-corregida-2040-2050",
+  "fecha_adopcion_v2": "2026-09-15",
+  "serie_id": "PROYECCION_DEPARTAMENTAL_LINARES_AJUSTADA_CORREGIDA_2040_2050",
+  "serie_nombre": "Proyección departamental ajustada",
+  "responsable_ajuste": "Santiago Linares",
+  "responsable_correccion_local": "Equipo del proyecto",
+  "es_proyeccion_oficial_indec": false,
+  "ajustada_con_referencia_indec": true,
+  "cobertura": "2022-2050",
+  "periodicidad": "anual",
+  "unidad_territorial": "15 departamentos de Chubut",
+  "desagregacion": "Edad simple 0-99, categoría 100 y más, y sexo F/M",
+  "metodo": "Serie anual ajustada por Santiago Linares. El equipo del proyecto corrigió exclusivamente los perfiles etarios anómalos de 2040 y 2050: 2040 se interpoló entre 2039 y 2041; 2050 se extrapoló con la mediana de las variaciones anuales 2045-2049. Ambos cortes se recalibraron por departamento y sexo a sus totales originales.",
+  "advertencia": "La desagregación departamental y la corrección local de 2040 y 2050 son elaboraciones del proyecto y no publicaciones oficiales de INDEC. El XLSX original se conserva sin cambios. En 2028 y 2029 persisten diferencias menores respecto del control provincial INDEC; la máxima es 24 personas en el total y 146 por sexo.",
+  "criterio_publicacion": "Esta serie reemplaza la proyección departamental anterior como fuente activa de población para Demografía y para los escenarios educativos. La serie reemplazada se conserva separadamente como referencia.",
+  "fuentes": [
+    "02_Datos/00_Fuentes/Proyeccion_Linares/proyeccion_chubut_2022_2050_ajustada.xlsx",
+    "02_Datos/00_Fuentes/INDEC/proyecciones_jurisdicciones_2022_2040_c1.xlsx",
+    "02_Datos/00_Fuentes/INDEC/proyecciones_jurisdicciones_2022_2040_c2.xlsx",
+    "02_Datos/04_Metadatos/auditoria_correccion_proyeccion_2040_2050.csv"
+  ],
+  "manifest": "02_Datos/04_Metadatos/manifest_proyeccion_linares.csv",
+  "referencias_separadas": {
+    "serie_departamental_anterior": "02_Datos/02_Canonicos/Referencias/fact_poblacion_proyeccion_geografo_pre_linares.csv",
+    "serie_indec_departamental_previa": "02_Datos/02_Canonicos/Referencias/fact_poblacion_indec_desagregada_departamento_2022_2050.csv",
+    "control_indec_provincial_app": "03_App/data/poblacion_indec_provincial.csv"
+  },
+  "controles": {
+    "filas_excel": 43935,
+    "diferencia_maxima_total_sexo": 0,
+    "diferencia_maxima_indec_sexo_2022_2040": 146,
+    "diferencia_maxima_indec_total_2022_2040": 24,
+    "anios_con_diferencia_total_indec": [
+      2028,
+      2029
+    ],
+    "anios_corregidos": [
+      2040,
+      2050
+    ],
+    "metodo_2040": "interpolacion_lineal_2039_2041",
+    "metodo_2050": "extrapolacion_mediana_variaciones_2045_2049",
+    "margen_recalibracion": "Departamento x sexo; asignacion entera por mayores restos",
+    "maxima_diferencia_totales_depto_sexo": 0,
+    "puntaje_continuidad_cohortes_antes": {
+      "2040": 14.52974,
+      "2041": 13.809201,
+      "2050": 13.070208
+    },
+    "puntaje_continuidad_cohortes_despues": {
+      "2040": 3.478747,
+      "2041": 3.426566,
+      "2050": 4.369395
+    },
+    "filas_publicadas": 87870,
+    "departamentos": 15,
+    "anios": 29,
+    "edades": 101,
+    "sexos": 2,
+    "total_2022": 597366,
+    "total_2024": 600674,
+    "total_2030": 609723,
+    "total_2040": 623370,
+    "total_2050": 634804,
+    "departamentos_en_descenso_2022_2040": [
+      "Cushamen",
+      "Florentino Ameghino",
+      "Futaleufú",
+      "Gastre",
+      "Languiñeo",
+      "Mártires",
+      "Paso de Indios",
+      "Río Senguer",
+      "Tehuelches",
+      "Telsen"
+    ],
+    "departamentos_en_crecimiento_2022_2040": [
+      "Biedma",
+      "Escalante",
+      "Gaiman",
+      "Rawson",
+      "Sarmiento"
+    ],
+    "reconciliacion_indec_2022_2040": "exacta salvo diferencias menores en 2028 y 2029; máximo 24 personas en total y 146 por sexo",
+    "sha256_fuente": "04e203f4664800ee57cd201a2826de4bb88fab91f1519a10780aa4707af58a2f"
+  }
+}
