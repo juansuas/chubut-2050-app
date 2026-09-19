@@ -12,7 +12,7 @@ Aplicación web estática con dos módulos activos: `Demografía` y `Oferta y ca
 
 Las fuentes originales permanecen en `V2/02_Datos/00_Fuentes`. El script de construcción genera tablas canónicas separadas y copias livianas de publicación para la app.
 
-La fuente activa de población se incorpora con `adoptar_proyeccion_linares.py`. El script valida las 29 hojas anuales, la cobertura de 15 departamentos, 101 edades, ambos sexos, claves únicas y la identidad Mujeres + Varones = Total. Conserva una copia sin transformación del XLSX, archiva la serie departamental anterior y publica la misma tabla canónica tanto para Demografía como para los cálculos educativos. Por eso los gráficos demográficos y los factores de matrícula/capacidad se actualizan a partir de una única fuente, sin sobrescribir las tasas ni la matrícula observada.
+La fuente activa de población se incorpora con `adoptar_proyeccion_linares.py`. El script valida las 29 hojas anuales, la cobertura de 15 departamentos, 101 edades, ambos sexos, claves únicas y la identidad Mujeres + Varones = Total. Conserva una copia sin transformación del XLSX, archiva la serie departamental anterior y publica la misma tabla canónica tanto para Demografía como para los cálculos educativos. Por eso los gráficos demográficos y la demanda potencial se actualizan a partir de una única fuente, sin sobrescribir las tasas ni la matrícula observada.
 
 ### Corrección local de 2040 y 2050
 
@@ -52,13 +52,13 @@ La unidad operativa es la sección-grado-oferta 2024. Ante la ausencia de `id_se
 
 La interfaz permite modificar estos tres umbrales como parámetros del escenario. Los valores anteriores siguen siendo los predeterminados y se conserva `capacidad_base` en cada resultado derivado: la edición no sobrescribe la fuente ni cambia los cortes de color de ocupación (60%, 85% y 100%). El parámetro de Secundario también se aplica a la trayectoria independiente de 18 años.
 
-Para cada sección:
+Para cada sección, la ocupación observada de referencia se define en 2024:
 
 ```text
-capacidad = umbral del nivel
-ocupacion_pct = matricula / capacidad * 100
-plazas_disponibles = max(0, capacidad - matricula)
-sobreocupacion = max(0, matricula - capacidad)
+capacidad_modelada = umbral del nivel
+ocupacion_base_2024 = matricula_observada_2024 / capacidad_modelada
+holgura_base_2024 = max(0, capacidad_modelada - matricula_observada_2024)
+sobreocupacion_base_2024 = max(0, matricula_observada_2024 - capacidad_modelada)
 ```
 
 Las categorías preservan los cortes ya usados por la aplicación:
@@ -72,30 +72,31 @@ La capacidad es un indicador modelado mediante umbrales. No representa aulas fí
 
 ## Escenario y ancla 2024
 
-Los datos se mantienen separados en cuatro capas: observados, parámetros, cálculos del escenario y agregaciones para las visualizaciones.
+Los datos se mantienen separados en cuatro capas: observados, parámetros, cálculos del escenario y agregaciones para las visualizaciones. Demografía y Oferta y capacidad consumen exactamente la misma serie departamental de población.
 
 Para departamento, grupo, año y sexo:
 
 ```text
-M_tendencial = PoblacionProyectada * TasaAsistenciaActual
-M_potencial = PoblacionProyectada * TasaAsistenciaParametro
+demanda_potencial_tendencial = poblacion_proyectada * tasa_asistencia_actual
+demanda_potencial_escenario = poblacion_proyectada * tasa_asistencia_parametro
 ```
 
-Estas magnitudes son señales demográficas. Para conservar la coherencia con la matrícula administrativa, la ocupación parte de la sección observada en 2024:
+Estas magnitudes estiman demanda potencial, no matrícula administrativa. Para proyectar la presión sobre la oferta, la ocupación parte de la matrícula observada por sección en 2024 y aplica únicamente el factor de variación de esa demanda:
 
 ```text
-factor_sexo = M_escenario_depto_grupo_sexo_año / M_tendencial_depto_grupo_sexo_2024
-matricula_seccion_proyectada_sexo = matricula_seccion_actual_sexo * factor_sexo
-matricula_seccion_proyectada = proyectada_mujeres + proyectada_varones
+factor_demanda_sexo = demanda_potencial_depto_grupo_sexo_año / demanda_potencial_depto_grupo_sexo_2024
+carga_equivalente_seccion_sexo = matricula_observada_seccion_2024_sexo * factor_demanda_sexo
+carga_equivalente_seccion = carga_equivalente_mujeres + carga_equivalente_varones
+ocupacion_proyectada_seccion = carga_equivalente_seccion / capacidad_modelada_seccion
 ```
 
-Con año 2024 y sliders en la tasa actual, el factor es 1 y la aplicación reproduce la matrícula observada. Los factores de mujeres y varones se calculan por separado y luego se recomponen.
+Con año 2024 y tasas de asistencia actuales, el factor es 1 y la carga equivalente reproduce la matrícula observada. Los factores de mujeres y varones se calculan por separado y luego se recomponen. La matrícula 2024 no reemplaza ni calibra el nivel de la demanda potencial: sólo fija la ocupación inicial de cada sección.
 
 Cada slider expresa un avance relativo entre la tasa actual total del territorio seleccionado y 100%. Ese mismo avance se aplica a las tasas de mujeres y varones, preservando sus diferencias de partida.
 
-El filtro de sexo utiliza matrícula, población y tasa del sexo seleccionado. Las secciones y su capacidad no se desagregan por sexo y permanecen constantes; la ocupación muestra la matrícula proyectada seleccionada respecto de esa capacidad total.
+El filtro de sexo utiliza matrícula observada, población y tasa del sexo seleccionado. Las secciones y su capacidad no se desagregan por sexo y permanecen constantes; la ocupación muestra la carga equivalente seleccionada respecto de esa capacidad total.
 
-En el gráfico de evolución, la línea continua representa `Población proyectada × tasa actual` y la punteada `Población proyectada × tasa seleccionada`. La vista por nivel suma las matrículas absolutas de los grupos; no promedia tasas.
+En el gráfico de evolución, la línea continua representa la demanda potencial tendencial (`Población proyectada × tasa actual`) y la punteada la demanda potencial bajo las tasas seleccionadas. La vista por nivel suma demandas absolutas de los grupos; no promedia tasas.
 
 El dumbbell territorial compara en un único gráfico la tasa actual con la tasa del escenario para cada departamento y para cuatro series: Inicial, Primario, Secundario y 18 años. Los checks sólo controlan la visibilidad de las series; no modifican cálculos. Cada nivel publica una tasa equivalente ponderada por la población proyectada de sus grupos y sexos incluidos en el año activo: `Σ(Poblacion × Tasa) / Σ(Poblacion)`. Nunca usa un promedio simple. Un clic en un marcador sincroniza la selección territorial y recalibra los sliders sobre la tasa actual del departamento.
 
@@ -105,7 +106,7 @@ La app carga datos por módulo. Demografía no descarga la base de secciones has
 
 ## Supuesto de distribución proporcional
 
-Para el MVP, la variación de matrícula se distribuye proporcionalmente entre las secciones existentes del mismo departamento y grupo/nivel. No se trasladan estudiantes entre departamentos, niveles ni grupos. Es un supuesto explícito y reemplazable posteriormente por un modelo de asignación territorial o accesibilidad.
+La variación de la demanda potencial se distribuye proporcionalmente entre las secciones existentes del mismo departamento y grupo/nivel. No se trasladan estudiantes entre departamentos, niveles ni grupos, ni se anticipan aperturas o cierres de oferta. Es un supuesto analítico explícito y reemplazable posteriormente por un modelo de asignación territorial o accesibilidad.
 
 La población y las tasas censales describen residencia. La matrícula administrativa se asigna al departamento donde está la escuela. Esta diferencia de referencia territorial se conserva y se informa; no se fuerza una identidad entre ambas bases.
 

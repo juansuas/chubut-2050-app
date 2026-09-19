@@ -1,5 +1,5 @@
 {
-  "version": "2.4-capacidad-escenario",
+  "version": "2.5-demanda-ocupacion-transparente",
   "fecha_preparacion": "2026-09-10",
   "year_base_matricula": 2024,
   "rango_proyeccion": [
@@ -51,14 +51,16 @@
       "min_exclusive": 1.0
     }
   ],
-  "formula_ancla": "matricula_seccion_2024_sexo * (P_y_sexo * tasa_parametro_sexo) / (P_2024_sexo * tasa_actual_sexo)",
+  "formula_demanda_potencial": "demanda_potencial_y_sexo = poblacion_y_sexo * tasa_asistencia_y_sexo",
+  "formula_factor_demanda": "factor_demanda_y_sexo = demanda_potencial_y_sexo / demanda_potencial_2024_sexo",
+  "formula_ocupacion": "ocupacion_seccion_y = (matricula_seccion_2024_varones * factor_varones + matricula_seccion_2024_mujeres * factor_mujeres) / capacidad_modelada_seccion",
   "fallback_tasas": "departamento; si falta el valor, provincia del mismo grupo y sexo",
   "control_18": "La tasa específica de asistencia a secundario a los 18 años usa el mismo avance relativo hacia 100% que el slider 15-17.",
   "advertencias": [
     "La unidad es sección-grado-oferta. En 2024 id_seccion está vacío y la clave sustituta separa orientación y título.",
     "La capacidad es modelada con umbrales normativos del proyecto; no representa aulas físicas observadas.",
     "La matrícula se asigna al departamento de la escuela y la población/tasa al departamento de residencia.",
-    "La distribución proporcional entre secciones existentes es un supuesto MVP reemplazable por accesibilidad territorial."
+    "La distribución proporcional del cambio de demanda entre las secciones existentes es un supuesto analítico; no anticipa aperturas, cierres ni redistribuciones territoriales de la oferta."
   ],
   "controles": {
     "filas_universo_2024": 7641,

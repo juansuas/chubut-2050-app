@@ -1,12 +1,12 @@
 export const DATA_PATHS = {
-  demographyPopulation:'data/poblacion_demografica.csv?v=2.7.1',
+  demographyPopulation:'data/poblacion_demografica.csv?v=2.7.2',
   demographyIndec:'data/poblacion_indec_provincial.csv',
   demographyMetadata:'data/demografia_metadata.json',
-  attendanceRates:'data/tasas_asistencia_grupo.csv',
-  capacitySections:'data/secciones_capacidad_2024.csv',
-  capacityMetadata:'data/capacidad_metadata.json',
+  attendanceRates:'data/tasas_asistencia_grupo.csv?v=2.7.2',
+  capacitySections:'data/secciones_capacidad_2024.csv?v=2.7.2',
+  capacityMetadata:'data/capacidad_metadata.json?v=2.7.2',
   departmentBoundaries:'data/departamentos_chubut.geojson',
-  metadata:'data/metadata.json'
+  metadata:'data/metadata.json?v=2.7.2'
 };
 
 export const YEARS=Array.from({length:29},(_,index)=>2022+index);
