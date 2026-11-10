@@ -1,7 +1,7 @@
 const STORAGE_KEY='chubut2050.v2.filters';
-const DEFAULTS_REVISION=2;
+const DEFAULTS_REVISION=4;
 import {DEFAULT_CAPACITY_THRESHOLDS} from './config.js';
-const defaults={defaultsRevision:DEFAULTS_REVISION,module:'demografia',year:2050,demographyYear:2050,capacityYear:2024,territory:'all',educationSelection:'all',sex:'all',demographyMapMetric:'variation',capacitySchool:'all',capacityMode:'scenario',capacityComparisonMode:'scenario',capacityTrendView:'group',capacityDistributionMode:'count',capacityDepartmentLevel:'all',capacityAttendanceLevels:['INI','PRI','SEC','AGE18'],capacityRates:{},capacityThresholds:{...DEFAULT_CAPACITY_THRESHOLDS}};
+const defaults={defaultsRevision:DEFAULTS_REVISION,module:'demografia',year:2050,demographyYear:2050,capacityYear:2024,territory:'all',educationSelection:'all',sex:'all',demographyMapMetric:'variation',capacitySchool:'all',capacityMode:'scenario',capacityComparisonMode:'scenario',capacityTrendView:'group',capacityDistributionMode:'count',capacityDepartmentLevel:'all',capacityAttendanceLevels:['INI','PRI','SEC','AGE18'],capacityRates:{},capacityThresholds:{...DEFAULT_CAPACITY_THRESHOLDS},productActivity:'all',productOperator:'all',productStatus:'all',productInstallation:'',scenarioProductDepartment:'',scenarioProductActivity:'',scenarioProductChangeType:'AMPLIACION',scenarioProductCapacityMw:'',scenarioProductYear:2030,scenarioProductJobsPerMw:'',scenarioProductChanges:[]};
 const listeners=new Set();
 const ranges={all:'0-100','level:INI':'0-5','group:0_3':'0-3','group:4_5':'4-5','level:PRI':'6-11','group:6_11':'6-11','level:SEC':'12-17','group:12_14':'12-14','group:15_17':'15-17','group:18_SEC':'18-18'};
 function saved(){try{return JSON.parse(localStorage.getItem(STORAGE_KEY))||{};}catch{return{};}}
@@ -15,7 +15,10 @@ function migrate(value){
   if(!educationSelection){if(value.capacityGroup&&value.capacityGroup!=='all')educationSelection=`group:${value.capacityGroup}`;else if(value.capacityLevel&&value.capacityLevel!=='all')educationSelection=`level:${value.capacityLevel}`;else educationSelection='all';}
   const capacityAttendanceLevels=Array.isArray(value.capacityAttendanceLevels)?value.capacityAttendanceLevels.filter(id=>['INI','PRI','SEC','AGE18'].includes(id)):[...defaults.capacityAttendanceLevels];
   const capacityDepartmentLevel=['all','INI','PRI','SEC','AGE18'].includes(value.capacityDepartmentLevel)?value.capacityDepartmentLevel:defaults.capacityDepartmentLevel;
-  return {...defaults,...value,defaultsRevision:DEFAULTS_REVISION,territory,year,demographyYear,capacityYear,sex,educationSelection,demographyMapMetric,capacityAttendanceLevels,capacityDepartmentLevel,capacityThresholds:{...DEFAULT_CAPACITY_THRESHOLDS,...(value.capacityThresholds||{})},module};
+  const scenarioProductChanges=Array.isArray(value.scenarioProductChanges)?value.scenarioProductChanges:[];
+  const scenarioProductChangeType=value.scenarioProductChangeType==='REDUCCION'?'REDUCCION':'AMPLIACION';
+  const scenarioProductYear=Math.max(2026,Math.min(2050,Number(value.scenarioProductYear)||2030));
+  return {...defaults,...value,defaultsRevision:DEFAULTS_REVISION,territory,year,demographyYear,capacityYear,sex,educationSelection,demographyMapMetric,capacityAttendanceLevels,capacityDepartmentLevel,capacityThresholds:{...DEFAULT_CAPACITY_THRESHOLDS,...(value.capacityThresholds||{})},scenarioProductChanges,scenarioProductChangeType,scenarioProductYear,module};
 }
 let state=migrate(saved());
 function aliases(){
@@ -39,4 +42,4 @@ export function setState(patch,{persist=true}={}){
   listeners.forEach(listener=>listener(getState(),next));
 }
 export function subscribe(listener){listeners.add(listener);return()=>listeners.delete(listener);}
-export function resetState(){const module=state.module,year=module==='oferta'?defaults.capacityYear:defaults.demographyYear;state={...defaults,year,capacityAttendanceLevels:[...defaults.capacityAttendanceLevels],capacityThresholds:{...DEFAULT_CAPACITY_THRESHOLDS},module};setState({},{});}
+export function resetState(){const module=state.module,year=module==='oferta'?defaults.capacityYear:defaults.demographyYear;state={...defaults,year,capacityAttendanceLevels:[...defaults.capacityAttendanceLevels],capacityThresholds:{...DEFAULT_CAPACITY_THRESHOLDS},scenarioProductChanges:[],module};setState({},{});}

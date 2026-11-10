@@ -1,6 +1,6 @@
 # Chubut 2050 V2
 
-Aplicación web estática con dos módulos activos: `Demografía` y `Oferta y capacidad`.
+Aplicación web estática con tres módulos activos: `Demografía`, `Oferta y capacidad` y `Producción y desarrollo energético`.
 
 ## Fuentes
 
@@ -9,10 +9,25 @@ Aplicación web estática con dos módulos activos: `Demografía` y `Oferta y ca
 - Asistencia a nivel secundario a los 18 años: INDEC, Censo 2022, cuadro 2.5 y cuadros departamentales 2.5.1–2.5.15.
 - Matrícula y secciones: `Escuelas Tecnicas con matricula.xlsx`, hoja `Base`, modalidad Común, oferta activa, año 2024.
 - Umbrales: `Planificacion_Capacidad_Ociosidad_Brechas_ETP_Chubut.xlsx`, hoja `Metodología`, celda A3.
+- Instalaciones energéticas: capas WFS del Sistema Provincial de Información Ambiental de Chubut para parques eólicos y conjunto de centrales de la Secretaría de Energía de la Nación para capacidad, agentes y centrales hidroeléctricas/térmicas. La fecha de actualización declarada de la fuente nacional es 2023-09-03; SPIA no informa fecha de corte.
 
 Las fuentes originales permanecen en `V2/02_Datos/00_Fuentes`. El script de construcción genera tablas canónicas separadas y copias livianas de publicación para la app.
 
 La fuente activa de población se incorpora con `adoptar_proyeccion_linares.py`. El script valida las 29 hojas anuales, la cobertura de 15 departamentos, 101 edades, ambos sexos, claves únicas y la identidad Mujeres + Varones = Total. Conserva una copia sin transformación del XLSX, archiva la serie departamental anterior y publica la misma tabla canónica tanto para Demografía como para los cálculos educativos. Por eso los gráficos demográficos y la demanda potencial se actualizan a partir de una única fuente, sin sobrescribir las tasas ni la matrícula observada.
+
+## Capa productivo-energética
+
+El piso térmico parcial usa CAMMESA 2026-09. Se vincula por código de central y se exige generación positiva y potencia instalada informada en el mismo corte. Biedma suma 189 MW (ALUAR) y Escalante 245,835 MW (PATA, ELEP y MBE2). MBE2 aporta 57,735 MW de autogeneración no firme para el MEM. El segundo registro de Manantiales Behr II permanece sin verificar y fuera de la suma. CRIV registra generación pero queda pendiente de asignación georreferenciada sin duplicar unidades. PMAD carece de generación positiva en el corte. Los sistemas aislados siguen pendientes de verificación con fuentes locales.
+
+El cotejo de capacidad instalada con CAMMESA (Informe Mensual, septiembre de 2026, hoja «RESUMEN por MAQUINA», detalle del mes para Chubut) confirma 19 de los 21 parques eólicos vinculados por código. Para esos 21 parques, el inventario de referencia 2023 suma 1.226,41 MW y CAMMESA registra 1.311,91 MW. Las diferencias corresponden a Aluar (162 → 243 MW) y Manantiales (99 → 103,50 MW). CAMMESA también registra 3 MW para El Tordillo, ya localizado en el inventario y sin valor de capacidad instalada en la base activa. El total eólico informado por CAMMESA para Chubut es 1.314,91 MW. El simulador toma los 1.314,91 MW de CAMMESA como piso documentado, distribuidos por departamento según el inventario SPIA.
+
+La unidad de georreferenciación es la instalación y la unidad de agregación es el departamento. La publicación inicial incluye 82 registros: 34 eólicos, 2 hidroeléctricos y 46 térmicos. Los 34 parques eólicos se separan en 23 operativos y 11 proyectados según SPIA. Petróleo, gas e hidrógeno permanecen contemplados en los catálogos, pero no se publican como puntos hasta contar con fuentes que permitan localizar una unidad de observación consistente.
+
+`TotEnergia` del SPIA se conserva como potencia declarada del proyecto. No se trata automáticamente como capacidad instalada. CAMMESA aporta capacidad instalada a 22 de los 23 parques operativos. El parque restante queda sin valor verificado. La app muestra ambos campos por separado y no imputa operador, empleo ni producción cuando faltan.
+
+El módulo ofrece mapa, filtros por departamento, actividad, operador/agente y estado, fichas con fuentes, indicadores, capacidad instalada por departamento y actividad, comparación separada con proyectos futuros, composición de la matriz y exportación del inventario. El mapa se limita a las localizaciones: todos los símbolos tienen el mismo tamaño; el pictograma y el color distinguen la actividad y el borde comunica el estado. La capacidad se compara en los gráficos departamentales, no mediante el tamaño de los puntos.
+
+La misma capa incorpora un constructor de cambios productivos con seis parámetros: departamento, tecnología, ampliación o reducción, MW modificados, año de entrada en operación y empleos permanentes por MW. La capacidad observada permanece inalterada. Los coeficientes no tienen valores predeterminados hasta contar con fuentes documentadas y todo valor ingresado se identifica como supuesto del usuario. El modelo excluye el empleo temporal; sólo deja una nota metodológica sobre su posible incorporación futura. La integración con población y educación queda preparada en el contrato `V2/01_Documentacion/21_CONTRATO_DATOS_CAPA_PRODUCTIVA.md`, pero todavía no aplica impactos sobre las proyecciones.
 
 ### Corrección local de 2040 y 2050
 
@@ -125,6 +140,18 @@ La aplicación usa primero la tasa departamental del mismo grupo y sexo. Si no e
 
 & 'C:\Users\apar1\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe' `
   '.\V2\02_Datos\05_Scripts\validar_modelo_capacidad_escenario.py'
+
+& 'C:\Users\apar1\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe' `
+  '.\V2\02_Datos\05_Scripts\construir_base_productiva.py'
+
+& 'C:\Users\apar1\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe' `
+  '.\V2\02_Datos\05_Scripts\validar_base_productiva.py'
+
+& 'C:\Users\apar1\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe' `
+  '.\V2\02_Datos\05_Scripts\publicar_productivos_app_v2.py'
+
+& 'C:\Users\apar1\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe' `
+  '.\V2\02_Datos\05_Scripts\validar_app_v2_productivos.py'
 ```
 
 Para abrir la app:

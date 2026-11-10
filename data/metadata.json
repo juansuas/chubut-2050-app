@@ -1,15 +1,15 @@
 {
   "nombre_app": "Chubut 2050 V2",
-  "version": "2.7.2-demanda-ocupacion-transparente",
-  "fecha_actualizacion": "2026-09-15",
+  "version": "2.13.0",
+  "fecha_actualizacion": "2026-11-09",
   "modulos_disponibles": [
     "demografia",
-    "oferta"
+    "oferta",
+    "productivos"
   ],
   "modulos_pendientes": [
     "resumen",
-    "productivos",
     "comparador"
   ],
-  "advertencia_datos": "Demografía y demanda potencial usan la misma proyección departamental ajustada por Santiago Linares, con corrección local documentada de los perfiles etarios de 2040 y 2050 sin alterar sus totales por departamento y sexo. La ocupación proyectada aplica a la ocupación modelada de 2024 el factor de variación de la demanda potencial; no representa capacidad física observada ni matrícula administrativa proyectada."
+  "advertencia_datos": "Demografía usa la proyección departamental ajustada por Santiago Linares. Capacidad y matrícula educativa son resultados modelados. La capa productiva distingue capacidad instalada verificada, potencia declarada de proyecto y datos faltantes."
 }

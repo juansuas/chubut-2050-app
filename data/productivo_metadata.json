@@ -1,0 +1,39 @@
+{
+  "nombre": "Base productivo-energética Chubut 2050",
+  "version": "0.4.0",
+  "fecha_construccion": "2026-11-09",
+  "unidad_georreferenciada": "instalacion_energetica",
+  "unidad_agregacion_escenarios": "departamento_id",
+  "instalaciones_total": 82,
+  "instalaciones_por_actividad": {
+    "EOL": 34,
+    "HID": 2,
+    "TER": 46
+  },
+  "eolica_operativa": {
+    "periodo_capacidad_instalada": "2026-09",
+    "instalaciones": 23,
+    "instalaciones_con_capacidad_instalada": 22,
+    "capacidad_instalada_mw_conocida": 1314.91,
+    "potencia_declarada_proyecto_mw": 1298.76
+  },
+  "eolica_proyectada": {
+    "instalaciones": 11,
+    "potencia_declarada_proyecto_mw": 946.6
+  },
+  "control_externo_eolica": {
+    "parques_informados_ministerio_chubut": 23,
+    "capacidad_instalada_mw_informada_ministerio_chubut": 1230,
+    "parques_spia_operativos": 23,
+    "capacidad_instalada_mw_conocida_fuente_nacional": 1226.41,
+    "estado_control": "cantidad_reproducida_capacidad_aproximada_no_identica"
+  },
+  "advertencias": [
+    "La fuente nacional de centrales declara última actualización 2023-09-03.",
+    "El SPIA no declara fecha de corte ni operador en las capas descargadas.",
+    "La capacidad instalada eólica de CAMMESA (2026-09) cubre 22 de los 23 parques operativos de SPIA.",
+    "El piso térmico de CAMMESA 2026-09 es parcial: incluye centrales conciliadas por código con generación positiva en el mes.",
+    "TotEnergia de SPIA se conserva como potencia declarada de proyecto y no se suma como capacidad instalada.",
+    "Petróleo, gas, hidrógeno y empleo por instalación quedan pendientes de fuentes georreferenciadas verificables."
+  ]
+}

@@ -8,7 +8,7 @@
   <link rel="icon" href="assets/favicon.svg?v=1" type="image/svg+xml">
   <link rel="preconnect" href="https://unpkg.com">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
-  <link rel="stylesheet" href="assets/css/styles.css?v=2.7.0">
+  <link rel="stylesheet" href="assets/css/styles.css?v=2.11.0">
 </head>
 <body>
   <a class="skip-link" href="#contenido">Saltar al contenido</a>
@@ -25,9 +25,9 @@
       <div class="shell nav-scroll">
         <a href="#resumen" data-route="resumen"><span>01</span> Resumen provincial</a>
         <a href="#demografia" data-route="demografia"><span>02</span> Demografía</a>
-        <a href="#oferta" data-route="oferta"><span>03</span> Oferta y capacidad</a>
-        <a href="#productivos" data-route="productivos"><span>04</span> Escenarios productivos</a>
-        <a href="#comparador" data-route="comparador"><span>05</span> Comparador</a>
+        <a href="#oferta" data-route="oferta"><span>03</span> Educación</a>
+        <a href="#productivos" data-route="productivos"><span>04</span> Producción y energía</a>
+        <a href="#comparador" data-route="comparador"><span>05</span> Escenarios integrados</a>
       </div>
     </nav>
   </header>
@@ -152,13 +152,83 @@
       </section>
 
       <section id="productivos" class="module" data-module="productivos" aria-labelledby="title-productivos" hidden>
-        <div class="section-heading"><div><p class="section-number">Módulo 04</p><h2 id="title-productivos">Escenarios productivos</h2></div><p>La estructura está reservada para una etapa posterior.</p></div>
-        <div class="empty-module"><span>04</span><h3>Página pendiente</h3><p>Todavía no se incorporaron escenarios productivos a la V2.</p></div>
+        <div class="section-heading"><div><p class="section-number">Módulo 04</p><h2 id="title-productivos">Producción y desarrollo energético</h2></div><p>Instalaciones, capacidad documentada y proyectos futuros por departamento.</p></div>
+        <section id="production-control-panel" class="scenario-panel" data-floating-panel data-panel-module="productivos" aria-labelledby="production-control-title">
+          <header class="scenario-panel-header" data-panel-drag-handle>
+            <div><p class="label">Exploración</p><h3 id="production-control-title">Filtros del inventario energético</h3><p class="scenario-panel-summary" data-panel-summary>Toda la provincia · Todas las actividades</p></div>
+            <div class="scenario-panel-actions">
+              <button class="panel-minimize" data-panel-minimize type="button" aria-controls="production-control-body" hidden>— Minimizar</button>
+              <button class="panel-float-toggle" data-panel-float-toggle type="button" aria-pressed="false" aria-controls="production-control-panel">↗ Mantener visible</button>
+            </div>
+          </header>
+          <div id="production-control-body" class="scenario-panel-body">
+            <div class="inline-controls production-controls">
+              <label>Departamento<select id="product-territory"></select></label>
+              <label>Actividad<select id="product-activity"><option value="all">Todas las actividades</option></select></label>
+              <label>Operador / agente<select id="product-operator"><option value="all">Todos los operadores</option></select></label>
+              <label>Estado<select id="product-status"><option value="all">Todos los estados</option></select></label>
+            </div>
+          </div>
+        </section>
+
+        <div id="production-kpis" class="production-kpis" aria-label="Indicadores productivos principales"></div>
+        <div class="production-grid">
+          <article class="panel map-panel production-map-panel">
+            <div class="panel-heading"><div><p class="label">Localización</p><h3>Instalaciones energéticas</h3></div><span id="production-map-caption" class="panel-caption"></span></div>
+            <div id="production-map" class="map" aria-label="Mapa de instalaciones energéticas de Chubut"></div>
+            <p class="source-line">El pictograma distingue la actividad y el borde indica el estado. El tamaño usa capacidad instalada cuando existe; en su defecto, potencia declarada de proyecto. No representa producción anual.</p>
+          </article>
+          <article class="panel production-detail-panel">
+            <div class="panel-heading"><div><p class="label">Ficha</p><h3>Detalle de la instalación</h3></div></div>
+            <div id="production-detail" aria-live="polite"></div>
+          </article>
+          <article class="panel chart-panel production-capacity-wide">
+            <div class="panel-heading"><div><p class="label">Capacidad departamental</p><h3>Capacidad instalada conocida por departamento y actividad</h3></div><span id="production-department-caption" class="panel-caption"></span></div>
+            <div id="production-department-chart" class="chart production-chart production-chart-tall" aria-label="Capacidad energética instalada por departamento y actividad"></div>
+          </article>
+          <article class="panel chart-panel">
+            <div class="panel-heading"><div><p class="label">Base y proyectos</p><h3>Capacidad actual frente a proyectos futuros</h3></div><span id="production-future-caption" class="panel-caption"></span></div>
+            <div id="production-future-chart" class="chart production-chart" aria-label="Capacidad instalada y potencia de proyectos futuros por departamento"></div>
+          </article>
+          <article class="panel chart-panel">
+            <div class="panel-heading"><div><p class="label">Matriz energética</p><h3>Capacidad instalada conocida por actividad</h3></div><span id="production-matrix-caption" class="panel-caption"></span></div>
+            <div id="production-matrix-chart" class="chart production-chart" aria-label="Composición de la capacidad energética instalada"></div>
+          </article>
+          <article class="panel productive-scenario-panel production-table-panel" aria-labelledby="scenario-product-title">
+            <div class="panel-heading"><div><p class="label">Simulación productiva</p><h3 id="scenario-product-title">Construir un cambio de capacidad</h3><p class="chart-explainer">La simulación se realiza por departamento y tecnología. La capacidad observada nunca se sobrescribe.</p></div></div>
+            <div class="productive-scenario-form">
+              <div class="productive-scenario-fields">
+                <label>Departamento<select id="scenario-product-department"><option value="">Seleccionar departamento</option></select></label>
+                <fieldset class="scenario-technology-fieldset"><legend>Tecnología</legend><div id="scenario-product-activities" class="scenario-technology-options" role="radiogroup" aria-label="Tecnología energética"></div></fieldset>
+                <fieldset class="scenario-change-fieldset"><legend>Tipo de cambio</legend><div class="segmented-control"><label><input type="radio" name="scenario-product-change-type" value="AMPLIACION" checked><span>+ Ampliación</span></label><label><input type="radio" name="scenario-product-change-type" value="REDUCCION"><span>− Reducción</span></label></div></fieldset>
+                <label>Capacidad modificada<div class="number-stepper"><button type="button" data-scenario-capacity-step="-1" aria-label="Restar un MW">−</button><input id="scenario-product-capacity" type="number" min="0" step="0.1" inputmode="decimal" placeholder="Ingresar valor"><button type="button" data-scenario-capacity-step="1" aria-label="Sumar un MW">+</button><span>MW</span></div></label>
+                <label class="scenario-year-field">Entrada en operación<div><output id="scenario-product-year-output" for="scenario-product-year">2030</output></div><input id="scenario-product-year" type="range" min="2026" max="2050" step="1" value="2030"><span class="range-limits"><span>2026</span><span>2050</span></span></label>
+                <details class="scenario-coefficient" open><summary>Coeficiente de empleo permanente</summary><div class="scenario-coefficient-body"><label><span>Empleos permanentes por MW</span><div class="coefficient-input"><input id="scenario-product-jobs" type="number" min="0" step="0.01" inputmode="decimal" placeholder="Ingresar supuesto"><span>puestos/MW</span></div></label><button id="scenario-clear-coefficient" type="button" class="text-button">Limpiar</button></div><p>Sin valor predeterminado: el dato ingresado se identifica como supuesto del usuario.</p></details>
+              </div>
+              <div class="productive-scenario-results">
+                <div id="scenario-product-preview"></div>
+                <p id="scenario-product-message" class="scenario-form-message" aria-live="polite"></p>
+                <button id="scenario-add-change" class="action-button primary" type="button" disabled>Agregar cambio al escenario</button>
+              </div>
+            </div>
+            <p class="scenario-method-note"><strong>Alcance:</strong> se considera exclusivamente empleo permanente de operación. Para una estimación de mayor precisión sobre impactos territoriales de corto plazo debería incorporarse, en una etapa posterior, el empleo temporal generado durante la construcción.</p>
+          </article>
+          <article class="panel production-table-panel productive-scenario-list-panel">
+            <div class="panel-heading"><div><p class="label">Escenario en construcción</p><h3>Cambios productivos incorporados</h3></div><button id="scenario-clear-changes" type="button" class="text-button" disabled>Quitar todos</button></div>
+            <div id="scenario-summary" class="scenario-summary" aria-label="Resumen del escenario productivo"></div>
+            <div class="table-wrap"><table><thead><tr><th>Departamento</th><th>Tecnología</th><th class="number">Cambio</th><th>Año</th><th class="number">Puestos/MW</th><th class="number">Empleo permanente</th><th>Acción</th></tr></thead><tbody id="scenario-product-table"></tbody></table></div>
+          </article>
+          <article class="panel table-panel production-table-panel">
+            <div class="panel-heading"><div><p class="label">Inventario filtrado</p><h3>Instalaciones y cobertura de datos</h3></div></div>
+            <div class="table-wrap"><table><thead><tr><th>Instalación</th><th>Departamento</th><th>Actividad</th><th>Estado</th><th class="number">Cap. instalada MW</th><th class="number">Potencia proyecto MW</th><th>Operador / agente</th></tr></thead><tbody id="production-table"></tbody></table></div>
+            <p id="production-source-note" class="source-line"></p>
+          </article>
+        </div>
       </section>
 
       <section id="comparador" class="module" data-module="comparador" aria-labelledby="title-comparador" hidden>
-        <div class="section-heading"><div><p class="section-number">Módulo 05</p><h2 id="title-comparador">Comparador</h2></div><p>Se habilitará cuando existan escenarios validados para contrastar.</p></div>
-        <div class="empty-module"><span>05</span><h3>Página pendiente</h3><p>Se habilitará cuando existan proyecciones educativas validadas para contrastar.</p></div>
+        <div class="section-heading"><div><p class="section-number">Módulo 05</p><h2 id="title-comparador">Escenarios integrados</h2></div><p>Conexión futura entre cambios productivos, población y requerimientos educativos.</p></div>
+        <div class="empty-module"><span>05</span><h3>Integración en preparación</h3><p>La capa productiva ya permite construir cambios de capacidad y empleo permanente. La siguiente etapa conectará esos resultados con la población y el modelo educativo vigente.</p></div>
       </section>
     </main>
   </div>
@@ -167,6 +237,6 @@
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
   <script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8"></script>
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
-  <script type="module" src="assets/js/app.js?v=2.7.2"></script>
+  <script type="module" src="assets/js/app.js?v=2.13.0"></script>
 </body>
 </html>

@@ -1,0 +1,25 @@
+departamento_id,departamento_nombre,actividad_id,actividad_nombre,estado_id,estado_nombre,instalaciones_total,instalaciones_con_capacidad,cobertura_capacidad_instalada_pct,capacidad_instalada_mw_conocida,instalaciones_con_potencia_proyecto,potencia_declarada_proyecto_mw,anio_referencia_min,anio_referencia_max
+26007,Biedma,EOL,Eólica,OPERATIVO,Operativo,7,7,100,661.26,7,581.96,2018,2020
+26007,Biedma,TER,Térmica,OPERATIVO,Operativo,1,1,100,189,0,,2023,2023
+26014,Cushamen,TER,Térmica,SIN_INFO,Sin información,8,0,0,,0,,2023,2023
+26021,Escalante,EOL,Eólica,OPERATIVO,Operativo,6,5,83.333333,164.4,6,165.9,2008,2016
+26021,Escalante,EOL,Eólica,PROYECTADO,Proyectado,8,0,0,,8,694.6,2000,2018
+26021,Escalante,TER,Térmica,OPERATIVO,Operativo,3,3,100,245.835,0,,2023,2023
+26021,Escalante,TER,Térmica,SIN_INFO,Sin información,1,0,0,,0,,2023,2023
+26028,Florentino Ameghino,EOL,Eólica,OPERATIVO,Operativo,2,2,100,74.55,2,135.2,2008,2010
+26028,Florentino Ameghino,TER,Térmica,SIN_INFO,Sin información,1,0,0,,0,,2023,2023
+26035,Futaleufú,HID,Hidroeléctrica,SIN_INFO,Sin información,1,1,100,560,0,,2023,2023
+26035,Futaleufú,TER,Térmica,SIN_INFO,Sin información,1,0,0,,0,,2023,2023
+26042,Gaiman,EOL,Eólica,PROYECTADO,Proyectado,1,0,0,,1,40,2017,2017
+26042,Gaiman,HID,Hidroeléctrica,SIN_INFO,Sin información,1,1,100,46.8,0,,2023,2023
+26049,Gastre,EOL,Eólica,PROYECTADO,Proyectado,1,0,0,,1,200,2009,2009
+26049,Gastre,TER,Térmica,SIN_INFO,Sin información,5,0,0,,0,,2023,2023
+26056,Languiñeo,TER,Térmica,SIN_INFO,Sin información,5,0,0,,0,,2023,2023
+26063,Mártires,TER,Térmica,SIN_INFO,Sin información,3,0,0,,0,,2023,2023
+26070,Paso de Indios,TER,Térmica,SIN_INFO,Sin información,3,0,0,,0,,2023,2023
+26077,Rawson,EOL,Eólica,OPERATIVO,Operativo,8,8,100,414.7,8,415.7,2012,2018
+26084,Río Senguer,TER,Térmica,SIN_INFO,Sin información,7,0,0,,0,,2023,2023
+26091,Sarmiento,EOL,Eólica,PROYECTADO,Proyectado,1,0,0,,1,12,2012,2012
+26091,Sarmiento,TER,Térmica,SIN_INFO,Sin información,1,0,0,,0,,2023,2023
+26098,Tehuelches,TER,Térmica,SIN_INFO,Sin información,3,0,0,,0,,2023,2023
+26105,Telsen,TER,Térmica,SIN_INFO,Sin información,4,0,0,,0,,2023,2023
