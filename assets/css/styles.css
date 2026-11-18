@@ -562,3 +562,33 @@ input[list],select,input[type=number]{width:100%;background:var(--surface);borde
 /* Department-only locations: distinct from verified project sites. */
 .approx-department{position:relative}
 .approx-department::after{content:"≈";position:absolute;right:-6px;bottom:-5px;display:grid;place-items:center;width:16px;height:16px;border:1px solid #8A5A44;border-radius:50%;background:#FFF5DF;color:#6B451F;font:700 14px/1 system-ui;box-shadow:0 1px 3px #0003}
+/* Module 01: more compact typography, with small labels kept readable. */
+#escenarios{font-size:13px}
+#escenarios .future-heading h2{font-size:30px}
+#escenarios .story-opening h3{font-size:clamp(25px,calc(2.4vw - 2px),34px)}
+#escenarios .story-lead{font-size:16px}
+#escenarios .story-section-heading h3{font-size:25px}
+#escenarios .story-number{font-size:60px}
+#escenarios .story-chain-step strong{font-size:34px}
+#escenarios .story-highlights strong{font-size:44px}
+#escenarios .story-insight{font-size:14px}
+#escenarios h4{font-size:14px}
+#escenarios .story-level-card h4{font-size:20px}
+#escenarios .story-level-card p strong{font-size:28px}
+#escenarios .future-summary strong{font-size:26px}
+#escenarios .story-method,#escenarios summary{font-size:12px}
+#escenarios .future-switch button,#escenarios .future-tabs button,#escenarios .future-chart-toolbar select,#escenarios .story-education-controls label{font-size:12px}
+.future-sidebar .future-scenario-choices strong,.future-sidebar .future-scenario-icon{font-size:20px}
+.future-sidebar>.sidebar-kicker,.future-sidebar .future-context>label,.future-sidebar .future-context select{font-size:12px}
+@media(max-width:760px){
+ #escenarios .story-lead{font-size:15px}
+ #escenarios .story-number{font-size:41px}
+ #escenarios .story-highlights strong{font-size:32px}
+ #escenarios .story-chain-step strong{font-size:28px}
+}
+@media(max-width:680px){
+ #escenarios .future-heading h2{font-size:25px}
+ #escenarios .story-section-heading h3{font-size:21px}
+ #escenarios .future-summary strong{font-size:22px}
+}
+@media(max-width:420px){#escenarios .story-level-card h4{font-size:17px}}
