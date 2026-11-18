@@ -12,7 +12,7 @@ Convención vigente desde el 17/11/2026: capa y módulo utilizan el mismo númer
 | 04 | Producción y energía | `#productivos` |
 | 05 | Comparador | `#comparador` |
 
-El módulo 01 reemplaza al antiguo Resumen provincial. Desde 2.21.0 se recupera el módulo 05 como comparador independiente; `#resumen` redirige a `#escenarios` y `#comparador` abre el módulo 05. El módulo 01 presenta los escenarios prefijados Moderado e Intensivo frente al tendencial fijo. Productivos (04) conserva su escenario editable independiente.
+El módulo 01 reemplaza al antiguo Resumen provincial. Desde 2.21.0 se recupera el módulo 05 como comparador independiente; `#resumen` redirige a `#escenarios` y `#comparador` abre el módulo 05. El módulo 01 presenta los escenarios prefijados Moderado, Intensivo y Total frente al tendencial fijo. Productivos (04) conserva su escenario editable independiente.
 
 La denominación anterior «capa 3» para Productivos queda reemplazada por «capa / módulo 04». Educación corresponde a la capa / módulo 03. Los nombres de archivos históricos que contienen `CAPA_3` se conservan como identificadores de archivo, no como numeración vigente. Los números iniciales de los documentos (21, 22, etc.) son su orden documental y no identifican módulos.
 
@@ -214,7 +214,7 @@ Para abrir la app:
 
 ## Escenarios de futuro · módulo 01
 
-El módulo 01 prioriza demanda educativa potencial, compara los dos escenarios prefijados con un tendencial siempre visible y muestra la distribución por nivel, territorio y año. La selección se guarda por separado del escenario editable de Productivos. Los datos y controles de los módulos 02 y 03 se preservan.
+El módulo 01 prioriza demanda educativa potencial, compara los tres escenarios prefijados con un tendencial siempre visible y muestra la distribución por nivel, territorio y año. La selección se guarda por separado del escenario editable de Productivos. Los datos y controles de los módulos 02 y 03 se preservan.
 
 Configuración: `data/escenarios_futuro.json`. Modelo de integración: `assets/js/future-model.js`, que reutiliza los cálculos productivos y de demanda educativa existentes. Documentación: [29_APP_ESCENARIOS_FUTURO.md](docs/29_APP_ESCENARIOS_FUTURO.md).
 
@@ -235,7 +235,7 @@ La página sigue la secuencia proyectos → empleo → población → demanda ed
 
 ### Comparador · módulo 05 · 2.21.0
 
-Escenarios Tendencial, Moderado e Intensivo seleccionables por lado. Año, territorio, capa y nivel educativo del mapa compartidos. Mapas sincronizados en vista y zoom, escalas comunes fijas y diferencias B−A en MW, población y demanda educativa. Validación: `node scripts/validar_comparador.mjs`. Documentación: [33_MODULO_05_COMPARADOR.md](docs/33_MODULO_05_COMPARADOR.md). Implementación local: `http://127.0.0.1:8125/#comparador`.
+Escenarios Tendencial, Moderado, Intensivo y Total seleccionables por lado. Año, territorio, capa y nivel educativo del mapa compartidos. Mapas sincronizados en vista y zoom, escalas comunes fijas y diferencias B−A en MW, población y demanda educativa. Validación: `node scripts/validar_comparador.mjs`. Documentación: [33_MODULO_05_COMPARADOR.md](docs/33_MODULO_05_COMPARADOR.md). Implementación local: `http://127.0.0.1:8125/#comparador`.
 
 
 ## Publicación en GitHub Pages
@@ -251,3 +251,8 @@ Escenario punteado, rango vertical ampliable, gráfico educativo conjunto por ni
 Los nueve proyectos hidroeléctricos tienen coordenadas oficiales PLAHE, identificadas como puntos de referencia del aprovechamiento. La fuente y precisión figuran en la ficha; no equivalen necesariamente al edificio de la central. [Incorporación y verificación](docs/36_INCORPORACION_LOCALIZACIONES_HIDRO.md).
 
 La regeneración desde el inventario auditado aplica automáticamente `data/localizaciones_hidroelectricas.json`. Para aplicar sólo las localizaciones: `python scripts/aplicar_localizaciones_hidro.py`. Verificación: `python scripts/validar_localizaciones_hidro.py`.
+
+
+### Escenario Total · 2.24.0
+
+Total incorpora los 22 proyectos de la cartera habilitada: 1.635,17 MW adicionales en operación en 2050. Disponible en Escenarios de futuro y Comparador. Conserva el calendario de Intensivo e incorpora Rada Tilly, El Angelito y El Escorial en 2050 como hipótesis. [Definición y validación](docs/37_ESCENARIO_TOTAL.md).

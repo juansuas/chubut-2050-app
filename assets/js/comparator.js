@@ -1,5 +1,5 @@
-import {buildFutureTerritories,FUTURE_LEVELS} from './future-territories.js?v=2.18.0';
-import {COMPARISON_SCENARIOS,comparisonSeries,comparisonMetric,comparisonDifference,comparisonMaximum} from './comparator-model.js?v=2.21.0';
+import {buildFutureTerritories,FUTURE_LEVELS} from './future-territories.js?v=2.24.0';
+import {COMPARISON_SCENARIOS,comparisonSeries,comparisonMetric,comparisonDifference,comparisonMaximum} from './comparator-model.js?v=2.24.0';
 const $=id=>document.getElementById(id),nf=new Intl.NumberFormat('es-AR',{maximumFractionDigits:0}),df=new Intl.NumberFormat('es-AR',{maximumFractionDigits:1}),sf=new Intl.NumberFormat('es-AR',{maximumFractionDigits:1,signDisplay:'exceptZero'});
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const KEY='chubut2050.comparator.v1',maps={},layers={},scaleCache=new Map();

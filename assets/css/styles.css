@@ -481,3 +481,7 @@ input[list],select,input[type=number]{width:100%;background:var(--surface);borde
 @media(max-width:760px){#escenarios .future-heading>div:first-child,#escenarios .future-scenario-choices{flex:0 0 auto;width:100%}}
 /* Reference points of hydro projects: keep provenance readable in map tooltips. */
 #escenarios .leaflet-tooltip,#productivos .leaflet-tooltip{white-space:normal;max-width:320px;line-height:1.5}
+/* Three preset scenarios, with a full-width choice row and responsive wrapping. */
+#escenarios .future-scenario-choices{grid-template-columns:repeat(3,minmax(0,1fr));flex:1 1 100%;width:100%}
+@media(max-width:760px){#escenarios .future-scenario-choices{grid-template-columns:1fr}#escenarios .future-scenario-choices button{padding:12px 16px}}
+@media(max-width:760px){#escenarios .future-heading{display:block}#escenarios .future-scenario-choices{margin-top:16px;flex:none}}

@@ -1,6 +1,6 @@
-import {renderFutureStory} from './future-story.js?v=2.23.1';
+import {renderFutureStory} from './future-story.js?v=2.24.0';
 import {futureValues,futurePeak,futureEducationTraces,futureChartRange,toggleFutureTerritory} from './future-view.js?v=2.22.0';
-import {buildFutureTerritories,FUTURE_LEVELS,futurePhase} from './future-territories.js?v=2.18.0';
+import {buildFutureTerritories,FUTURE_LEVELS,futurePhase} from './future-territories.js?v=2.24.0';
 import {activitySymbol} from './production.js?v=2.23.0';
 
 const nf=new Intl.NumberFormat('es-AR',{maximumFractionDigits:0}),df=new Intl.NumberFormat('es-AR',{maximumFractionDigits:2}),ef=new Intl.NumberFormat('es-AR',{maximumFractionDigits:1});
@@ -13,14 +13,14 @@ let model,owner,ready=false,map,territoryLayer,markers,mapScope=null,installatio
 let ui={scenario:'moderado',territory:'all',year:2050,mode:'population',expanded:false,educationLevels:['INI','PRI','SEC','AGE18'],level:'all',eventMode:'both',tab:'territories',installations:false,rank:'current',mapMetric:'absolute'};
 const current=()=>model.scenarios[ui.scenario].territories[ui.territory];
 const point=()=>current().series.find(row=>row.year===ui.year);
-const label=()=>ui.scenario==='moderado'?'Moderado':'Intensivo';
+const label=()=>({moderado:'Moderado',intensivo:'Intensivo',total:'Total'}[ui.scenario]);
 function save(){try{localStorage.setItem(KEY,JSON.stringify(ui));localStorage.setItem('chubut2050.future.preset',ui.scenario);}catch{}}
 function change(patch){Object.assign(ui,patch);save();renderFuture(owner);}
 
 function init(data){
   try{
     const saved=JSON.parse(localStorage.getItem(KEY))||{},preset=localStorage.getItem('chubut2050.future.preset');
-    if(['moderado','intensivo'].includes(saved.scenario??preset))ui.scenario=saved.scenario??preset;
+    if(['moderado','intensivo','total'].includes(saved.scenario??preset))ui.scenario=saved.scenario??preset;
     if(saved.territory==='all'||data.territoryById[saved.territory])ui.territory=saved.territory;
     if(Number.isInteger(saved.year)&&saved.year>=2026&&saved.year<=2050)ui.year=saved.year;
     // The story opens with population; the comparison switch stays available.

@@ -1,4 +1,4 @@
-import {FUTURE_LEVELS} from './future-territories.js?v=2.18.0';
+import {FUTURE_LEVELS} from './future-territories.js?v=2.24.0';
 import {futurePeak,futureEducationTraces,futureChartRange,FUTURE_LEVEL_COLORS,toggleFutureTerritory} from './future-view.js?v=2.22.0';
 import {activitySymbol} from './production.js?v=2.23.0';
 const $=id=>document.getElementById(id),nf=new Intl.NumberFormat('es-AR',{maximumFractionDigits:0}),df=new Intl.NumberFormat('es-AR',{maximumFractionDigits:1});
@@ -7,7 +7,7 @@ let projectMap,projectLayer,projectMarkers,projectMapTerritory=null;
 export function renderFutureStory(data,model,ui,change){
  const scope=model.scenarios[ui.scenario].territories[ui.territory],p=scope.series.find(r=>r.year===ui.year),projects=scope.projects;
  const name=ui.territory==='all'?'Chubut':data.territoryById[ui.territory].territorio_nombre;
- const scenario=ui.scenario==='moderado'?'Moderado':'Intensivo';
+ const scenario={moderado:'Moderado',intensivo:'Intensivo',total:'Total'}[ui.scenario];
  const popPeak=futurePeak(scope.series,'population'),eduPeak=scope.peak;
  const mw=projects.reduce((sum,r)=>sum+r.potencia_declarada_proyecto_mw,0),departments=new Set(projects.map(r=>r.departamento_id));
  const starts=projects.map(r=>r.startYear),operations=projects.map(r=>r.operationYear);
@@ -15,6 +15,7 @@ export function renderFutureStory(data,model,ui,change){
  const chain=[['Proyectos',`${projects.length}`,`${df.format(mw)} MW de cartera`],['Empleo',nf.format(p.directConstruction+p.directOperation),`puestos directos en ${ui.year}`],['Población','+'+nf.format(p.people),`personas en ${ui.year}`],['Educación','+'+df.format(p.education),`estudiantes potenciales en ${ui.year}`]];
  $('story-chain').innerHTML=chain.map(([title,value,note],i)=>`<div class="story-chain-step"><small>${i+1} · ${title}</small><strong>${value}</strong><span>${note}</span></div>`).join('');
  $('story-projects-text').textContent=projects.length?`El escenario ${scenario} activa ${projects.length} proyectos en ${departments.size} ${departments.size===1?'departamento':'departamentos'}, con ${df.format(mw)} MW de potencia. Las obras comienzan a partir de ${Math.min(...starts)} y las entradas en operación se distribuyen entre ${Math.min(...operations)} y ${Math.max(...operations)}.`:`El escenario ${scenario} no incorpora proyectos en ${name}. La población y la demanda educativa conservan aquí su trayectoria tendencial.`;
+ if(ui.scenario==='total')$('story-projects-text').textContent+=' Total conserva el calendario de Intensivo e incorpora los tres proyectos restantes en 2050 como hipótesis de puesta en marcha. Todos están en operación al finalizar el horizonte.';
  const technologies=new Map();for(const r of projects){const key=r.actividad_nombre;const t=technologies.get(key)||{n:0,mw:0};t.n++;t.mw+=r.potencia_declarada_proyecto_mw;technologies.set(key,t);}
  $('story-technologies').innerHTML=[...technologies].map(([key,t])=>`<span><b>${esc(key)}</b> ${t.n} proyectos · ${df.format(t.mw)} MW</span>`).join('');
  const sorted=[...projects].sort((a,b)=>a.startYear-b.startYear||a.operationYear-b.operationYear);

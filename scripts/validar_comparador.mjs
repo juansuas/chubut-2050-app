@@ -34,7 +34,7 @@ const diff=comparisonDifference(a,b);
 near(diff.mw,494);near(diff.education,90.2359769547956);
 const reverse=comparisonDifference(b,a);for(const key of Object.keys(diff))near(diff[key],-reverse[key]);
 assert.deepEqual(comparisonDifference(a,a),{mw:0,people:0,education:0});
-for(const scenario of ['tendencial','moderado','intensivo'])for(const year of model.years){
+for(const scenario of ['tendencial','moderado','intensivo','total'])for(const year of model.years){
  const provincial=comparisonSeries(model,scenario,'all').find(r=>r.year===year);
  const local=model.ids.map(id=>comparisonSeries(model,scenario,id).find(r=>r.year===year));
  for(const key of ['populationTotal','educationTotal','addedMw'])near(local.reduce((sum,r)=>sum+r[key],0),provincial[key]);
@@ -42,7 +42,7 @@ for(const scenario of ['tendencial','moderado','intensivo'])for(const year of mo
 }
 for(const metric of ['mw','population','education'])for(const level of ['all','INI','PRI','SEC','AGE18']){
  const maximum=comparisonMaximum(model,metric,level);
- for(const scenario of ['tendencial','moderado','intensivo'])for(const id of model.ids)for(const row of comparisonSeries(model,scenario,id))assert.ok(comparisonMetric(row,metric,level)<=maximum+1e-7);
+ for(const scenario of ['tendencial','moderado','intensivo','total'])for(const id of model.ids)for(const row of comparisonSeries(model,scenario,id))assert.ok(comparisonMetric(row,metric,level)<=maximum+1e-7);
 }
 for(const project of model.scenarios.intensivo.territories.all.projects){
  const scope=model.scenarios.intensivo.territories[project.departamento_id];

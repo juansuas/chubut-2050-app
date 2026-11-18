@@ -27,7 +27,7 @@ export function buildFutureModel(data){
   const portfolio=rows.filter(row=>row.estado_id==='PROYECTADO'&&!row.nota_conciliacion).reduce((total,row)=>total+(row.potencia_declarada_proyecto_mw??0),0);
   if(Math.abs(portfolio-config.cartera_mw)>1e-6)throw new Error('La cartera cambió: revisar los escenarios prefijados antes de usarlos.');
   const scenarios={};
-  for(const key of ['moderado','intensivo']){
+  for(const key of ['moderado','intensivo','total']){
     const selection=config.selecciones[key],projects=scheduledProjects(rows,selection);
     if(projects.length!==Object.keys(selection).length)throw new Error(`Hay proyectos inválidos en el escenario ${key}.`);
     for(const project of projects)if(!IMPACT[project.tecnologia_impacto_id])throw new Error(`Faltan coeficientes para ${project.nombre_instalacion}.`);
@@ -49,5 +49,8 @@ export function buildFutureModel(data){
     if(final.some(row=>row.buildJobs>0))throw new Error('El calendario deja obras pendientes después del horizonte 2050.');
   }
   for(const [id,year] of Object.entries(config.selecciones.moderado))if(config.selecciones.intensivo[id]!==year)throw new Error('Los proyectos comunes deben mantener su calendario.');
+  const eligible=rows.filter(row=>row.estado_id==='PROYECTADO'&&!row.nota_conciliacion);
+  if(scenarios.total.projects.length!==eligible.length||eligible.some(row=>!Object.hasOwn(config.selecciones.total,row.instalacion_id)))throw new Error('Total debe incorporar toda la cartera habilitada.');
+  for(const [id,year] of Object.entries(config.selecciones.intensivo))if(config.selecciones.total[id]!==year)throw new Error('Total debe conservar las fechas de Intensivo.');
   return {annual,installed,portfolio,scenarios,config};
 }

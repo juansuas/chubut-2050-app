@@ -1,4 +1,4 @@
-export const COMPARISON_SCENARIOS={tendencial:'Tendencial',moderado:'Moderado',intensivo:'Intensivo'};
+export const COMPARISON_SCENARIOS={tendencial:'Tendencial',moderado:'Moderado',intensivo:'Intensivo',total:'Total'};
 export function comparisonSeries(model,scenario,territory){
   if(scenario!=='tendencial')return model.scenarios[scenario].territories[territory].series;
   return model.years.map(year=>{

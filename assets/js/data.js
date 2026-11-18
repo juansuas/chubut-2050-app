@@ -1,4 +1,4 @@
-import {DATA_PATHS} from './config.js?v=2.23.0';
+import {DATA_PATHS} from './config.js?v=2.24.0';
 
 async function fetchJSON(path){const response=await fetch(path);if(!response.ok)throw new Error(`No se pudo cargar ${path} (${response.status})`);return response.json();}
 async function fetchCSV(path){
@@ -70,5 +70,5 @@ export async function loadProductionData(){
 }
 
 export function loadFutureScenarioData(){
-  return once('futurePresets',async()=>({futurePresets:await fetchJSON('data/escenarios_futuro.json?v=2.17.0')}));
+  return once('futurePresets',async()=>({futurePresets:await fetchJSON('data/escenarios_futuro.json?v=2.24.0')}));
 }

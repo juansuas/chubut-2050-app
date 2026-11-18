@@ -70,3 +70,18 @@ for(const scope of Object.values(territorial.scenarios.intensivo.territories)){
  for(const row of scope.series){close(row.educationTotal-row.base.education,row.education);close(row.populationTotal-row.base.population,row.people);}
 }
 console.log('TERRITORIOS FUTURO OK: 25 años, sumas departamentales, población por edades, fases e hitos, máximo local y denominador del mismo año.');
+
+const total=model.scenarios.total;
+assert.equal(total.projects.length,22);close(total.energy,1635.17);close(total.fraction,1);
+assert.deepEqual(new Set(total.projects.map(p=>p.instalacion_id)),new Set(data.productionInstallations.filter(r=>r.estado_id==='PROYECTADO'&&!r.nota_conciliacion).map(p=>p.instalacion_id)));
+for(const [id,year] of Object.entries(presets.selecciones.intensivo))assert.equal(presets.selecciones.total[id],year);
+const extras=total.projects.filter(p=>!Object.hasOwn(presets.selecciones.intensivo,p.instalacion_id));
+assert.equal(extras.length,3);assert.ok(extras.every(p=>p.operationYear===2050));
+close(extras.reduce((sum,p)=>sum+p.potencia_declarada_proyecto_mw,0),552);
+const totalFinal=territorial.scenarios.total.territories.all.final;
+close(totalFinal.addedMw,1635.17);close(totalFinal.constructionPeople,0);
+assert.ok(territorial.scenarios.total.territories.all.projects.every(p=>p.operationYear<=2050));
+const incomplete=structuredClone(presets);delete incomplete.selecciones.total[extras[0].instalacion_id];
+assert.throws(()=>buildFutureModel({...data,futurePresets:incomplete}),/toda la cartera/);
+console.log('TOTAL OK: 22 proyectos, 1.635,17 MW en operación en 2050, calendario anidado y tres incorporaciones de 552 MW.');
+console.log(JSON.stringify({poblacion_adicional_2050:totalFinal.people,demanda_adicional_2050:totalFinal.education,maximo_educativo:total.peak}));

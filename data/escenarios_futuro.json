@@ -1,5 +1,5 @@
 {
-  "version": "2.17.0",
+  "version": "2.24.0",
   "horizonte": 2050,
   "cartera_mw": 1635.1699999999998,
   "fecha_propuesta": "2026-11-17",
@@ -41,11 +41,36 @@
       "AUD-HID-F4A2015EBF15": 2048,
       "SPIA-EOL-AED3A5D9D9EB": 2048,
       "AUD-HID-B134C38EC00B": 2050
+    },
+    "total": {
+      "AUD-EOL-E330DF59A5A4": 2030,
+      "SPIA-EOL-3FE1F82EE690": 2031,
+      "AUD-HID-BA8AA4BE3766": 2032,
+      "SPIA-EOL-0390EA004BCC": 2032,
+      "AUD-HID-F08D55DFBCD7": 2033,
+      "SPIA-EOL-D9B443029560": 2033,
+      "AUD-HID-192200C5984D": 2034,
+      "SPIA-EOL-B7B21260CEFA": 2034,
+      "SPIA-EOL-807D6D3DD775": 2035,
+      "AUD-HID-8049C9C06587": 2036,
+      "SPIA-EOL-961606814DDA": 2038,
+      "SPIA-EOL-3B8F5DD0E2D1": 2039,
+      "AUD-HID-2C5E1B587FE4": 2040,
+      "SPIA-EOL-82B5B74A05D6": 2040,
+      "AUD-HID-E9652BA846A1": 2045,
+      "AUD-HID-2E5F3094956F": 2046,
+      "AUD-HID-F4A2015EBF15": 2048,
+      "SPIA-EOL-AED3A5D9D9EB": 2048,
+      "AUD-HID-B134C38EC00B": 2050,
+      "SPIA-EOL-0A09DC086A65": 2050,
+      "SPIA-EOL-F1481D9E1C77": 2050,
+      "AUD-EOL-4539CD2DA0C1": 2050
     }
   },
   "metas": {
     "moderado": 0.35,
-    "intensivo": 0.65
+    "intensivo": 0.65,
+    "total": 1
   },
   "parametros": {
     "includeConstruction": true,
@@ -53,5 +78,8 @@
     "includePeople": true,
     "externalShare": 1
   },
-  "origen": "28_PROPUESTA_ESCENARIOS_FUTURO_2050.md"
+  "origen": "28_PROPUESTA_ESCENARIOS_FUTURO_2050.md",
+  "notas_total": "Hipótesis: conserva las fechas de Intensivo y activa en 2050 los proyectos restantes (Rada Tilly, El Angelito y El Escorial). Todos los 22 proyectos están en operación en 2050.",
+  "fecha_actualizacion": "2026-11-18",
+  "origen_total": "37_ESCENARIO_TOTAL.md"
 }

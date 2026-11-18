@@ -1,4 +1,4 @@
-import {buildFutureModel,FUTURE_LEVELS} from './future-model.js?v=2.17.0';
+import {buildFutureModel,FUTURE_LEVELS} from './future-model.js?v=2.24.0';
 import {educationImpact} from './migration-education.js?v=2.15.0';
 import {projectImpact,IMPACT} from './productive-scenario.js?v=2.16.0';
 import {currentRate} from './scenario-model.js';
