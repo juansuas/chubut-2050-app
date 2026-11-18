@@ -1,39 +1,62 @@
 {
-  "nombre": "Base productivo-energética Chubut 2050",
-  "version": "0.4.0",
-  "fecha_construccion": "2026-11-09",
-  "unidad_georreferenciada": "instalacion_energetica",
-  "unidad_agregacion_escenarios": "departamento_id",
-  "instalaciones_total": 82,
+  "nombre": "Inventario productivo y energético · Chubut 2050",
+  "version": "0.5.0",
+  "fecha_construccion": "2026-11-16",
+  "inventario_auditado": "Chubut_2050_inventario_control_piso_termico_2026-11-09.xlsx",
+  "hoja": "Capa construida",
+  "instalaciones_total": 92,
   "instalaciones_por_actividad": {
-    "EOL": 34,
-    "HID": 2,
-    "TER": 46
+    "EOL": 36,
+    "HID": 11,
+    "TER": 45
   },
-  "eolica_operativa": {
-    "periodo_capacidad_instalada": "2026-09",
-    "instalaciones": 23,
-    "instalaciones_con_capacidad_instalada": 22,
-    "capacidad_instalada_mw_conocida": 1314.91,
-    "potencia_declarada_proyecto_mw": 1298.76
+  "actividades": {
+    "EOL": {
+      "registros": 36,
+      "operativos": 23,
+      "instalada_mw": 1650.91,
+      "proyectos": 13,
+      "proyectada_mw": 1242.6,
+      "simulables": 13,
+      "simulable_mw": 1242.6
+    },
+    "HID": {
+      "registros": 11,
+      "operativos": 2,
+      "instalada_mw": 606.8,
+      "proyectos": 9,
+      "proyectada_mw": 392.57,
+      "simulables": 9,
+      "simulable_mw": 392.57
+    },
+    "TER": {
+      "registros": 45,
+      "operativos": 4,
+      "instalada_mw": 434.835,
+      "proyectos": 0,
+      "proyectada_mw": 0,
+      "simulables": 0,
+      "simulable_mw": 0
+    }
   },
-  "eolica_proyectada": {
-    "instalaciones": 11,
-    "potencia_declarada_proyecto_mw": 946.6
-  },
-  "control_externo_eolica": {
-    "parques_informados_ministerio_chubut": 23,
-    "capacidad_instalada_mw_informada_ministerio_chubut": 1230,
-    "parques_spia_operativos": 23,
-    "capacidad_instalada_mw_conocida_fuente_nacional": 1226.41,
-    "estado_control": "cantidad_reproducida_capacidad_aproximada_no_identica"
-  },
+  "registros_con_coordenadas": 80,
+  "duplicados_excluidos": [
+    {
+      "fila": 19,
+      "nombre": "P.E Vientos de la Patagonia",
+      "motivo": "Registro duplicado de El Tordillo (Resolución 596/2009)"
+    },
+    {
+      "fila": 51,
+      "nombre": "C.T. Manantiales Behr II",
+      "motivo": "Registro duplicado de CT MANANTIALES BEHR II AG (mismo nombre, ubicación y 57,735 MW)"
+    }
+  ],
+  "proyectos_pendientes": [],
   "advertencias": [
-    "La fuente nacional de centrales declara última actualización 2023-09-03.",
-    "El SPIA no declara fecha de corte ni operador en las capas descargadas.",
-    "La capacidad instalada eólica de CAMMESA (2026-09) cubre 22 de los 23 parques operativos de SPIA.",
-    "El piso térmico de CAMMESA 2026-09 es parcial: incluye centrales conciliadas por código con generación positiva en el mes.",
-    "TotEnergia de SPIA se conserva como potencia declarada de proyecto y no se suma como capacidad instalada.",
-    "Petróleo, gas, hidrógeno y empleo por instalación quedan pendientes de fuentes georreferenciadas verificables."
+    "Inventario auditado al 09/11/2026. Los registros sin coordenadas figuran en la tabla y el escenario, cuando corresponda.",
+    "La capacidad instalada suma unidades operativas con dato. El piso térmico de septiembre de 2026 es parcial: la potencia histórica de centrales sin estado confirmado queda sólo en sus fichas.",
+    "La capacidad hidroeléctrica conserva el registro nacional de 2023; el estado se contrastó con la base de generadores de CAMMESA.",
+    "La potencia declarada de instalaciones operativas es una referencia histórica; no integra la cartera. Los proyectos con conciliación pendiente se muestran aparte y no suman MW simulables."
   ]
 }

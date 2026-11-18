@@ -1,15 +1,15 @@
 {
   "nombre_app": "Chubut 2050 V2",
-  "version": "2.13.0",
-  "fecha_actualizacion": "2026-11-09",
+  "version": "2.21.0",
+  "fecha_actualizacion": "2026-11-16",
   "modulos_disponibles": [
+    "escenarios",
     "demografia",
     "oferta",
-    "productivos"
-  ],
-  "modulos_pendientes": [
-    "resumen",
+    "productivos",
     "comparador"
   ],
-  "advertencia_datos": "Demografía usa la proyección departamental ajustada por Santiago Linares. Capacidad y matrícula educativa son resultados modelados. La capa productiva distingue capacidad instalada verificada, potencia declarada de proyecto y datos faltantes."
+  "modulos_pendientes": [],
+  "advertencia_datos": "Demografía usa la proyección departamental ajustada por Santiago Linares. Capacidad y matrícula educativa son resultados modelados. La capa productiva distingue capacidad instalada documentada, potencia declarada de proyecto y datos faltantes.",
+  "fecha_publicacion_app": "2026-11-18"
 }

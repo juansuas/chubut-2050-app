@@ -1,4 +1,4 @@
-import {DATA_PATHS} from './config.js?v=2.13.0';
+import {DATA_PATHS} from './config.js?v=2.15.1';
 
 async function fetchJSON(path){const response=await fetch(path);if(!response.ok)throw new Error(`No se pudo cargar ${path} (${response.status})`);return response.json();}
 async function fetchCSV(path){
@@ -22,10 +22,27 @@ export async function loadDemographyData(){
     return {demographyPopulation:population.map(r=>({territorio_id:String(r.departamento_id).padStart(5,'0'),territorio_nombre:r.departamento_nombre,year:Number(r.year),edad:Number(r.edad),sexo:r.sexo_id,poblacion:Number(r.poblacion)||0})),demographyIndec:demographyIndec.map(r=>({...r,year:Number(r.year),poblacion:Number(r.poblacion)})),demographyMetadata};
   });
 }
+function loadAttendanceRates(){
+  return once('attendanceRates',async()=>{
+    const rows=await fetchCSV(DATA_PATHS.attendanceRates);
+    return rows.map(r=>({...r,territorio_id:String(r.territorio_id),tasa_asistencia:r.tasa_asistencia===''||r.tasa_asistencia==null?null:Number(r.tasa_asistencia),numerador:r.numerador===''||r.numerador==null?null:Number(r.numerador),denominador:r.denominador===''||r.denominador==null?null:Number(r.denominador)}));
+  });
+}
+
 export async function loadCapacityData(){
   return once('capacity',async()=>{
-    const [attendanceRaw,capacityRaw,capacityMetadata]=await Promise.all([fetchCSV(DATA_PATHS.attendanceRates),fetchCSV(DATA_PATHS.capacitySections),fetchJSON(DATA_PATHS.capacityMetadata)]);
-    return {attendanceRates:attendanceRaw.map(r=>({...r,territorio_id:String(r.territorio_id),tasa_asistencia:r.tasa_asistencia===''||r.tasa_asistencia==null?null:Number(r.tasa_asistencia),numerador:r.numerador===''||r.numerador==null?null:Number(r.numerador),denominador:r.denominador===''||r.denominador==null?null:Number(r.denominador)})),capacitySections:capacityRaw.map(r=>({...r,departamento_id:String(r.departamento_id).padStart(5,'0'),cue_anexo:String(r.cue_anexo).padStart(9,'0'),matricula_actual:Number(r.matricula_actual)||0,matricula_varones_actual:Number(r.matricula_varones_actual)||0,matricula_mujeres_actual:Number(r.matricula_mujeres_actual)||0,capacidad:Number(r.capacidad)||0,longitud:r.longitud==null?null:Number(r.longitud),latitud:r.latitud==null?null:Number(r.latitud)})),capacityMetadata};
+    const [attendanceRates,capacityRaw,capacityMetadata]=await Promise.all([loadAttendanceRates(),fetchCSV(DATA_PATHS.capacitySections),fetchJSON(DATA_PATHS.capacityMetadata)]);
+    return {attendanceRates,capacitySections:capacityRaw.map(r=>({...r,departamento_id:String(r.departamento_id).padStart(5,'0'),cue_anexo:String(r.cue_anexo).padStart(9,'0'),matricula_actual:Number(r.matricula_actual)||0,matricula_varones_actual:Number(r.matricula_varones_actual)||0,matricula_mujeres_actual:Number(r.matricula_mujeres_actual)||0,capacidad:Number(r.capacidad)||0,longitud:r.longitud==null?null:Number(r.longitud),latitud:r.latitud==null?null:Number(r.latitud)})),capacityMetadata};
+  });
+}
+
+export function loadMigrationEducationData(){
+  return once('migrationEducation',async()=>{
+    const [migrationProfiles,attendanceRates]=await Promise.all([
+      fetchJSON('data/perfiles_migrantes.json?v=4'),
+      loadAttendanceRates()
+    ]);
+    return {migrationProfiles,attendanceRates};
   });
 }
 
@@ -40,8 +57,8 @@ export async function loadProductionData(){
     const productionInstallations=installationGeoJSON.features.map(feature=>({
       ...feature.properties,
       departamento_id:String(feature.properties.departamento_id).padStart(5,'0'),
-      latitud:Number(feature.geometry.coordinates[1]),
-      longitud:Number(feature.geometry.coordinates[0]),
+      latitud:feature.geometry?.coordinates[1]??null,
+      longitud:feature.geometry?.coordinates[0]??null,
       capacidad_instalada_mw:feature.properties.capacidad_instalada_mw==null?null:Number(feature.properties.capacidad_instalada_mw),
       potencia_declarada_proyecto_mw:feature.properties.potencia_declarada_proyecto_mw==null?null:Number(feature.properties.potencia_declarada_proyecto_mw),
       turbinas_unidades:feature.properties.turbinas_unidades==null?null:Number(feature.properties.turbinas_unidades),
@@ -50,4 +67,8 @@ export async function loadProductionData(){
     const productionSourceById=Object.fromEntries(sourceRows.map(row=>[row.fuente_id,row]));
     return {productionInstallationGeoJSON:installationGeoJSON,productionInstallations,productionIndicators,productionMetadata,productionSources:sourceRows,productionSourceById};
   });
+}
+
+export function loadFutureScenarioData(){
+  return once('futurePresets',async()=>({futurePresets:await fetchJSON('data/escenarios_futuro.json?v=2.17.0')}));
 }

@@ -1,6 +1,35 @@
 # Chubut 2050 V2
 
-Aplicación web estática con tres módulos activos: `Demografía`, `Oferta y capacidad` y `Producción y desarrollo energético`.
+## Numeración de capas y módulos
+
+Convención vigente desde el 17/11/2026: capa y módulo utilizan el mismo número, según el orden de navegación de la app.
+
+| Capa / módulo | Nombre en navegación | Ruta |
+| --- | --- | --- |
+| 01 | Escenarios de futuro | `#escenarios` |
+| 02 | Demografía | `#demografia` |
+| 03 | Educación (Oferta y capacidad) | `#oferta` |
+| 04 | Producción y energía | `#productivos` |
+| 05 | Comparador | `#comparador` |
+
+El módulo 01 reemplaza al antiguo Resumen provincial. Desde 2.21.0 se recupera el módulo 05 como comparador independiente; `#resumen` redirige a `#escenarios` y `#comparador` abre el módulo 05. El módulo 01 presenta los escenarios prefijados Moderado e Intensivo frente al tendencial fijo. Productivos (04) conserva su escenario editable independiente.
+
+La denominación anterior «capa 3» para Productivos queda reemplazada por «capa / módulo 04». Educación corresponde a la capa / módulo 03. Los nombres de archivos históricos que contienen `CAPA_3` se conservan como identificadores de archivo, no como numeración vigente. Los números iniciales de los documentos (21, 22, etc.) son su orden documental y no identifican módulos.
+
+Aplicación web estática con cinco módulos activos: `Escenarios de futuro`, `Demografía`, `Oferta y capacidad`, `Producción y energía` y `Comparador`.
+
+## Interfaz productiva · capa 04
+
+La capa 04 reúne un contexto territorial y temporal, el mapa junto al editor y una zona de resultados con pestañas. Los detalles de organización y verificación están en [27_INTERFAZ_CAPA_04.md](docs/27_INTERFAZ_CAPA_04.md).
+
+El territorio de Productivos utiliza `scenarioPopulationDepartment` y no modifica el territorio de Demografía o Educación. Cambiar de departamento o filtrar la cartera conserva todos los proyectos del escenario. Los resultados muestran el territorio seleccionado; los parámetros continúan siendo globales para el escenario. «Limpiar filtros» sólo restablece los filtros del inventario; «Vaciar escenario» elimina la selección de proyectos y conserva los parámetros.
+
+Para validar el modelo y la coordinación de interfaz desde esta carpeta:
+
+```powershell
+node scripts/validar_escenario_proyectos.mjs
+node scripts/validar_interfaz_productiva.mjs
+```
 
 ## Fuentes
 
@@ -17,17 +46,39 @@ La fuente activa de población se incorpora con `adoptar_proyeccion_linares.py`.
 
 ## Capa productivo-energética
 
-El piso térmico parcial usa CAMMESA 2026-09. Se vincula por código de central y se exige generación positiva y potencia instalada informada en el mismo corte. Biedma suma 189 MW (ALUAR) y Escalante 245,835 MW (PATA, ELEP y MBE2). MBE2 aporta 57,735 MW de autogeneración no firme para el MEM. El segundo registro de Manantiales Behr II permanece sin verificar y fuera de la suma. CRIV registra generación pero queda pendiente de asignación georreferenciada sin duplicar unidades. PMAD carece de generación positiva en el corte. Los sistemas aislados siguen pendientes de verificación con fuentes locales.
+La versión 2.14 usa «Capa construida» del inventario auditado el 09/11/2026. Para regenerar los archivos que consume la app, ejecutar `python scripts/importar_inventario_auditado.py ruta/al/inventario.xlsx` desde la carpeta de la app con `openpyxl` disponible. Los scripts de publicación anteriores reconstruyen la capa anterior a esta auditoría; no deben usarse para publicar este inventario.
 
-El cotejo de capacidad instalada con CAMMESA (Informe Mensual, septiembre de 2026, hoja «RESUMEN por MAQUINA», detalle del mes para Chubut) confirma 19 de los 21 parques eólicos vinculados por código. Para esos 21 parques, el inventario de referencia 2023 suma 1.226,41 MW y CAMMESA registra 1.311,91 MW. Las diferencias corresponden a Aluar (162 → 243 MW) y Manantiales (99 → 103,50 MW). CAMMESA también registra 3 MW para El Tordillo, ya localizado en el inventario y sin valor de capacidad instalada en la base activa. El total eólico informado por CAMMESA para Chubut es 1.314,91 MW. El simulador toma los 1.314,91 MW de CAMMESA como piso documentado, distribuidos por departamento según el inventario SPIA.
+| Energía | Capacidad operativa conocida (MW) | Proyectos | Potencia declarada (MW) | Potencia simulable (MW) |
+|---|---:|---:|---:|---:|
+| Eólica | 1.650,910 | 13 | 1.242,600 | 1.242,600 |
+| Hidroeléctrica | 606,800 | 9 | 392,570 | 392,570 |
+| Térmica | 434,835 | 0 | 0 | 0 |
 
-La unidad de georreferenciación es la instalación y la unidad de agregación es el departamento. La publicación inicial incluye 82 registros: 34 eólicos, 2 hidroeléctricos y 46 térmicos. Los 34 parques eólicos se separan en 23 operativos y 11 proyectados según SPIA. Petróleo, gas e hidrógeno permanecen contemplados en los catálogos, pero no se publican como puntos hasta contar con fuentes que permitan localizar una unidad de observación consistente.
+La capacidad eólica combina el corte CAMMESA de septiembre (1.314,91 MW) con La Flecha, etapa V de Aluar (+336 MW). La capacidad hidroeléctrica se conserva según el registro 2023, con estado contrastado con la base de generadores de CAMMESA. El piso térmico confirmado es parcial: incluye 57,735 MW de autogeneración no firme (MBE2). Las térmicas sin estado confirmado conservan su potencia histórica en la ficha. No se crean puntos en el mapa para registros sin coordenadas.
 
-`TotEnergia` del SPIA se conserva como potencia declarada del proyecto. No se trata automáticamente como capacidad instalada. CAMMESA aporta capacidad instalada a 22 de los 23 parques operativos. El parque restante queda sin valor verificado. La app muestra ambos campos por separado y no imputa operador, empleo ni producción cuando faltan.
+Los valores cargados en la columna de instalada para filas proyectadas se tratan como potencia de proyecto. Se excluyen del consolidado las filas duplicadas de El Tordillo y Manantiales Behr II. El equipo confirmó el 17/11/2026 la adopción de 80 MW de PLAHE para Frontera II y la independencia de Aluar Etapa II como ampliación futura de 96 MW. Los 22 proyectos quedan habilitados, por 1.635,17 MW.
 
-El módulo ofrece mapa, filtros por departamento, actividad, operador/agente y estado, fichas con fuentes, indicadores, capacidad instalada por departamento y actividad, comparación separada con proyectos futuros, composición de la matriz y exportación del inventario. El mapa se limita a las localizaciones: todos los símbolos tienen el mismo tamaño; el pictograma y el color distinguen la actividad y el borde comunica el estado. La capacidad se compara en los gráficos departamentales, no mediante el tamaño de los puntos.
+En «Puesta en funcionamiento de proyectos», el usuario marca uno o más proyectos y asigna a cada uno un año entre 2026 y 2050. La capacidad completa entra a su departamento desde ese año; el registro observado no cambia. El estado se guarda en el navegador. Los antiguos cambios manuales no equivalen a proyectos identificables y no se trasladan al escenario nuevo.
 
-La misma capa incorpora un constructor de cambios productivos con seis parámetros: departamento, tecnología, ampliación o reducción, MW modificados, año de entrada en operación y empleos permanentes por MW. La capacidad observada permanece inalterada. Los coeficientes no tienen valores predeterminados hasta contar con fuentes documentadas y todo valor ingresado se identifica como supuesto del usuario. El modelo excluye el empleo temporal; sólo deja una nota metodológica sobre su posible incorporación futura. La integración con población y educación queda preparada en el contrato `V2/01_Documentacion/21_CONTRATO_DATOS_CAPA_PRODUCTIVA.md`, pero todavía no aplica impactos sobre las proyecciones.
+El simulador usa los valores centrales precisos del informe metodológico del 17/11/2026. La proporción de puestos migrantes es 31 %, 32,5 %, 27,8 % y 29 % según tecnología. Sobre ella se aplica una proporción extraprovincial global editable entre 0 y 100 %, inicialmente 100 %. Confluencia es el único perfil activo. El contrato vigente está en V2/01_Documentacion/21_CONTRATO_DATOS_CAPA_PRODUCTIVA.md.
+
+### Perfiles migratorios y demanda educativa
+
+La demanda educativa usa exclusivamente el perfil de Confluencia. Los cuadros de migraciones del Censo 2022 cuentan residentes de cinco años o más en viviendas particulares que vivían en otra provincia o país en 2017. Para convertir los grupos quinquenales en edades simples se usan, dentro de cada sexo, las proporciones observadas en los cuadros censales de educación. Para las edades 0 a 4, se multiplica el recuento migrante de 5 a 9 por la razón censal entre la población de cada edad de 0 a 4 y el total de 5 a 9 del mismo sexo y territorio. La variación de ±25 % sobre esa imputación es una prueba de sensibilidad.
+
+Las cohortes envejecen según el año de inicio de la fase. La radicación temporal de obra termina cuando empieza la operación. Los resultados usan las tasas censales de asistencia del departamento de destino, con respaldo provincial cuando corresponde. Las edades de 18 años muestran asistencia a Secundario y se presentan por separado. La prueba mantiene el volumen poblacional del simulador y no agrega nacimientos ni defunciones.
+
+Para reproducir los perfiles, bajar los cuatro cuadros en una carpeta y ejecutar `python scripts/importar_perfiles_migrantes.py carpeta`. Los archivos originales necesarios se guardan con estos nombres:
+
+- `neuquen-mig.xlsx` — [Migraciones de Neuquén, hoja 4.15.6 Confluencia](https://censo.gob.ar/wp-content/uploads/2024/01/c2022_neuquen_migraciones_c4_15.xlsx).
+- `neuquen-edu.xlsx` — [Educación de Neuquén, hoja 1.15.6 Confluencia](https://censo.gob.ar/wp-content/uploads/2023/12/c2022_neuquen_educacion_c1_15.xlsx).
+
+### Plan de acción y publicación
+
+1. **Hecho:** normalizar la auditoría, generar identificadores estables, conciliar duplicados y separar capacidad instalada, histórica y proyectada.
+2. **Hecho:** reemplazar MW manuales por selección de proyectos y año; incorporar el cálculo anual por departamento y los coeficientes de obra y O&M.
+3. **Resuelto:** Frontera II adopta 80 MW de PLAHE y Aluar Etapa II conserva 96 MW como ampliación futura independiente, según confirmación del equipo.
+4. **Alcance cerrado:** se supone contratación local dentro del propio departamento y adicionalidad del incremento extraprovincial sobre la base. Se conservan el envejecimiento y el volumen constante de las cohortes por fase. Se puede avanzar con interfaz y escenarios.
 
 ### Corrección local de 2040 y 2050
 
@@ -160,3 +211,33 @@ Para abrir la app:
 & 'C:\Users\apar1\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe' `
   -m http.server 8125 --directory '.\V2\03_App'
 ```
+
+## Escenarios de futuro · módulo 01
+
+El módulo 01 prioriza demanda educativa potencial, compara los dos escenarios prefijados con un tendencial siempre visible y muestra la distribución por nivel, territorio y año. La selección se guarda por separado del escenario editable de Productivos. Los datos y controles de los módulos 02 y 03 se preservan.
+
+Configuración: `data/escenarios_futuro.json`. Modelo de integración: `assets/js/future-model.js`, que reutiliza los cálculos productivos y de demanda educativa existentes. Documentación: [29_APP_ESCENARIOS_FUTURO.md](docs/29_APP_ESCENARIOS_FUTURO.md).
+
+Validación: `node scripts/validar_escenarios_futuro.mjs`. Abrir `http://127.0.0.1:8125/#escenarios`.
+
+### Tablero territorial del módulo 01 · 2.18.0
+
+La reorganización con dos franjas temporales, hitos, puntos de centrales y comparación departamental se documenta en [30_MODULO_01_TABLERO_TERRITORIAL.md](docs/30_MODULO_01_TABLERO_TERRITORIAL.md). El año de lectura y el departamento sincronizan el tablero; las tasas se muestran como referencia del cálculo, sin modificar el módulo Educación.
+
+### Comparación focalizada del módulo 01 · 2.19.0
+
+Gráfico tendencial/escenario con switch Población total / Demanda educativa, selector de nivel, diferencia adicional e hitos verticales de obra y operación. Detalles en Territorios, Niveles educativos y Proyectos y supuestos. Véase [31_MODULO_01_COMPARACION_FOCALIZADA.md](docs/31_MODULO_01_COMPARACION_FOCALIZADA.md). Verificación adicional: `node scripts/validar_vista_futuro.mjs`. Implementación local.
+
+### Relato infográfico del módulo 01 · 2.20.0
+
+La página sigue la secuencia proyectos → empleo → población → demanda educativa por nivel, con textos dinámicos, mapa productivo departamental, calendario y cuatro trayectorias educativas siempre visibles. Reemplaza las pestañas como organización principal. Documentación: [32_MODULO_01_RELATO_INFOGRAFICO.md](docs/32_MODULO_01_RELATO_INFOGRAFICO.md). Entrega local.
+
+
+### Comparador · módulo 05 · 2.21.0
+
+Escenarios Tendencial, Moderado e Intensivo seleccionables por lado. Año, territorio, capa y nivel educativo del mapa compartidos. Mapas sincronizados en vista y zoom, escalas comunes fijas y diferencias B−A en MW, población y demanda educativa. Validación: `node scripts/validar_comparador.mjs`. Documentación: [33_MODULO_05_COMPARADOR.md](docs/33_MODULO_05_COMPARADOR.md). Implementación local: `http://127.0.0.1:8125/#comparador`.
+
+
+## Publicación en GitHub Pages
+
+Versión 2.21.0 preparada el 18/11/2026. Sitio: https://juansuas.github.io/chubut-2050-app/ · [Módulo 1](https://juansuas.github.io/chubut-2050-app/#escenarios) · [Módulo 5](https://juansuas.github.io/chubut-2050-app/#comparador). Las menciones de entrega local en las secciones históricas describen el estado previo a esta publicación.

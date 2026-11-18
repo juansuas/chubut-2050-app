@@ -1,6 +1,22 @@
 export const DEMOGRAPHY_BASE_YEAR=2022;
 export const DEMOGRAPHY_ANCHORS=[2022,2040,2050];
 
+const annualTotalsBySource=new WeakMap();
+export function annualPopulationTotals(rows,departmentId){
+  if(!annualTotalsBySource.has(rows)){
+    const totals=new Map();
+    for(const {territorio_id,year,poblacion} of rows){
+      for(const id of [territorio_id,'all']){
+        if(!totals.has(id))totals.set(id,new Map());
+        const territory=totals.get(id);
+        territory.set(year,(territory.get(year)||0)+poblacion);
+      }
+    }
+    annualTotalsBySource.set(rows,totals);
+  }
+  return annualTotalsBySource.get(rows).get(departmentId);
+}
+
 export function demographyTerritories(data) {
   const unique=new Map();
   data.demographyPopulation.forEach(row=>unique.set(row.territorio_id,row.territorio_nombre));

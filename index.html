@@ -8,7 +8,7 @@
   <link rel="icon" href="assets/favicon.svg?v=1" type="image/svg+xml">
   <link rel="preconnect" href="https://unpkg.com">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
-  <link rel="stylesheet" href="assets/css/styles.css?v=2.11.0">
+  <link rel="stylesheet" href="assets/css/styles.css?v=2.21.0">
 </head>
 <body>
   <a class="skip-link" href="#contenido">Saltar al contenido</a>
@@ -23,11 +23,11 @@
     </div>
     <nav class="module-nav" aria-label="Módulos principales">
       <div class="shell nav-scroll">
-        <a href="#resumen" data-route="resumen"><span>01</span> Resumen provincial</a>
+        <a href="#escenarios" data-route="escenarios"><span>01</span> Escenarios de futuro</a>
         <a href="#demografia" data-route="demografia"><span>02</span> Demografía</a>
         <a href="#oferta" data-route="oferta"><span>03</span> Educación</a>
         <a href="#productivos" data-route="productivos"><span>04</span> Producción y energía</a>
-        <a href="#comparador" data-route="comparador"><span>05</span> Escenarios integrados</a>
+        <a href="#comparador" data-route="comparador"><span>05</span> Comparador</a>
       </div>
     </nav>
   </header>
@@ -55,9 +55,68 @@
       </div>
       <div id="error-state" class="status-panel error" hidden role="alert"></div>
 
-      <section id="resumen" class="module" data-module="resumen" aria-labelledby="title-resumen" hidden>
-        <div class="section-heading"><div><p class="section-number">Módulo 01</p><h2 id="title-resumen">Resumen provincial</h2></div><p>Este módulo se completará después de validar las siguientes capas de datos.</p></div>
-        <div class="empty-module"><span>01</span><h3>Página pendiente</h3><p>La V2 todavía no incorpora indicadores de síntesis.</p></div>
+      <section id="escenarios" class="module" data-module="escenarios" aria-labelledby="title-escenarios" hidden>
+<div class="fp-main">
+    <div class="future-heading"><div><span class="fp-kicker">Módulo 01 · horizonte 2026–2050</span><h2 id="title-escenarios">Escenarios de futuro</h2></div><div class="future-switch" role="group" aria-label="Escenario de futuro"><button type="button" data-scenario="moderado" aria-pressed="true">Moderado</button><button type="button" data-scenario="intensivo" aria-pressed="false">Intensivo</button></div></div>
+    <div class="future-context" aria-label="Contexto de la comparación">
+      <label>Territorio<select id="future-territory"><option value="all">Toda la provincia</option></select></label>
+      <label>Año de lectura<select id="future-year"></select></label>
+      <button id="future-peak-year" type="button" class="text-button">Ver máximo adicional</button><button id="future-horizon" type="button" class="text-button">Ver 2050</button>
+      <button id="future-reset-territory" type="button" class="text-button">Volver a toda la provincia</button><p id="future-context-caption" aria-live="polite"></p>
+    </div>
+    <section class="story-opening" aria-labelledby="story-question"><p class="story-eyebrow">Una decisión productiva, una transformación territorial</p><h3 id="story-question">¿Qué pasaría si se pone en marcha esta cartera de proyectos?</h3><p id="story-intro" class="story-lead"></p><div id="story-chain" class="story-chain" aria-label="Secuencia del escenario"></div><p class="source-line">La cartera abarca 2026–2050; empleo, población y educación corresponden al año de lectura. El cálculo incluye empleo asociado y composición familiar según los supuestos del escenario.</p></section>
+    <section class="story-section story-projects" aria-labelledby="story-projects-title"><header class="story-section-heading"><span class="story-number">01</span><div><p class="story-eyebrow">El cambio que ponemos en movimiento</p><h3 id="story-projects-title">Los proyectos transforman la actividad productiva</h3></div></header><p id="story-projects-text" class="story-lead"></p><div id="story-technologies" class="story-technologies"></div><div class="story-project-layout"><div><h4>Dónde se desarrolla la cartera</h4><div id="story-project-map" style="height:300px" aria-label="Departamentos con proyectos del escenario"></div><p class="source-line">Localización por departamento. Incluye proyectos sin coordenadas puntuales.</p></div><div><h4>Cuándo se construye y cuándo empieza a operar</h4><p class="source-line"><span class="story-construction-key">━ Construcción</span> · <span class="story-operation-key">━ Operación</span> · Fechas hipotéticas</p><div id="story-calendar" class="story-calendar"></div></div></div></section>
+    <section class="story-section" aria-labelledby="story-pop-title"><header class="story-section-heading"><span class="story-number">02</span><div><p class="story-eyebrow">Del empleo a la radicación de población</p><h3 id="story-pop-title">Las obras atraen población; la operación cambia su permanencia</h3></div></header><p class="story-lead">El modelo convierte los puestos de trabajo en población adicional mediante los supuestos de contratación, migración y acompañamiento familiar. Durante las obras hay una radicación temporal; al comenzar la operación sale ese componente y permanece el asociado al funcionamiento.</p><div id="story-pop-highlights" class="story-highlights"></div><p id="story-pop-text" class="story-insight"></p>
+    <section class="panel future-main-chart" aria-labelledby="future-chart-title">
+      <div class="future-chart-toolbar"><div class="future-switch" role="group" aria-label="Magnitud del gráfico"><button type="button" data-future-mode="population" aria-pressed="false">Población total</button><button type="button" data-future-mode="education" aria-pressed="true">Demanda educativa</button></div>
+      <label id="future-level-control">Nivel educativo<select id="future-level"><option value="all">Todos los niveles</option><option value="INI">Inicial · 0–5 años</option><option value="PRI">Primario · 6–11 años</option><option value="SEC">Secundario · 12–17 años</option><option value="AGE18">Secundario · 18 años</option></select></label>
+      <label>Hitos de proyectos<select id="future-event-mode"><option value="both">Obras y operación</option><option value="construction">Inicio de obra</option><option value="operation">Entrada en operación</option><option value="none">Sin hitos</option></select></label></div>
+      <h3 id="future-chart-title"></h3><p class="future-line-legend"><span class="future-key base">Tendencial</span><span class="future-key scenario">Con proyectos</span> · Vertical punteada: obra · vertical discontinua: operación</p>
+      <div id="future-coordinated-chart" role="img" aria-label="Trayectoria tendencial, con proyectos y diferencia adicional"></div>
+      <p id="future-peak-caption" class="source-line"></p>
+      <h3 id="future-reading-title"></h3>
+      <div class="future-summary"><article><span>Tendencial</span><strong id="fp-education-base"></strong></article><article><span>Con proyectos · <b class="fp-scenario-name"></b></span><strong id="fp-education"></strong></article><article class="future-delta"><span>Diferencia respecto del tendencial</span><strong id="fp-education-delta"></strong><p id="future-relative"></p></article></div>
+      <p class="source-line">Valores del año seleccionado, no acumulados. La demanda educativa es potencial; no representa matrícula ni vacantes por escuela.</p>
+    </section>
+    </section>
+    <section class="story-section" aria-labelledby="story-edu-title"><header class="story-section-heading"><span class="story-number">03</span><div><p class="story-eyebrow">De la población a las necesidades educativas</p><h3 id="story-edu-title">Cada nivel tiene su propia trayectoria</h3></div></header><p class="story-lead">La población adicional tiene distintas edades. El perfil migratorio, el envejecimiento de las cohortes y las tasas de asistencia de cada territorio determinan cuánto y cuándo aumenta la demanda educativa potencial.</p><p id="story-education-text" class="story-insight"></p><div id="story-level-charts" class="story-level-grid"></div><p class="source-line">Los cuatro gráficos comparten años y escala vertical para comparar magnitudes. Muestran el incremento respecto del tendencial, en estudiantes potenciales. Los máximos pueden ocurrir en años distintos y no se suman.</p>
+<section id="future-panel-levels" class="story-data"><div class="panel-heading"><div><p class="label">Demanda, población y asistencia</p><h4>Detalle del año seleccionado</h4><p class="chart-explainer">La tasa por nivel pondera las tasas censales por la población tendencial de sus edades y sexos. No es un promedio simple ni una tasa nueva del escenario.</p></div></div>
+      <div id="future-level-bars" class="future-bars"></div><details><summary>Ver población, tasas y demanda</summary><div class="table-wrap"><table><thead><tr><th>Nivel</th><th>Población en edades educativas · tendencial</th><th>Tasa equivalente de asistencia</th><th>Demanda tendencial</th><th>Demanda del escenario</th><th>Demanda adicional</th></tr></thead><tbody id="fp-levels"></tbody></table></div></details>
+      <p class="source-line">Inicial: 0–5; Primario: 6–11; Secundario: 12–17; Secundario a los 18 por separado. Se conservan las tasas por departamento, grupo y sexo, con respaldo provincial cuando corresponde. La selección de series sólo cambia la visualización.</p>
+    </section>
+
+    </section>
+    <section class="story-section" aria-labelledby="story-territory-title"><header class="story-section-heading"><span class="story-number">04</span><div><p class="story-eyebrow">La escala local importa</p><h3 id="story-territory-title">El cambio provincial se concentra en territorios concretos</h3></div></header><p id="story-territory-text" class="story-insight"></p><p id="future-detail-context" class="source-line"></p>
+    <div id="future-panel-territories">
+    <div class="future-territorial-grid">
+      <section class="panel"><div class="panel-heading"><div><p class="label">Localización e impacto</p><h3>¿Dónde aumenta la demanda educativa?</h3></div><label class="panel-control">Color del mapa<select id="future-map-metric"><option value="absolute">Demanda adicional</option><option value="relative">Variación relativa local (%)</option></select></label></div>
+        <label class="future-installations-toggle"><input id="future-show-installations" type="checkbox"> Mostrar instalaciones y proyectos</label>
+        <div id="fp-map" class="fp-map-svg" aria-label="Mapa de impacto departamental y centrales energéticas"></div>
+        <div id="future-map-legend" class="future-map-legend" hidden><span>● Base operativa</span><span class="future-legend-construction">● Proyecto en obra</span><span class="future-legend-operation">● Proyecto en operación</span><span>○ Proyecto futuro</span></div>
+<p id="future-map-note" class="source-line"></p><p id="fp-local" class="fp-local" aria-live="polite"></p><div id="future-installation-detail" aria-live="polite" hidden></div>
+      </section>
+      <section class="panel"><div class="panel-heading"><div><p class="label">Concentración territorial</p><h3>¿Qué cambia en cada departamento?</h3></div><label class="panel-control">Ordenar por<select id="future-rank"><option value="current">Demanda adicional del año</option><option value="relative">Variación relativa del año</option><option value="peak">Máximo durante el período</option></select></label></div>
+        <p class="chart-explainer">El porcentaje compara con el tendencial del mismo departamento y año. Los máximos locales ocurren en años diferentes y no se suman.</p>
+        <div id="future-ranking-bars" class="future-bars"></div><details><summary>Ver tabla completa y máximos</summary><div class="table-wrap future-department-table"><table><thead><tr><th>Departamento</th><th>Tendencial del año</th><th>Demanda adicional</th><th>Variación local</th><th>Máximo local · año</th></tr></thead><tbody id="future-departments"></tbody></table></div></details>
+        <p id="future-department-story" class="future-event-detail"></p>
+      </section>
+    </div>
+    </div></section>
+    <section id="future-panel-projects" class="story-method"><details><summary>Fuentes, calendario completo y supuestos del escenario</summary><p id="future-project-context"></p><details><summary>Ver calendario de hitos</summary><div id="future-events" class="future-events"></div></details><div id="future-event-detail" class="future-event-detail" aria-live="polite"></div><div class="table-wrap"><table><thead><tr><th>Proyecto</th><th>Departamento</th><th>MW</th><th>Construcción</th><th>Operación</th></tr></thead><tbody id="fp-project-detail"></tbody></table></div><p>Fechas hipotéticas. Cada proyecto entra con toda su potencia. Se mantienen el perfil de Confluencia, las tasas censales y los coeficientes del contrato actual, con empleo asociado y 100 % de proporción extraprovincial. La población de obra sale al comenzar la operación; las cohortes envejecen. La demanda educativa tendencial suma población proyectada de 0 a 18 años por las tasas censales del grupo y sexo correspondientes, incluyendo Secundario a los 18. El escenario agrega la demanda estimada de los proyectos. No representa vacantes por escuela. Los valores se redondean al presentar. Los porcentajes de variación de los indicadores se calculan sobre el tendencial; los escenarios Moderado e Intensivo incorporan, respectivamente, 14 proyectos (589,17 MW) y 19 proyectos (1.083,17 MW).</p></details></section>
+    <p class="fp-source">Escenarios exploratorios · calendario hipotético acordado el 17/11/2026 · tasas censales y perfil migratorio de Confluencia.</p>
+  </div>
+      </section>
+
+      <section id="comparador" class="module" data-module="comparador" aria-labelledby="comparator-title" hidden>
+        <div class="section-heading"><div><p class="section-number">Módulo 05</p><h2 id="comparator-title">Comparador de escenarios</h2></div><p>Dos escenarios, un mismo territorio y calendario.</p></div>
+        <div class="cmp-controls"><label>Territorio<select id="cmp-territory"><option value="all">Toda la provincia</option></select></label><label>Año de lectura<select id="cmp-year"></select></label><label>Capa de los mapas<select id="cmp-layer"><option value="productive">Cambio productivo · MW adicionales</option><option value="impact">Impacto territorial</option></select></label><label id="cmp-impact-control" hidden>Variable de impacto<select id="cmp-impact"><option value="population">Población adicional</option><option value="education">Demanda educativa adicional</option></select></label><label id="cmp-level-control" hidden>Nivel educativo del mapa<select id="cmp-level"><option value="all">Todos los niveles</option><option value="INI">Inicial · 0–5</option><option value="PRI">Primario · 6–11</option><option value="SEC">Secundario · 12–17</option><option value="AGE18">Secundario · 18 años</option></select></label><button id="cmp-reset" class="text-button" type="button">Toda la provincia</button></div>
+        <p id="cmp-context" class="cmp-context" aria-live="polite"></p>
+        <section class="cmp-difference" aria-labelledby="cmp-diff-title"><div><h3 id="cmp-diff-title">Diferencia de B respecto de A</h3><p id="cmp-difference-story"></p></div><div id="cmp-difference-values" class="cmp-difference-values" aria-live="polite"></div></section>
+        <div class="cmp-columns">
+          <article class="cmp-side" aria-labelledby="cmp-title-a"><header><h3 id="cmp-title-a">Escenario A</h3><label>Seleccionar escenario A<select id="cmp-scenario-a"><option value="tendencial">Tendencial</option><option value="moderado" selected>Moderado</option><option value="intensivo">Intensivo</option></select></label></header><p id="cmp-cart-a" class="source-line"></p><div id="cmp-indicators-a" class="cmp-indicators"></div><h4 id="cmp-map-title-a"></h4><div id="cmp-map-a" class="cmp-map" aria-label="Mapa departamental del escenario A"></div><div id="cmp-legend-a" class="cmp-legend"></div><p class="source-line">Color: incremento respecto del tendencial. Seleccioná un departamento para comparar sus indicadores. Zoom y desplazamiento sincronizados.</p><h4>Evolución de la población</h4><p class="cmp-chart-key">Gris: tendencial · color: escenario</p><div id="cmp-population-a" class="cmp-population" role="img" aria-label="Trayectoria poblacional del escenario A"></div><h4>Demanda educativa adicional por nivel</h4><p class="source-line">Estudiantes potenciales en el año de lectura · todos los niveles.</p><div id="cmp-education-a" class="cmp-education" role="img" aria-label="Demanda adicional por nivel del escenario A"></div></article>
+          <article class="cmp-side" aria-labelledby="cmp-title-b"><header><h3 id="cmp-title-b">Escenario B</h3><label>Seleccionar escenario B<select id="cmp-scenario-b"><option value="tendencial">Tendencial</option><option value="moderado">Moderado</option><option value="intensivo" selected>Intensivo</option></select></label></header><p id="cmp-cart-b" class="source-line"></p><div id="cmp-indicators-b" class="cmp-indicators"></div><h4 id="cmp-map-title-b"></h4><div id="cmp-map-b" class="cmp-map" aria-label="Mapa departamental del escenario B"></div><div id="cmp-legend-b" class="cmp-legend"></div><p class="source-line">Color: incremento respecto del tendencial. Seleccioná un departamento para comparar sus indicadores. Zoom y desplazamiento sincronizados.</p><h4>Evolución de la población</h4><p class="cmp-chart-key">Gris: tendencial · color: escenario</p><div id="cmp-population-b" class="cmp-population" role="img" aria-label="Trayectoria poblacional del escenario B"></div><h4>Demanda educativa adicional por nivel</h4><p class="source-line">Estudiantes potenciales en el año de lectura · todos los niveles.</p><div id="cmp-education-b" class="cmp-education" role="img" aria-label="Demanda adicional por nivel del escenario B"></div></article>
+        </div>
+        <details class="cmp-method"><summary>Cómo leer la comparación y sus supuestos</summary><p>Los indicadores pertenecen al territorio y año seleccionados. Los mapas conservan todos los departamentos y una escala fija, común entre escenarios y años para cada variable y nivel. Los gráficos de población y de educación comparten sus respectivas escalas entre ambos lados. La diferencia es B menos A: puede ser positiva, negativa o cero.</p><p>MW adicionales significa potencia de proyectos que ya entraron en operación en el calendario hipotético; la cartera completa se informa por separado. El tendencial conserva la trayectoria poblacional de referencia y las tasas de asistencia vigentes, sin población ni demanda adicional de nuevos proyectos. La demanda educativa es potencial, no matrícula administrativa ni vacantes por escuela. Los resultados son valores anuales, no acumulados. Se reutilizan los escenarios prefijados del módulo 1, el perfil migratorio de Confluencia y sus supuestos de empleo, composición familiar y migración extraprovincial.</p></details>
       </section>
 
       <section id="demografia" class="module" data-module="demografia" aria-labelledby="title-demografia" hidden>
@@ -152,84 +211,123 @@
       </section>
 
       <section id="productivos" class="module" data-module="productivos" aria-labelledby="title-productivos" hidden>
-        <div class="section-heading"><div><p class="section-number">Módulo 04</p><h2 id="title-productivos">Producción y desarrollo energético</h2></div><p>Instalaciones, capacidad documentada y proyectos futuros por departamento.</p></div>
-        <section id="production-control-panel" class="scenario-panel" data-floating-panel data-panel-module="productivos" aria-labelledby="production-control-title">
-          <header class="scenario-panel-header" data-panel-drag-handle>
-            <div><p class="label">Exploración</p><h3 id="production-control-title">Filtros del inventario energético</h3><p class="scenario-panel-summary" data-panel-summary>Toda la provincia · Todas las actividades</p></div>
-            <div class="scenario-panel-actions">
-              <button class="panel-minimize" data-panel-minimize type="button" aria-controls="production-control-body" hidden>— Minimizar</button>
-              <button class="panel-float-toggle" data-panel-float-toggle type="button" aria-pressed="false" aria-controls="production-control-panel">↗ Mantener visible</button>
-            </div>
-          </header>
-          <div id="production-control-body" class="scenario-panel-body">
-            <div class="inline-controls production-controls">
-              <label>Departamento<select id="product-territory"></select></label>
-              <label>Actividad<select id="product-activity"><option value="all">Todas las actividades</option></select></label>
-              <label>Operador / agente<select id="product-operator"><option value="all">Todos los operadores</option></select></label>
-              <label>Estado<select id="product-status"><option value="all">Todos los estados</option></select></label>
-            </div>
-          </div>
-        </section>
-
-        <div id="production-kpis" class="production-kpis" aria-label="Indicadores productivos principales"></div>
-        <div class="production-grid">
+        <div class="section-heading"><div><p class="section-number">Módulo 04</p><h2 id="title-productivos">Producción y energía</h2></div><p>Explorá el inventario, elegí proyectos y analizá su impacto territorial.</p></div>
+        <div class="production-context" aria-label="Contexto del tablero">
+          <div class="inline-controls"><label>Departamento<select id="product-territory"></select></label><label>Año de análisis<select id="scenario-impact-year"></select></label></div>
+          <p id="production-context-caption" aria-live="polite"></p>
+          <button id="production-download" class="text-button" type="button">Descargar inventario CSV</button>
+        </div>
+        <div class="production-workspace">
           <article class="panel map-panel production-map-panel">
             <div class="panel-heading"><div><p class="label">Localización</p><h3>Instalaciones energéticas</h3></div><span id="production-map-caption" class="panel-caption"></span></div>
             <div id="production-map" class="map" aria-label="Mapa de instalaciones energéticas de Chubut"></div>
-            <p class="source-line">El pictograma distingue la actividad y el borde indica el estado. El tamaño usa capacidad instalada cuando existe; en su defecto, potencia declarada de proyecto. No representa producción anual.</p>
-          </article>
-          <article class="panel production-detail-panel">
-            <div class="panel-heading"><div><p class="label">Ficha</p><h3>Detalle de la instalación</h3></div></div>
+            <p class="source-line">El pictograma distingue la actividad y el borde indica el estado. El halo coral identifica los proyectos incluidos. Los registros sin coordenadas permanecen disponibles en la lista.</p>
+                    <article id="production-detail-panel" class="production-detail-panel" hidden>
+            <div class="panel-heading"><div><p class="label">Ficha</p><h3>Detalle de la instalación</h3></div><button id="production-close-detail" class="text-button" type="button">Cerrar ficha</button></div>
             <div id="production-detail" aria-live="polite"></div>
           </article>
+          </article>
+          <section id="production-control-panel" class="panel production-editor" aria-label="Inventario y configuración del escenario">
+            <div class="production-tabs" role="tablist" aria-label="Exploración y proyectos">
+              <button id="production-tab-projects" role="tab" aria-selected="true" aria-controls="production-projects-view" type="button" data-production-tab="projects">Proyectos del escenario</button>
+              <button id="production-tab-inventory" role="tab" aria-selected="false" aria-controls="production-inventory-view" tabindex="-1" type="button" data-production-tab="inventory">Inventario</button>
+            </div>
+            <div id="production-projects-view" role="tabpanel" aria-labelledby="production-tab-projects" class="productive-scenario-panel">
+              <h3 id="scenario-product-title">Elegí los proyectos y su año de entrada</h3>
+              <p class="chart-explainer">El año de entrada activa cada proyecto; el año de análisis define qué resultados estás mirando.</p>
+              <div class="inline-controls scenario-project-controls"><label>Energía<select id="scenario-project-filter"><option value="all">Todas</option><option value="EOL">Eólica</option><option value="HID">Hidroeléctrica</option><option value="TER">Térmica</option></select></label><button id="scenario-clear-changes" type="button" class="text-button" disabled>Vaciar escenario</button></div>
+              <p id="scenario-selection-note" class="production-selection-note" aria-live="polite"></p>
+              <div class="table-wrap scenario-project-catalog"><table><thead><tr><th>Proyecto</th><th>MW</th><th>Entrada</th></tr></thead><tbody id="scenario-projects"></tbody></table></div>
+            </div>
+            <div id="production-inventory-view" role="tabpanel" aria-labelledby="production-tab-inventory" hidden>
+              <h3>Instalaciones del territorio</h3>
+              <div class="inline-controls production-controls"><label>Actividad<select id="product-activity"><option value="all">Todas las actividades</option></select></label><label>Estado<select id="product-status"><option value="all">Todos los estados</option></select></label><label>Operador / agente<select id="product-operator"><option value="all">Todos los operadores</option></select></label><button id="production-clear-filters" class="text-button" type="button">Limpiar filtros</button></div>
+<div class="production-inventory-list">
+
+            <div class="table-wrap"><table><thead><tr><th>Instalación</th><th>Estado</th><th>Instalada MW</th><th>Proyecto MW</th></tr></thead><tbody id="production-table"></tbody></table></div>
+            <p id="production-source-note" class="source-line"></p>
+          </div>
+            </div>
+            <fieldset class="production-parameters"><legend>Parámetros del escenario</legend>
+              <div class="production-impact-options"><label><input id="scenario-include-related" type="checkbox" checked> Incluir empleo asociado</label><label><input id="scenario-include-people" type="checkbox" checked> Incluir migración externa</label><button id="scenario-include-construction" class="text-button" type="button" aria-pressed="false">Incluir construcción</button></div>
+              <label class="production-external">Migrantes que llegan de fuera de Chubut (%)<input id="scenario-external-percent" type="number" min="0" max="100" step="0.1" value="100" required aria-describedby="scenario-external-note"></label>
+              <p id="scenario-external-note" class="chart-explainer">Proporción aplicada sobre los puestos migrantes de cada tecnología. El aporte residente en Chubut ya forma parte de la población base.</p>
+            </fieldset>
+          </section>
+        </div>
+        <section class="panel production-results" aria-labelledby="production-results-title">
+          <div class="panel-heading"><div><p class="label">Escenario de trabajo</p><h3 id="production-results-title">Resultados del escenario</h3></div><span id="scenario-results-caption" class="panel-caption"></span></div>
+          <p id="scenario-results-empty" class="production-selection-note" role="status" hidden></p>
+          <div id="scenario-summary" class="scenario-summary" aria-label="Resumen del escenario para el territorio y año seleccionados" aria-live="polite"></div>
+          <div class="production-tabs" role="tablist" aria-label="Resultados del escenario">
+            <button id="production-tab-energy" role="tab" aria-selected="true" aria-controls="production-energy-results" type="button" data-result-tab="energy">Capacidad y empleo</button>
+            <button id="production-tab-population" role="tab" aria-selected="false" aria-controls="production-population-results" tabindex="-1" type="button" data-result-tab="population">Población</button>
+            <button id="production-tab-education" role="tab" aria-selected="false" aria-controls="production-education-results" tabindex="-1" type="button" data-result-tab="education">Demanda educativa</button>
+          </div>
+          <div id="production-energy-results" role="tabpanel" aria-labelledby="production-tab-energy">
+            <p class="chart-explainer">La base y la capacidad incorporada corresponden a las energías con proyectos seleccionados en este territorio. Una base sin dato se conserva como faltante. El empleo corresponde a las fases activas en el año de análisis.</p>
+            <div class="production-impact-charts"><div id="scenario-capacity-chart" class="chart" role="img" aria-label="Capacidad base e incorporada por departamento"></div><div id="scenario-jobs-chart" class="chart" role="img" aria-label="Empleo de operación y construcción por departamento"></div></div>
+            <div class="table-wrap"><table><thead><tr id="scenario-product-head"></tr></thead><tbody id="scenario-product-table"></tbody></table></div>
+
+          </div>
+          <div id="production-population-results" role="tabpanel" aria-labelledby="production-tab-population" hidden>
+            <section aria-labelledby="scenario-population-title">
+              <div class="panel-heading">
+                <div><h4 id="scenario-population-title">Población base y población con proyectos</h4><p class="chart-explainer">El escenario suma la proporción migrante por tecnología multiplicada por el porcentaje editable de llegadas desde fuera de Chubut. Se asigna al departamento del proyecto como un incremento adicional a la proyección base.</p></div>
+              </div>
+              <div id="scenario-population-comparison" class="chart" role="img" aria-label="Comparación anual de población base y población con proyectos"></div>
+              <details class="scenario-method-note">
+                <summary>Ver población e incremento por año</summary>
+                <div class="table-wrap"><table><thead><tr><th scope="col">Año</th><th scope="col">Población base</th><th scope="col">Población con proyectos</th><th scope="col">Incremento</th></tr></thead><tbody id="scenario-population-comparison-table"></tbody></table></div>
+              </details>
+              <h4>Evolución del incremento poblacional</h4>
+              <p id="scenario-population-empty" class="empty-chart" role="status" hidden></p>
+              <div id="scenario-population-chart" class="chart" role="img" aria-label="Incremento poblacional anual total y por fase" hidden></div>
+            </section>
+
+          </div>
+          <div id="production-education-results" role="tabpanel" aria-labelledby="production-tab-education" hidden>
+            <p id="scenario-education-disabled" class="production-selection-note" hidden>Activá «Incluir migración externa» para estimar la demanda educativa adicional.</p>
+            <section id="scenario-education-comparison" aria-labelledby="scenario-education-title">
+              <h4 id="scenario-education-title">Demanda educativa adicional con el perfil de Confluencia</h4>
+              <p class="chart-explainer">Confluencia es el perfil adoptado. Se aplican las mismas tasas censales de asistencia de Chubut. Valores en estudiantes esperados.</p>
+              <div class="table-wrap"><table><thead><tr><th scope="col">Nivel</th><th scope="col">Confluencia</th></tr></thead><tbody id="scenario-education-comparison-table"></tbody></table></div>
+              <p id="scenario-education-sensitivity" class="chart-explainer"></p>
+              <details class="scenario-method-note"><summary>Cómo se estiman los perfiles</summary>
+                <p>Censo 2022. Se toma a quienes residían fuera de su provincia o del país en 2017. Las edades simples de cada grupo quinquenal se distribuyen según la población residente del mismo sexo. Para menores de cinco años se usa la relación local de población de 0 a 4 sobre la de 5 a 9. Las cohortes envejecen desde el inicio de la fase y la de obra sale al comenzar la operación. La prueba conserva el total de personas de cada proyecto y no simula nacimientos ni defunciones adicionales.</p>
+              </details>
+            </section>
+
+          </div>
+            <details class="scenario-method-note"><summary>Coeficientes y supuestos</summary>
+              <div class="table-wrap"><table><thead><tr><th>Tecnología</th><th>Obra (empleos/MW)</th><th>O&amp;M (empleos/MW)</th><th>Duración de obra (años)</th><th>Factor familiar</th><th>Factor de empleo asociado</th><th>Puestos migrantes</th></tr></thead><tbody id="scenario-coefficients"></tbody></table></div>
+              <p>La operación empieza en el año de entrada. Si se incluye construcción, su impacto se aplica durante los años completos anteriores, redondeando la duración hacia arriba. El plazo eólico de referencia es de dos años. Una eólica que entra en 2030 muestra construcción en 2028 y 2029.</p>
+              <p>Se interpreta el último factor como empleos asociados por cada empleo directo modelado, agrupando los efectos indirectos e inducidos. Personas vinculadas = (empleos directos + asociados) × factor familiar. El factor familiar incluye a la persona empleada. Población adicional = personas vinculadas × porcentaje de puestos migrantes de la tecnología × proporción extraprovincial editable. Ese porcentaje se aplica tanto en obra como en operación. Al desactivar el empleo asociado, se consideran sólo los hogares del empleo directo. Al desactivar la migración externa, se excluye del escenario el impacto poblacional de ambas fases.</p>
+              <p>La clasificación hidroeléctrica sigue las etiquetas de la auditoría. El coeficiente térmico sólo aplica a ciclo combinado; la cartera auditada no incluye proyectos térmicos.</p>
+            </details>
+
+        </section>
+        <section id="production-inventory-analysis" class="production-inventory-analysis" aria-labelledby="production-inventory-analysis-title" hidden>
+          <div class="section-heading"><div><p class="label">Inventario filtrado</p><h3 id="production-inventory-analysis-title">Capacidad instalada y cartera energética</h3></div><p>Describe el inventario. Los filtros de esta vista no cambian los proyectos del escenario.</p></div>
+          <div id="production-kpis" class="production-kpis" aria-label="Indicadores del inventario filtrado"></div>
+          <div class="production-inventory-grid">
           <article class="panel chart-panel production-capacity-wide">
             <div class="panel-heading"><div><p class="label">Capacidad departamental</p><h3>Capacidad instalada conocida por departamento y actividad</h3></div><span id="production-department-caption" class="panel-caption"></span></div>
             <div id="production-department-chart" class="chart production-chart production-chart-tall" aria-label="Capacidad energética instalada por departamento y actividad"></div>
-          </article>
-          <article class="panel chart-panel">
+          </article>          <article class="panel chart-panel">
             <div class="panel-heading"><div><p class="label">Base y proyectos</p><h3>Capacidad actual frente a proyectos futuros</h3></div><span id="production-future-caption" class="panel-caption"></span></div>
             <div id="production-future-chart" class="chart production-chart" aria-label="Capacidad instalada y potencia de proyectos futuros por departamento"></div>
-          </article>
-          <article class="panel chart-panel">
+          </article>          <article class="panel chart-panel">
             <div class="panel-heading"><div><p class="label">Matriz energética</p><h3>Capacidad instalada conocida por actividad</h3></div><span id="production-matrix-caption" class="panel-caption"></span></div>
             <div id="production-matrix-chart" class="chart production-chart" aria-label="Composición de la capacidad energética instalada"></div>
+          </article>          <article class="panel production-table-panel" aria-labelledby="production-inventory-title">
+            <div class="panel-heading"><div><p class="label">Inventario auditado</p><h3 id="production-inventory-title">Capacidad instalada y cartera por tipo de energía</h3></div></div>
+            <div class="table-wrap"><table><thead><tr><th>Tipo de energía</th><th>Operativas</th><th>Instalada conocida (MW)</th><th>Proyectos</th><th>Potencia proyectada (MW)</th><th>Potencia simulable (MW)</th></tr></thead><tbody id="production-inventory-summary"></tbody></table></div>
           </article>
-          <article class="panel productive-scenario-panel production-table-panel" aria-labelledby="scenario-product-title">
-            <div class="panel-heading"><div><p class="label">Simulación productiva</p><h3 id="scenario-product-title">Construir un cambio de capacidad</h3><p class="chart-explainer">La simulación se realiza por departamento y tecnología. La capacidad observada nunca se sobrescribe.</p></div></div>
-            <div class="productive-scenario-form">
-              <div class="productive-scenario-fields">
-                <label>Departamento<select id="scenario-product-department"><option value="">Seleccionar departamento</option></select></label>
-                <fieldset class="scenario-technology-fieldset"><legend>Tecnología</legend><div id="scenario-product-activities" class="scenario-technology-options" role="radiogroup" aria-label="Tecnología energética"></div></fieldset>
-                <fieldset class="scenario-change-fieldset"><legend>Tipo de cambio</legend><div class="segmented-control"><label><input type="radio" name="scenario-product-change-type" value="AMPLIACION" checked><span>+ Ampliación</span></label><label><input type="radio" name="scenario-product-change-type" value="REDUCCION"><span>− Reducción</span></label></div></fieldset>
-                <label>Capacidad modificada<div class="number-stepper"><button type="button" data-scenario-capacity-step="-1" aria-label="Restar un MW">−</button><input id="scenario-product-capacity" type="number" min="0" step="0.1" inputmode="decimal" placeholder="Ingresar valor"><button type="button" data-scenario-capacity-step="1" aria-label="Sumar un MW">+</button><span>MW</span></div></label>
-                <label class="scenario-year-field">Entrada en operación<div><output id="scenario-product-year-output" for="scenario-product-year">2030</output></div><input id="scenario-product-year" type="range" min="2026" max="2050" step="1" value="2030"><span class="range-limits"><span>2026</span><span>2050</span></span></label>
-                <details class="scenario-coefficient" open><summary>Coeficiente de empleo permanente</summary><div class="scenario-coefficient-body"><label><span>Empleos permanentes por MW</span><div class="coefficient-input"><input id="scenario-product-jobs" type="number" min="0" step="0.01" inputmode="decimal" placeholder="Ingresar supuesto"><span>puestos/MW</span></div></label><button id="scenario-clear-coefficient" type="button" class="text-button">Limpiar</button></div><p>Sin valor predeterminado: el dato ingresado se identifica como supuesto del usuario.</p></details>
-              </div>
-              <div class="productive-scenario-results">
-                <div id="scenario-product-preview"></div>
-                <p id="scenario-product-message" class="scenario-form-message" aria-live="polite"></p>
-                <button id="scenario-add-change" class="action-button primary" type="button" disabled>Agregar cambio al escenario</button>
-              </div>
-            </div>
-            <p class="scenario-method-note"><strong>Alcance:</strong> se considera exclusivamente empleo permanente de operación. Para una estimación de mayor precisión sobre impactos territoriales de corto plazo debería incorporarse, en una etapa posterior, el empleo temporal generado durante la construcción.</p>
-          </article>
-          <article class="panel production-table-panel productive-scenario-list-panel">
-            <div class="panel-heading"><div><p class="label">Escenario en construcción</p><h3>Cambios productivos incorporados</h3></div><button id="scenario-clear-changes" type="button" class="text-button" disabled>Quitar todos</button></div>
-            <div id="scenario-summary" class="scenario-summary" aria-label="Resumen del escenario productivo"></div>
-            <div class="table-wrap"><table><thead><tr><th>Departamento</th><th>Tecnología</th><th class="number">Cambio</th><th>Año</th><th class="number">Puestos/MW</th><th class="number">Empleo permanente</th><th>Acción</th></tr></thead><tbody id="scenario-product-table"></tbody></table></div>
-          </article>
-          <article class="panel table-panel production-table-panel">
-            <div class="panel-heading"><div><p class="label">Inventario filtrado</p><h3>Instalaciones y cobertura de datos</h3></div></div>
-            <div class="table-wrap"><table><thead><tr><th>Instalación</th><th>Departamento</th><th>Actividad</th><th>Estado</th><th class="number">Cap. instalada MW</th><th class="number">Potencia proyecto MW</th><th>Operador / agente</th></tr></thead><tbody id="production-table"></tbody></table></div>
-            <p id="production-source-note" class="source-line"></p>
-          </article>
-        </div>
+          </div>
+        </section>
       </section>
 
-      <section id="comparador" class="module" data-module="comparador" aria-labelledby="title-comparador" hidden>
-        <div class="section-heading"><div><p class="section-number">Módulo 05</p><h2 id="title-comparador">Escenarios integrados</h2></div><p>Conexión futura entre cambios productivos, población y requerimientos educativos.</p></div>
-        <div class="empty-module"><span>05</span><h3>Integración en preparación</h3><p>La capa productiva ya permite construir cambios de capacidad y empleo permanente. La siguiente etapa conectará esos resultados con la población y el modelo educativo vigente.</p></div>
-      </section>
     </main>
   </div>
 
@@ -237,6 +335,6 @@
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
   <script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8"></script>
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
-  <script type="module" src="assets/js/app.js?v=2.13.0"></script>
+  <script type="module" src="assets/js/app.js?v=2.21.0"></script>
 </body>
 </html>

@@ -1,146 +1,267 @@
-import {COLORS,fmt} from './config.js';
-import {ACTIVITY_COLORS,activitySymbol} from './production.js?v=2.11.0';
+import {annualPopulationTotals} from './demography.js?v=2.14.5';
 
-export const PRODUCTIVE_SCENARIO_START_YEAR=2026;
-export const PRODUCTIVE_SCENARIO_END_YEAR=2050;
+export const START_YEAR=2026;
+export const END_YEAR=2050;
+export const IMPACT=Object.freeze({
+  EOL:{label:'Eólica', build:2.9, operate:0.3, years:2, family:3.093, related:1.617, migrantShare:0.31},
+  TER_CC:{label:'Térmica (ciclo combinado)', build:2, operate:0.12, years:3, family:3.110, related:1.367, migrantShare:0.325},
+  HID_PAH:{label:'Hidro PAH (pequeña)', build:11, operate:1.1, years:3, family:3.110, related:2.026, migrantShare:0.278},
+  HID_GRANDE:{label:'Hidro grande', build:6, operate:0.35, years:5, family:3.143, related:2.467, migrantShare:0.29}
+});
 
-const number=value=>value===null||value===''||value===undefined?null:Number(value);
-const finite=value=>Number.isFinite(Number(value));
-const formatDecimal=value=>value===null||!finite(value)?'—':Number(value).toLocaleString('es-AR',{maximumFractionDigits:2});
-const escapeHTML=value=>String(value??'').replace(/[&<>'"]/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[char]));
+const html=value=>String(value??'').replace(/[&<>'"]/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[char]));
+const decimal=value=>value==null?'—':value.toLocaleString('es-AR',{maximumFractionDigits:3});
+const years=Array.from({length:END_YEAR-START_YEAR+1},(_,i)=>START_YEAR+i);
+const validYear=year=>Number.isInteger(year)&&year>=START_YEAR&&year<=END_YEAR;
+export const eligibleProject=row=>row.estado_id==='PROYECTADO'&&!row.nota_conciliacion&&Number.isFinite(row.potencia_declarada_proyecto_mw)&&row.potencia_declarada_proyecto_mw>0;
 
-export function productiveScenarioActivities(data){
-  const rows=data.productionInstallations||[];
-  const ids=[...new Set(rows.map(row=>row.actividad_id).filter(Boolean))];
-  return ids.map(id=>{
-    const row=rows.find(item=>item.actividad_id===id);
-    return {id,label:row?.actividad_nombre||id,color:ACTIVITY_COLORS[id]||COLORS.muted};
-  }).sort((a,b)=>a.label.localeCompare(b.label,'es'));
+export function scheduledProjects(rows, selection={}){
+  return rows.filter(row=>eligibleProject(row)&&Object.hasOwn(selection,row.instalacion_id)&&validYear(selection[row.instalacion_id]))
+    .map(row=>({...row,operationYear:selection[row.instalacion_id]}));
 }
 
-export function productiveScenarioBase(data,departmentId,activityId){
-  const rows=(data.productionInstallations||[]).filter(row=>
-    row.departamento_id===departmentId&&row.actividad_id===activityId&&
-    (activityId!=='EOL'||row.estado_id==='OPERATIVO')
-  );
-  const documented=rows.filter(row=>
-    number(row.capacidad_instalada_mw)!==null&&(activityId!=='TER'||row.estado_id==='OPERATIVO')
-  );
-  return {
-    capacityMw:documented.reduce((sum,row)=>sum+Number(row.capacidad_instalada_mw),0),
-    installations:rows.length,
-    documented:documented.length,
-    incomplete:rows.length>documented.length
+export function projectImpact(row,year,{includeConstruction=false,includeRelated=true,includePeople=true,externalShare=1}={}){
+  if(!Number.isFinite(externalShare)||externalShare<0||externalShare>1){
+    throw new RangeError('La proporción extraprovincial debe estar entre 0 y 1.');
+  }
+  const coeff=IMPACT[row.tecnologia_impacto_id];
+  const mw=row.potencia_declarada_proyecto_mw, online=year>=row.operationYear;
+  if(!coeff)return {mw:online?mw:0,impactKnown:false};
+  const building=includeConstruction&&!online&&year>=row.operationYear-Math.ceil(coeff.years);
+  const buildJobs=building?mw*coeff.build:0, operateJobs=online?mw*coeff.operate:0;
+  const related=includeRelated?coeff.related:0;
+  const peoplePerJob=includePeople?(1+related)*coeff.family*coeff.migrantShare*externalShare:0;
+  return {mw:online?mw:0,impactKnown:true,buildJobs,operateJobs,
+    buildRelated:buildJobs*related,operateRelated:operateJobs*related,
+    buildPeople:buildJobs*peoplePerJob,
+    operatePeople:operateJobs*peoplePerJob};
+}
+
+export function departmentImpact(rows,selection,year,options){
+  const groups=new Map();
+  for(const row of scheduledProjects(rows,selection)){
+    const key=row.departamento_id+'|'+row.actividad_id;
+    if(!groups.has(key))groups.set(key,{department:row.departamento_nombre,activity:row.actividad_nombre,baseMw:null,
+      addedMw:0,buildJobs:0,operateJobs:0,buildRelated:0,operateRelated:0,buildPeople:0,operatePeople:0,unmodeled:0});
+    const group=groups.get(key), result=projectImpact(row,year,options);
+    group.addedMw+=result.mw;
+    if(!result.impactKnown)group.unmodeled++;
+    else for(const field of ['buildJobs','operateJobs','buildRelated','operateRelated','buildPeople','operatePeople'])group[field]+=result[field];
+  }
+  for(const row of rows){
+    const group=groups.get(row.departamento_id+'|'+row.actividad_id);
+    if(group&&row.estado_id==='OPERATIVO'&&Number.isFinite(row.capacidad_instalada_mw)){
+      group.baseMw=(group.baseMw??0)+row.capacidad_instalada_mw;
+    }
+  }
+  return [...groups.values()].sort((a,b)=>a.department.localeCompare(b.department,'es')||a.activity.localeCompare(b.activity,'es'));
+}
+
+export function populationImpactSeries(projects,departmentId,impactOptions){
+  const scoped=departmentId==='all'?projects:projects.filter(project=>project.departamento_id===departmentId);
+  return years.map(year=>{
+    let operation=0, construction=0;
+    for(const project of scoped){
+      const result=projectImpact(project,year,impactOptions);
+      if(!result.impactKnown)continue;
+      operation+=result.operatePeople;
+      construction+=result.buildPeople;
+    }
+    return {year,operation,construction,total:operation+construction};
+  });
+}
+
+export function comparePopulation(baseTotals,impacts){
+  return impacts.map(({year,total})=>{
+    const base=baseTotals?.get(year)??null;
+    return {year,base,increment:total,withProjects:base===null?null:base+total};
+  });
+}
+
+function renderPopulationComparison(points,selectedYear){
+  const chart=document.getElementById('scenario-population-comparison');
+  const traces=[
+    ['withProjects','Población con proyectos','#106c60','solid',4],
+    ['base','Población base','#647587','dash',2]
+  ];
+  Plotly.react(chart,traces.map(([field,name,color,dash,width])=>({
+    type:'scatter',mode:'lines',name,x:years,y:points.map(point=>point[field]),
+    text:points.map(point=>decimal(point[field])),
+    line:{color,dash,width},
+    hovertemplate:'%{text} personas<extra>%{fullData.name}</extra>'
+  })),{
+    autosize:true,height:325,margin:{l:72,r:18,t:16,b:80},
+    paper_bgcolor:'transparent',plot_bgcolor:'transparent',
+    font:{family:'Inter, sans-serif',size:11,color:'#465761'},
+    hovermode:'x unified',
+    xaxis:{title:{text:'Año'},dtick:4},
+    yaxis:{title:{text:'Personas'},gridcolor:'#e5e9e8'},
+    legend:{orientation:'h',x:0,y:-0.29},
+    shapes:[{type:'line',xref:'x',yref:'paper',x0:selectedYear,x1:selectedYear,y0:0,y1:1,line:{color:'#78838b',width:1,dash:'dot'}}]
+  },{displayModeBar:false,responsive:true});
+  document.getElementById('scenario-population-comparison-table').innerHTML=points.map(point=>
+    `<tr${point.year===selectedYear?' class="is-selected"':''}><th scope="row">${point.year}</th><td class="number">${decimal(point.base)}</td><td class="number">${decimal(point.withProjects)}</td><td class="number">${decimal(point.increment)}</td></tr>`
+  ).join('');
+}
+
+function renderPopulationEvolution(points,hasProjects,selectedYear,impactOptions){
+  const chart=document.getElementById('scenario-population-chart');
+  const message=document.getElementById('scenario-population-empty');
+  const show=impactOptions.includePeople&&hasProjects;
+  chart.hidden=!show;
+  message.hidden=show;
+  if(!show){
+    if(chart.data)Plotly.purge(chart);
+    message.textContent=!impactOptions.includePeople
+      ? 'Activá Incluir migración externa para calcular la evolución.'
+      : 'No hay proyectos seleccionados para este territorio.';
+    return;
+  }
+  const traces=[['total','Total anual','#184e61','solid',3]];
+  if(impactOptions.includeConstruction){
+    traces.push(['operation','Operación','#0c786d','dash',2],['construction','Construcción','#a44624','dot',2]);
+  }
+  Plotly.react(chart,traces.map(([field,name,color,dash,width])=>({
+    type:'scatter',mode:'lines',name,x:years,y:points.map(point=>point[field]),
+    text:points.map(point=>decimal(point[field])),
+    line:{color,dash,width,shape:'hv'},
+    hovertemplate:'%{text} personas<extra>%{fullData.name}</extra>'
+  })),{
+    autosize:true,height:325,margin:{l:65,r:18,t:16,b:80},
+    paper_bgcolor:'transparent',plot_bgcolor:'transparent',
+    font:{family:'Inter, sans-serif',size:11,color:'#465761'},
+    hovermode:'x unified',
+    xaxis:{title:{text:'Año'},dtick:4},
+    yaxis:{title:{text:'Personas'},rangemode:'tozero',gridcolor:'#e5e9e8'},
+    legend:{orientation:'h',x:0,y:-0.29},
+    shapes:[{type:'line',xref:'x',yref:'paper',x0:selectedYear,x1:selectedYear,y0:0,y1:1,line:{color:'#78838b',width:1,dash:'dot'}}]
+  },{displayModeBar:false,responsive:true});
+}
+
+function renderImpactCharts(impacts,options){
+  const grouped=new Map();
+  for(const row of impacts){
+    if(!grouped.has(row.department))grouped.set(row.department,{base:null,added:0,operate:0,build:0,related:0,buildRelated:0});
+    const group=grouped.get(row.department);
+    if(row.baseMw!==null)group.base=(group.base??0)+row.baseMw;
+    group.added+=row.addedMw;
+    group.operate+=row.operateJobs;group.build+=row.buildJobs;
+    group.related+=row.operateRelated;group.buildRelated+=row.buildRelated;
+  }
+  const names=[...grouped.keys()],values=[...grouped.values()];
+  const render=(id,traces,title)=>{
+    const el=document.getElementById(id);
+    if(!names.length){Plotly.purge(el);el.innerHTML='<p class="empty-chart">Los resultados aparecerán al seleccionar proyectos en este territorio.</p>';return;}
+    if(el.querySelector('.empty-chart')){Plotly.purge(el);el.innerHTML='';}
+    Plotly.react(el,traces.map(([name,field,color])=>({type:'bar',orientation:'h',name,y:names,x:values.map(row=>row[field]),marker:{color},hovertemplate:'%{y}<br>%{x:,.2f}<extra>%{fullData.name}</extra>'})),{
+      height:Math.max(300,names.length*34+100),barmode:'stack',paper_bgcolor:'transparent',plot_bgcolor:'transparent',
+      font:{family:'Inter, system-ui, sans-serif',color:'#1F2933',size:12},margin:{l:115,r:18,t:20,b:85},
+      xaxis:{title,gridcolor:'#EEF0EE',rangemode:'tozero'},yaxis:{automargin:true,autorange:'reversed'},
+      legend:{orientation:'h',y:-0.3,x:0}
+    },{displayModeBar:false,responsive:true});
   };
+  render('scenario-capacity-chart',[['Base conocida','base','#63A6B1'],['Incorporada','added','#247C8C']],'Capacidad conocida (MW)');
+  render('scenario-jobs-chart',[
+    ['Directo · operación','operate','#247C8C'],
+    ...(options.includeRelated?[['Asociado · operación','related','#63A6B1']]:[]),
+    ...(options.includeConstruction?[['Directo · construcción','build','#FF6B35'],...(options.includeRelated?[['Asociado · construcción','buildRelated','#FFC928']]:[])]:[])
+  ],'Puestos de trabajo');
 }
 
-function signedCapacity(change){
-  const value=Number(change.capacityMw)||0;
-  return change.changeType==='REDUCCION'?-value:value;
-}
-
-function previousScenarioDelta(state,departmentId,activityId,year){
-  return (state.scenarioProductChanges||[])
-    .filter(change=>change.departmentId===departmentId&&change.activityId===activityId&&Number(change.operationYear)<=Number(year))
-    .reduce((sum,change)=>sum+signedCapacity(change),0);
-}
-
-export function productiveScenarioPreview(data,state){
-  const departmentId=state.scenarioProductDepartment||'';
-  const activityId=state.scenarioProductActivity||'';
-  const changeType=state.scenarioProductChangeType==='REDUCCION'?'REDUCCION':'AMPLIACION';
-  const capacityMw=number(state.scenarioProductCapacityMw);
-  const operationYear=Number(state.scenarioProductYear);
-  const jobsPerMw=number(state.scenarioProductJobsPerMw);
-  const base=productiveScenarioBase(data,departmentId,activityId);
-  const previousDelta=departmentId&&activityId?previousScenarioDelta(state,departmentId,activityId,operationYear):0;
-  const capacityBefore=Math.max(0,base.capacityMw+previousDelta);
-  const deltaMw=capacityMw===null?null:(changeType==='REDUCCION'?-capacityMw:capacityMw);
-  const capacityAfter=deltaMw===null?null:capacityBefore+deltaMw;
-  const errors=[];
-  if(!departmentId)errors.push('Seleccioná un departamento.');
-  if(!activityId)errors.push('Seleccioná una tecnología.');
-  if(capacityMw===null||!finite(capacityMw)||capacityMw<=0)errors.push('Ingresá una modificación de capacidad mayor que cero.');
-  if(!Number.isInteger(operationYear)||operationYear<PRODUCTIVE_SCENARIO_START_YEAR||operationYear>PRODUCTIVE_SCENARIO_END_YEAR)errors.push(`El año debe estar entre ${PRODUCTIVE_SCENARIO_START_YEAR} y ${PRODUCTIVE_SCENARIO_END_YEAR}.`);
-  if(jobsPerMw===null||!finite(jobsPerMw)||jobsPerMw<0)errors.push('Ingresá un coeficiente de empleo permanente no negativo.');
-  if(changeType==='REDUCCION'&&capacityMw!==null&&capacityMw>capacityBefore)errors.push(`La reducción supera la capacidad disponible antes del cambio (${formatDecimal(capacityBefore)} MW).`);
-  const ready=errors.length===0;
-  const departmentName=data.territoryById?.[departmentId]?.territorio_nombre||'';
-  const activity=productiveScenarioActivities(data).find(item=>item.id===activityId);
-  return {
-    departmentId,departmentName,activityId,activityName:activity?.label||activityId,activityColor:activity?.color||COLORS.muted,
-    changeType,capacityMw,operationYear,jobsPerMw,base,previousDelta,capacityBefore,deltaMw,capacityAfter,
-    employmentDelta:ready?deltaMw*jobsPerMw:null,errors,ready
-  };
-}
-
-export function createProductiveScenarioChange(data,state){
-  const preview=productiveScenarioPreview(data,state);
-  if(!preview.ready)return {change:null,errors:preview.errors};
-  return {change:{
-    id:`cambio-${Date.now()}-${(state.scenarioProductChanges||[]).length+1}`,
-    departmentId:preview.departmentId,
-    departmentName:preview.departmentName,
-    activityId:preview.activityId,
-    activityName:preview.activityName,
-    changeType:preview.changeType,
-    capacityMw:preview.capacityMw,
-    operationYear:preview.operationYear,
-    jobsPerMw:preview.jobsPerMw,
-    employmentDelta:preview.employmentDelta,
-    assumptionStatus:'SUPUESTO_USUARIO'
-  },errors:[]};
-}
-
-export function productiveScenarioSummary(state){
-  const changes=state.scenarioProductChanges||[];
-  const netCapacityMw=changes.reduce((sum,change)=>sum+signedCapacity(change),0);
-  const employmentDelta=changes.reduce((sum,change)=>sum+(Number(change.employmentDelta)||0),0);
-  const years=changes.map(change=>Number(change.operationYear)).filter(Number.isFinite);
-  return {
-    changes:changes.length,
-    departments:new Set(changes.map(change=>change.departmentId)).size,
-    netCapacityMw,
-    employmentDelta,
-    firstYear:years.length?Math.min(...years):null
-  };
-}
-
-function previewCards(preview){
-  const employment=preview.employmentDelta===null?'—':`${preview.employmentDelta>=0?'+':''}${formatDecimal(preview.employmentDelta)}`;
-  const thermal=preview.activityId==='TER';
-  const baseLabel=thermal?'Piso térmico verificado':'Capacidad base verificada';
-  const baseDetail=thermal?'CAMMESA · operación confirmada en 09/2026':'instalaciones con dato';
-  return `<div class="productive-preview-grid">
-    <article><span>${baseLabel}</span><strong>${preview.departmentId&&preview.activityId?`${formatDecimal(preview.base.capacityMw)} MW`:'—'}</strong><small>${preview.departmentId&&preview.activityId?`${preview.base.documented} de ${preview.base.installations} · ${baseDetail}`:'Seleccioná territorio y tecnología'}</small></article>
-    <article><span>Capacidad antes del cambio</span><strong>${preview.departmentId&&preview.activityId?`${formatDecimal(preview.capacityBefore)} MW`:'—'}</strong><small>${preview.previousDelta?`Incluye ${preview.previousDelta>0?'+':''}${formatDecimal(preview.previousDelta)} MW previos del escenario`:'Sin cambios anteriores aplicables'}</small></article>
-    <article><span>Capacidad resultante</span><strong>${preview.capacityAfter===null?'—':`${formatDecimal(preview.capacityAfter)} MW`}</strong><small>${preview.deltaMw===null?'Ingresá una modificación':`${preview.deltaMw>=0?'+':''}${formatDecimal(preview.deltaMw)} MW en ${preview.operationYear}`}</small></article>
-    <article><span>Empleo permanente</span><strong>${employment}</strong><small>${preview.jobsPerMw===null?'Coeficiente pendiente':`${formatDecimal(preview.jobsPerMw)} puestos por MW`}</small></article>
-  </div>`;
-}
-
-function renderChangesTable(state){
-  const changes=state.scenarioProductChanges||[];
-  if(!changes.length)return '<tr><td colspan="7" class="scenario-empty-row">Todavía no se agregaron cambios productivos.</td></tr>';
-  return [...changes].sort((a,b)=>a.operationYear-b.operationYear||a.departmentName.localeCompare(b.departmentName,'es')).map(change=>{
-    const sign=change.changeType==='REDUCCION'?'−':'+';
-    const employment=Number(change.employmentDelta)||0;
-    return `<tr><td>${escapeHTML(change.departmentName)}</td><td><span class="scenario-activity" style="--activity-color:${ACTIVITY_COLORS[change.activityId]||COLORS.muted}">${activitySymbol(change.activityId)} ${escapeHTML(change.activityName)}</span></td><td class="number">${sign}${formatDecimal(change.capacityMw)} MW</td><td>${change.operationYear}</td><td class="number">${formatDecimal(change.jobsPerMw)}</td><td class="number">${employment>=0?'+':''}${formatDecimal(employment)}</td><td><button type="button" class="scenario-remove" data-remove-productive-change="${escapeHTML(change.id)}" aria-label="Quitar cambio de ${escapeHTML(change.departmentName)}">Quitar</button></td></tr>`;
-  }).join('');
-}
-
+let lastCatalog='';
+const options=(items,current)=>items.map(year=>'<option'+(year===current?' selected':'')+'>'+year+'</option>').join('');
+const projectType=row=>IMPACT[row.tecnologia_impacto_id]?.label||row.actividad_nombre;
 export function renderProductiveScenario(data,state){
-  const preview=productiveScenarioPreview(data,state);
-  const summary=productiveScenarioSummary(state);
-  document.getElementById('scenario-product-preview').innerHTML=previewCards(preview);
-  const message=document.getElementById('scenario-product-message');
-  if(preview.errors.length){message.className='scenario-form-message';message.textContent=preview.errors[0];}
-  else if(preview.activityId==='TER'&&!preview.base.documented){message.className='scenario-form-message warning';message.textContent='Sin centrales térmicas verificadas en este departamento. El cálculo sólo refleja los MW simulados.';}
-  else if(preview.activityId==='TER'){message.className='scenario-form-message warning';message.textContent='Piso térmico parcial. Incluye sólo centrales conciliadas con generación en septiembre de 2026.';}
-  else if(preview.base.incomplete){message.className='scenario-form-message warning';message.textContent=`La capacidad base es parcial: ${preview.base.documented} de ${preview.base.installations} instalaciones tienen capacidad documentada.`;}
-  else {message.className='scenario-form-message valid';message.textContent='Parámetros completos. El cambio puede incorporarse al escenario.';}
-  document.getElementById('scenario-add-change').disabled=!preview.ready;
-  document.getElementById('scenario-clear-changes').disabled=!summary.changes;
-  document.getElementById('scenario-product-table').innerHTML=renderChangesTable(state);
-  document.getElementById('scenario-summary').innerHTML=`<article><span>Cambios</span><strong>${fmt.format(summary.changes)}</strong><small>${summary.departments} departamentos</small></article><article><span>Variación neta</span><strong>${summary.netCapacityMw>=0?'+':''}${formatDecimal(summary.netCapacityMw)} MW</strong><small>Capacidad eléctrica del escenario</small></article><article><span>Empleo permanente</span><strong>${summary.employmentDelta>=0?'+':''}${formatDecimal(summary.employmentDelta)}</strong><small>Puestos estimados</small></article><article><span>Primera entrada</span><strong>${summary.firstYear||'—'}</strong><small>${summary.firstYear?'Año de operación':'Sin cambios cargados'}</small></article>`;
+  const rows=data.productionInstallations||[], selection=state.scenarioProjects||{}, year=state.scenarioImpactYear;
+  const scheduled=scheduledProjects(rows,selection);
+  const departmentId=state.scenarioPopulationDepartment||'all';
+  const scopedRows=departmentId==='all'?rows:rows.filter(row=>row.departamento_id===departmentId);
+  const scopedProjects=scheduled.filter(row=>departmentId==='all'||row.departamento_id===departmentId);
+  const filter=state.scenarioProjectFilter||'all';
+  const activities=['EOL','HID','TER'];
+  const catalog=scopedRows.filter(row=>row.estado_id==='PROYECTADO'&&(filter==='all'||row.actividad_id===filter))
+    .sort((a,b)=>a.actividad_nombre.localeCompare(b.actividad_nombre,'es')||a.nombre_instalacion.localeCompare(b.nombre_instalacion,'es'));
+  const signature=JSON.stringify([departmentId,filter,selection]);
+  if(signature!==lastCatalog){
+    const list=document.getElementById('scenario-projects');
+    const focused=document.activeElement;
+    const focusAttr=focused?.hasAttribute('data-project-year')?'data-project-year':'data-project-check';
+    const focusKey=list.contains(focused)?focused.getAttribute(focusAttr):null;
+    list.innerHTML=catalog.map(row=>{
+      const id=html(row.instalacion_id), name=html(row.nombre_instalacion), ready=eligibleProject(row);
+      const checked=ready&&Object.hasOwn(selection,row.instalacion_id)&&validYear(selection[row.instalacion_id]);
+      const located=Number.isFinite(row.latitud)&&Number.isFinite(row.longitud);
+      return `<tr class="${checked?'is-included':''}"><td><label class="production-project-label"><input data-project-check="${id}" type="checkbox"${ready?'':' disabled'}${checked?' checked':''}><span><strong>${name}</strong><small>${html(row.departamento_nombre)} · ${html(projectType(row))}${located?'':' · Sin coordenadas'}</small></span></label><button type="button" class="production-project-detail" data-product-installation="${id}" aria-label="Ver ficha de ${name}">Ver ficha</button>${row.nota_conciliacion?`<small class="project-pending">${html(row.nota_conciliacion)}</small>`:''}</td><td class="number">${decimal(row.potencia_declarada_proyecto_mw)}</td><td>${ready?`<select aria-label="Año de entrada: ${name}" data-project-year="${id}"${checked?'':' disabled'}>${options(years,checked?selection[row.instalacion_id]:2030)}</select>`:'—'}</td></tr>`;
+    }).join('')||(filter==='TER'&&!rows.some(row=>row.estado_id==='PROYECTADO'&&row.actividad_id==='TER')
+      ?'<tr><td colspan="3" class="scenario-empty-row">La cartera auditada no incluye proyectos térmicos. Las instalaciones térmicas existentes se consultan en Inventario.<br><button type="button" class="text-button" data-inventory-activity="TER">Ver inventario térmico</button></td></tr>'
+      :'<tr><td colspan="3" class="scenario-empty-row">No hay proyectos para este departamento y energía. Cambiar la vista no modifica tu selección.</td></tr>');
+    if(focusKey)[...list.querySelectorAll('['+focusAttr+']')].find(el=>el.getAttribute(focusAttr)===focusKey)?.focus();
+    lastCatalog=signature;
+  }
+  document.getElementById('scenario-project-filter').value=activities.includes(filter)?filter:'all';
+  document.getElementById('scenario-impact-year').value=year;
+  document.getElementById('scenario-clear-changes').disabled=!scheduled.length;
+  const includeConstruction=state.scenarioIncludeConstruction===true;
+  const includeRelated=state.scenarioIncludeRelated!==false;
+  const includePeople=state.scenarioIncludePeople!==false;
+  document.getElementById('scenario-include-construction').setAttribute('aria-pressed',String(includeConstruction));
+  document.getElementById('scenario-include-related').checked=includeRelated;
+  document.getElementById('scenario-include-people').checked=includePeople;
+  const externalPercent=state.scenarioExternalPercent??100;
+  document.getElementById('scenario-external-percent').value=externalPercent;
+  const impactOptions={includeConstruction,includeRelated,includePeople,externalShare:externalPercent/100};
+  const outside=scheduled.length-scopedProjects.length;
+  const hiddenByEnergy=scopedProjects.filter(project=>filter!=='all'&&project.actividad_id!==filter).length;
+  const noCoordinates=scopedProjects.filter(project=>!Number.isFinite(project.latitud)||!Number.isFinite(project.longitud)).length;
+  document.getElementById('scenario-selection-note').textContent=
+    `${scopedProjects.length} seleccionados en este territorio · ${scheduled.length} en todo el escenario`+
+    (outside?` · ${outside} fuera de este territorio`:'')+
+    (hiddenByEnergy?` · ${hiddenByEnergy} ocultos por el filtro de energía`:'')+
+    (noCoordinates?` · ${noCoordinates} sin coordenadas, incluidos en el cálculo`:'');
+  const empty=document.getElementById('scenario-results-empty');
+  empty.hidden=scopedProjects.length>0;
+  empty.textContent=scheduled.length?'No hay proyectos seleccionados en este territorio. Los proyectos de otros departamentos siguen guardados.':'Seleccioná al menos un proyecto para explorar sus resultados. La población base permanece disponible.';
+  const populationImpacts=populationImpactSeries(scheduled,departmentId,impactOptions);
+  const hasProjects=scheduled.some(project=>departmentId==='all'||project.departamento_id===departmentId);
+  const baseTotals=annualPopulationTotals(data.demographyPopulation,departmentId);
+  renderPopulationComparison(comparePopulation(baseTotals,populationImpacts),year);
+  renderPopulationEvolution(populationImpacts,hasProjects,year,impactOptions);
+  const impacts=departmentImpact(scopedRows,selection,year,impactOptions);
+  renderImpactCharts(impacts,impactOptions);
+  const total=field=>impacts.reduce((sum,row)=>sum+row[field],0);
+  const hasConstruction=includeConstruction&&total('buildJobs')>0;
+  const phaseColumns=(prefix,label)=>[
+    [prefix+'Jobs','Empleo directo',label],
+    ...(includeRelated?[[prefix+'Related','Empleo asociado',label]]:[]),
+    ...(includePeople?[[prefix+'People','Migrantes externos',label]]:[])
+  ];
+  const metrics=[
+    ...phaseColumns('operate','Operación'),
+    ...(hasConstruction?phaseColumns('build','Construcción'):[])
+  ];
+  const annualMetric=(label,operation,construction)=>{
+    const breakdown=hasConstruction
+      ? `${decimal(operation)} en operación · ${decimal(construction)} en construcción`
+      : `Operación en ${year}`;
+    return [label,decimal(operation+construction),breakdown];
+  };
+  document.getElementById('scenario-summary').innerHTML=[
+    ['Proyectos incluidos',scopedProjects.length,`${scopedProjects.filter(p=>p.operationYear<=year).length} en operación en ${year}`],
+    ['Capacidad incorporada',`${decimal(total('addedMw'))} MW`,`Acumulada hasta ${year}`],
+    annualMetric('Empleo directo',total('operateJobs'),total('buildJobs')),
+    ...(includeRelated?[annualMetric('Empleo asociado',total('operateRelated'),total('buildRelated'))]:[]),
+    ...(includePeople?[annualMetric('Incremento poblacional total',total('operatePeople'),total('buildPeople'))]:[])
+  ].map(([label,value,note])=>`<article><span>${label}</span><strong>${value}</strong><small>${note}</small></article>`).join('');
+  const populationTotalColumn=includePeople&&hasConstruction&&total('operatePeople')>0;
+  document.getElementById('scenario-product-head').innerHTML='<th scope="col">Departamento</th><th scope="col">Energía</th><th scope="col">Base conocida (MW)</th><th scope="col">Nuevos (MW)</th><th scope="col">Total conocido (MW)</th>'+
+    metrics.map(([,label,phase])=>`<th scope="col">${label} · ${phase}</th>`).join('')+
+    (populationTotalColumn?'<th scope="col">Incremento poblacional total</th>':'');
+  document.getElementById('scenario-product-table').innerHTML=impacts.map(row=>{
+    const capacity=row.baseMw===null?(row.addedMw||null):row.baseMw+row.addedMw;
+    const cells=[row.baseMw,row.addedMw,capacity,...metrics.map(([field])=>row[field])];
+    if(populationTotalColumn)cells.push(row.operatePeople+row.buildPeople);
+    return `<tr><td>${html(row.department)}</td><td>${html(row.activity)}${row.unmodeled?' · impacto parcial':''}</td>${cells.map(value=>`<td class="number">${decimal(value)}</td>`).join('')}</tr>`;
+  }).join('')||`<tr><td colspan="${5+metrics.length+Number(populationTotalColumn)}" class="scenario-empty-row">Marcá un proyecto para estimar su impacto.</td></tr>`;
+  document.getElementById('scenario-coefficients').innerHTML=Object.values(IMPACT).map(c=>`<tr><td>${c.label}</td>${[c.build,c.operate,c.years,c.family,c.related].map(v=>`<td class="number">${decimal(v)}</td>`).join('')}<td class="number">${decimal(c.migrantShare*100)} %</td></tr>`).join('');
+  return {scheduled,departmentId,year,impactOptions};
 }

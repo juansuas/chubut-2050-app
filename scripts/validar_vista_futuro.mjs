@@ -1,0 +1,10 @@
+import assert from 'node:assert/strict';
+import {futureValues,futurePeak} from '../assets/js/future-view.js';
+const rows=[{year:2030,base:{population:1000,education:100,levels:{PRI:60,AGE18:0}},people:90,education:12,educationLevels:{PRI:2,AGE18:0}},{year:2040,base:{population:1100,education:90,levels:{PRI:50,AGE18:0}},people:30,education:20,educationLevels:{PRI:18,AGE18:0}}];
+assert.equal(futurePeak(rows,'population').year,2030);
+assert.equal(futurePeak(rows,'education','PRI').year,2040);
+assert.deepEqual(futureValues(rows[0],'population'),{base:1000,delta:90,total:1090,relative:.09});
+assert.deepEqual(futureValues(rows[1],'education'),{base:90,delta:20,total:110,relative:20/90});
+assert.deepEqual(futureValues(rows[1],'education','PRI'),{base:50,delta:18,total:68,relative:.36});
+assert.equal(futureValues(rows[0],'education','AGE18').relative,null);
+console.log('VISTA FUTURO OK: unidades, nivel, total, denominadores y máximos independientes.');

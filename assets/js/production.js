@@ -31,7 +31,7 @@ export function filteredProductionRows(data,state){
 
 export function productionSummary(rows){
   const installed=rows.reduce((sum,row)=>sum+(number(row.capacidad_instalada_mw)||0),0);
-  const projectPower=rows.reduce((sum,row)=>sum+(number(row.potencia_declarada_proyecto_mw)||0),0);
+  const projectPower=rows.filter(row=>row.estado_id==='PROYECTADO').reduce((sum,row)=>sum+(number(row.potencia_declarada_proyecto_mw)||0),0);
   const withInstalled=rows.filter(row=>number(row.capacidad_instalada_mw)!==null).length;
   const future=rows.filter(row=>row.condicion_informacion==='proyecto_futuro').length;
   return {installations:rows.length,installed,projectPower,withInstalled,future,coverage:rows.length?withInstalled/rows.length:0};
@@ -51,6 +51,7 @@ function ensureMap(){
   if(mapEntry){setTimeout(()=>mapEntry.map.invalidateSize(),0);return mapEntry;}
   const map=L.map('production-map',{zoomControl:true,scrollWheelZoom:false,attributionControl:true}).setView([-43.8,-68.3],6);
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:18,attribution:'© OpenStreetMap'}).addTo(map);
+  new ResizeObserver(()=>map.invalidateSize()).observe(document.getElementById('production-map'));
   mapEntry={map,layers:[],legend:null};
   return mapEntry;
 }
@@ -65,13 +66,13 @@ export function activitySymbol(activityId){
   return ACTIVITY_SYMBOLS[activityId]||ACTIVITY_SYMBOLS.OTR;
 }
 
-function activityIcon(row,selected=false){
+function activityIcon(row,selected=false,inScenario=false){
   const size=selected?32:28;
   const activityClass=`activity-${String(row.actividad_id||'OTR').toLowerCase()}`;
   const stateClass=`state-${String(row.estado_id||'SIN_INFO').toLowerCase()}`;
   return L.divIcon({
     className:'production-div-icon',
-    html:`<span class="production-map-symbol ${activityClass} ${stateClass}${selected?' is-selected':''}" style="--marker-size:${size}px;--activity-color:${ACTIVITY_COLORS[row.actividad_id]||COLORS.muted};--state-color:${STATE_COLORS[row.estado_id]||COLORS.muted}">${activitySymbol(row.actividad_id)}</span>`,
+    html:`<span class="production-map-symbol ${activityClass} ${stateClass}${selected?' is-selected':''}${inScenario?' is-in-scenario':''}" style="--marker-size:${size}px;--activity-color:${ACTIVITY_COLORS[row.actividad_id]||COLORS.muted};--state-color:${STATE_COLORS[row.estado_id]||COLORS.muted}">${activitySymbol(row.actividad_id)}</span>`,
     iconSize:[size,size],
     iconAnchor:[size/2,size/2],
     tooltipAnchor:[0,-size/2]
@@ -86,6 +87,7 @@ function addMapLegend(entry){
       <span><b class="production-legend-icon activity-eol" style="--activity-color:${ACTIVITY_COLORS.EOL}">${activitySymbol('EOL')}</b>Eólica</span>
       <span><b class="production-legend-icon activity-hid" style="--activity-color:${ACTIVITY_COLORS.HID}">${activitySymbol('HID')}</b>Hidroeléctrica</span>
       <span><b class="production-legend-icon activity-ter" style="--activity-color:${ACTIVITY_COLORS.TER}">${activitySymbol('TER')}</b>Térmica</span>
+      <span><i class="legend-ring in-scenario"></i>Incluido en escenario</span>
       <strong class="legend-subtitle">Estado</strong>
       <span><i class="legend-ring operative"></i>Operativo</span>
       <span><i class="legend-ring projected"></i>Proyectado</span>
@@ -109,10 +111,10 @@ function renderProductionMap(data,state,rows,onTerritorySelect,onInstallationSel
     }
   }).addTo(entry.map);
   const markers=L.layerGroup().addTo(entry.map);
-  rows.forEach(row=>{
+  rows.filter(row=>Number.isFinite(row.latitud)&&Number.isFinite(row.longitud)).forEach(row=>{
     const selected=row.instalacion_id===selectedId;
     const marker=L.marker([row.latitud,row.longitud],{
-      icon:activityIcon(row,selected),
+      icon:activityIcon(row,selected,Object.hasOwn(state.scenarioProjects||{},row.instalacion_id)),
       title:`${row.nombre_instalacion} · ${row.actividad_nombre} · ${row.estado_nombre}`,
       alt:`${row.nombre_instalacion}, ${row.actividad_nombre}, ${row.estado_nombre}`,
       keyboard:true,
@@ -121,7 +123,7 @@ function renderProductionMap(data,state,rows,onTerritorySelect,onInstallationSel
     });
     const capacity=number(row.capacidad_instalada_mw);
     const project=number(row.potencia_declarada_proyecto_mw);
-    marker.bindTooltip(`<div class="map-tooltip"><strong>${escapeHTML(row.nombre_instalacion)}</strong><br>${escapeHTML(row.actividad_nombre)} · ${escapeHTML(row.estado_nombre)}<br>${capacity!==null?`${formatDecimal(capacity)} MW instalados`:project!==null?`${formatDecimal(project)} MW declarados de proyecto`:'Capacidad sin informar'}</div>`);
+    marker.bindTooltip(`<div class="map-tooltip"><strong>${escapeHTML(row.nombre_instalacion)}</strong><br>${escapeHTML(row.actividad_nombre)} · ${escapeHTML(row.estado_nombre)}${Object.hasOwn(state.scenarioProjects||{},row.instalacion_id)?`<br>Incluido en escenario · entrada ${escapeHTML(state.scenarioProjects[row.instalacion_id])}`:''}<br>${capacity!==null?`${formatDecimal(capacity)} MW instalados`:project!==null?`${formatDecimal(project)} MW declarados de proyecto`:'Capacidad sin informar'}</div>`);
     marker.on('click',()=>onInstallationSelect?.(row.instalacion_id));
     marker.addTo(markers);
   });
@@ -193,56 +195,68 @@ function renderMatrixChart(rows){
 function renderKpis(rows){
   const summary=productionSummary(rows);
   const cards=[
-    ['Instalaciones',fmt.format(summary.installations),'Unidades georreferenciadas'],
+    ['Instalaciones',fmt.format(summary.installations),`${rows.filter(row=>Number.isFinite(row.latitud)&&Number.isFinite(row.longitud)).length} con coordenadas`],
     ['Capacidad instalada',`${formatDecimal(summary.installed)} MW`,`${summary.withInstalled} instalaciones con dato`],
     ['Potencia de proyecto',`${formatDecimal(summary.projectPower)} MW`,'Valor documental; no se suma como instalada'],
-    ['Proyectos futuros',fmt.format(summary.future),'Construcción no iniciada según SPIA']
+    ['Proyectos futuros',fmt.format(summary.future),'Cartera del inventario auditado']
   ];
   document.getElementById('production-kpis').innerHTML=cards.map(([label,value,note])=>`<article><span>${label}</span><strong>${value}</strong><small>${note}</small></article>`).join('');
 }
 
 function renderTable(rows,state){
   const body=document.getElementById('production-table');
-  body.innerHTML=[...rows].sort((a,b)=>a.departamento_nombre.localeCompare(b.departamento_nombre,'es')||a.nombre_instalacion.localeCompare(b.nombre_instalacion,'es')).map(row=>`<tr class="${row.instalacion_id===state.productInstallation?'is-selected':''}"><td><button type="button" data-product-installation="${escapeHTML(row.instalacion_id)}">${escapeHTML(row.nombre_instalacion)}</button></td><td>${escapeHTML(row.departamento_nombre)}</td><td>${escapeHTML(row.actividad_nombre)}</td><td><span class="production-status status-${escapeHTML(row.estado_id.toLowerCase())}">${escapeHTML(row.estado_nombre)}</span></td><td class="number">${formatDecimal(number(row.capacidad_instalada_mw))}</td><td class="number">${formatDecimal(number(row.potencia_declarada_proyecto_mw))}</td><td>${escapeHTML(operatorLabel(row.operador))}</td></tr>`).join('');
+  body.innerHTML=[...rows].sort((a,b)=>a.departamento_nombre.localeCompare(b.departamento_nombre,'es')||a.nombre_instalacion.localeCompare(b.nombre_instalacion,'es')).map(row=>`<tr class="${row.instalacion_id===state.productInstallation?'is-selected':''}"><td><button type="button" data-product-installation="${escapeHTML(row.instalacion_id)}">${escapeHTML(row.nombre_instalacion)}</button><small>${escapeHTML(row.departamento_nombre)} · ${escapeHTML(row.actividad_nombre)}</small><small>${escapeHTML(operatorLabel(row.operador))}${Number.isFinite(row.latitud)&&Number.isFinite(row.longitud)?'':' · Sin coordenadas'}</small></td><td><span class="production-status status-${escapeHTML(row.estado_id.toLowerCase())}">${escapeHTML(row.estado_nombre)}</span></td><td class="number">${formatDecimal(number(row.capacidad_instalada_mw))}</td><td class="number">${formatDecimal(number(row.potencia_declarada_proyecto_mw))}</td></tr>`).join('')||'<tr><td colspan="4" class="scenario-empty-row">No hay instalaciones para estos filtros. Usá «Limpiar filtros» para volver al inventario del territorio.</td></tr>';
 }
 
 function renderDetail(data,state,rows){
   const container=document.getElementById('production-detail');
   const row=rows.find(item=>item.instalacion_id===state.productInstallation);
+  document.getElementById('production-detail-panel').hidden=!row;
   if(!row){container.innerHTML='<div class="production-detail-empty"><span>↖</span><h4>Seleccioná una instalación</h4><p>El mapa y la tabla abren una ficha con capacidad, estado, operador y fuente. Los campos sin respaldo permanecen vacíos.</p></div>';return;}
   const source=data.productionSourceById?.[row.fuente_primaria_id];
   const sourceLink=source?.url?`<a href="${escapeHTML(source.url)}" target="_blank" rel="noopener">${escapeHTML(source.titulo||source.fuente_id)}</a>`:escapeHTML(row.fuente_primaria_id);
-  const thermalEvidence=(row.fuentes_secundarias_ids||'').split('|')
-    .filter(id=>id.startsWith('CAMMESA_POTENCIA_TERMICA_')||id.startsWith('CAMMESA_GENERACION_LOCAL_'))
+  const supportingSources=[...new Set([...(row.fuentes_secundarias_ids||'').split('|'),row.fuente_estado_id,row.fuente_capacidad_instalada_id,row.fuente_potencia_proyecto_id])].filter(id=>id&&id!==row.fuente_primaria_id)
     .map(id=>data.productionSourceById?.[id])
     .filter(Boolean);
   container.innerHTML=`<article class="installation-card">
     <div class="installation-card-heading"><span style="--activity-color:${ACTIVITY_COLORS[row.actividad_id]||COLORS.muted}">${escapeHTML(row.actividad_nombre)}</span><h4>${escapeHTML(row.nombre_instalacion)}</h4><p>${escapeHTML(row.departamento_nombre)} · ${escapeHTML(row.estado_nombre)}</p></div>
     <dl>
       <div><dt>Capacidad instalada</dt><dd>${number(row.capacidad_instalada_mw)!==null?`${formatDecimal(row.capacidad_instalada_mw)} MW`:'Sin dato verificado'}</dd></div>
+      ${row.capacidad_historica_mw!=null?`<div><dt>Potencia histórica · estado sin confirmar</dt><dd>${formatDecimal(row.capacidad_historica_mw)} MW</dd></div>`:''}
       <div><dt>Potencia declarada de proyecto</dt><dd>${number(row.potencia_declarada_proyecto_mw)!==null?`${formatDecimal(row.potencia_declarada_proyecto_mw)} MW`:'Sin dato'}</dd></div>
       <div><dt>Operador / agente</dt><dd>${escapeHTML(operatorLabel(row.operador))}</dd></div>
       <div><dt>Empleo de construcción</dt><dd>Sin dato observado</dd></div>
       <div><dt>Empleo de operación</dt><dd>Sin dato observado</dd></div>
       <div><dt>Año declarado</dt><dd>${escapeHTML(row.anio_referencia||'Sin informar')}</dd></div>
     </dl>
-    <footer><strong>Fuente primaria</strong>${sourceLink}<small>${escapeHTML(source?.institucion||'')} ${source?.fecha_actualizacion_declarada?`· actualización declarada ${escapeHTML(source.fecha_actualizacion_declarada)}`:'· fecha de corte no informada'}</small>${thermalEvidence.map(item=>`<a href="${escapeHTML(item.url)}" target="_blank" rel="noopener">${escapeHTML(item.titulo)}</a>`).join('')}</footer>
+    ${row.nota_conciliacion?`<p class="project-pending">${escapeHTML(row.nota_conciliacion)}</p>`:''}
+    <footer><strong>Fuente primaria</strong>${sourceLink}<small>${escapeHTML(source?.institucion||'')} ${source?.fecha_actualizacion_declarada?`· actualización declarada ${escapeHTML(source.fecha_actualizacion_declarada)}`:'· fecha de corte no informada'}</small>${supportingSources.filter(item=>item.url).map(item=>`<a href="${escapeHTML(item.url)}" target="_blank" rel="noopener">${escapeHTML(item.titulo)}</a>`).join('')}</footer>
   </article>`;
 }
 
 export function renderProduction(data,state,callbacks={}){
   const rows=filteredProductionRows(data,state);
   renderKpis(rows);
-  renderProductionMap(data,state,rows,callbacks.onTerritorySelect,callbacks.onInstallationSelect);
+  document.getElementById('production-inventory-summary').innerHTML=['EOL','HID','TER'].map(id=>{
+    const scoped=rows.filter(row=>row.actividad_id===id);
+    if(!scoped.length)return '';
+    const operative=scoped.filter(row=>row.estado_id==='OPERATIVO');
+    const summary=productionSummary(scoped);
+    const simulable=scoped.filter(row=>row.estado_id==='PROYECTADO'&&!row.nota_conciliacion).reduce((sum,row)=>sum+(number(row.potencia_declarada_proyecto_mw)||0),0);
+    return `<tr><td>${escapeHTML(scoped[0].actividad_nombre)}</td><td>${operative.length}</td><td>${summary.withInstalled?formatDecimal(summary.installed):'—'}</td><td>${summary.future}</td><td>${formatDecimal(summary.projectPower)}</td><td>${formatDecimal(simulable)}</td></tr>`;
+  }).join('')||'<tr><td colspan="6">Sin registros para estos filtros.</td></tr>';
+  const territoryRows=(data.productionInstallations||[]).filter(row=>state.territory==='all'||row.departamento_id===state.territory);
+  const mapRows=state.productionView==='inventory'?rows:territoryRows.filter(row=>row.estado_id==='OPERATIVO'||Object.hasOwn(state.scenarioProjects||{},row.instalacion_id));
+  renderProductionMap(data,state,mapRows,callbacks.onTerritorySelect,callbacks.onInstallationSelect);
   renderDepartmentChart(rows,callbacks.onTerritorySelect);
   renderFutureComparisonChart(rows,callbacks.onTerritorySelect);
   renderMatrixChart(rows);
   renderTable(rows,state);
-  renderDetail(data,state,rows);
+  renderDetail(data,state,territoryRows);
   const territory=state.territory==='all'?'Toda la provincia':data.territoryById?.[state.territory]?.territorio_nombre||'Departamento';
-  document.getElementById('production-map-caption').textContent=`${territory} · ${rows.length} instalaciones visibles`;
-  document.getElementById('production-department-caption').textContent='MW verificados · clic para filtrar';
-  document.getElementById('production-future-caption').textContent='Valores separados; los proyectos no se suman a la capacidad actual';
+  document.getElementById('production-map-caption').textContent=`${territory} · ${mapRows.filter(row=>Number.isFinite(row.latitud)&&Number.isFinite(row.longitud)).length} localizadas · ${state.productionView==='inventory'?'inventario filtrado':'base operativa + proyectos incluidos'}`;
+  document.getElementById('production-department-caption').textContent='MW documentados · clic para filtrar';
+  document.getElementById('production-future-caption').textContent='Potencia de la cartera auditada; no implica una fecha de ejecución';
   document.getElementById('production-matrix-caption').textContent='Sólo capacidad instalada documentada; excluye potencia declarada de proyectos';
   document.getElementById('production-source-note').textContent=(data.productionMetadata?.advertencias||[]).join(' ');
 }
