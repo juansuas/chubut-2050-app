@@ -1,9 +1,10 @@
-import {renderComparator} from './comparator.js?v=2.24.0';
-import {renderFuture} from './future.js?v=2.24.0';
-import {COLORS,DEFAULT_CAPACITY_THRESHOLDS,fmt,pct} from './config.js?v=2.24.0';
+import {initPageLayout,closeMobileSidebar} from './page-layout.js?v=2.25.0';
+import {renderComparator} from './comparator.js?v=2.25.0';
+import {renderFuture} from './future.js?v=2.25.0';
+import {COLORS,DEFAULT_CAPACITY_THRESHOLDS,fmt,pct} from './config.js?v=2.25.0';
 import {getState,setState,subscribe,resetState} from './state.js?v=2.15.0';
 import {initRouter} from './router.js?v=2.21.0';
-import {loadCoreData,loadDemographyData,loadCapacityData,loadProductionData,loadMigrationEducationData,loadFutureScenarioData} from './data.js?v=2.24.0';
+import {loadCoreData,loadDemographyData,loadCapacityData,loadProductionData,loadMigrationEducationData,loadFutureScenarioData} from './data.js?v=2.25.0';
 import {renderDemographyMap} from './maps.js';
 import {renderDemographyChart,renderPopulationPyramid,renderDepartmentShareChart,renderGrowthPolesChart} from './charts.js';
 import {downloadCSV} from './exports.js';
@@ -141,6 +142,13 @@ function renderMetadata(){if(!data.metadata)return;$('#data-date').textContent=`
 
 function renderSidebar(){
   const s=getState();
+  $('#future-sidebar').hidden=s.module!=='escenarios';
+  $('#sidebar-standard-context').hidden=s.module==='escenarios';
+  $('#sidebar-standard-kpis').hidden=!['demografia','oferta'].includes(s.module);
+  $('#sidebar-standard-actions').hidden=!['demografia','oferta'].includes(s.module);
+  $('#sidebar-page-guide').hidden=!['productivos','comparador'].includes(s.module);
+  $('#active-context-title').textContent=s.module==='oferta'?'Escenario educativo':s.module==='productivos'?'Producción':s.module==='comparador'?'Comparación':'Serie';
+  if(s.module==='escenarios')return;
   if(s.module==='oferta'&&data.capacitySections){
     const rows=projectedSections(data,s),m=aggregateCapacity(rows),territory=s.territory==='all'?'Toda la provincia':data.territoryById[s.territory]?.territorio_nombre;
     $('#active-scenario').textContent='Capacidad modelada';$('#active-selection').textContent=`${s.capacitySchool!=='all'?schoolName(data,s.capacitySchool):territory} · ${selectionLabel(s.educationSelection)} · ${s.year}`;
@@ -151,7 +159,8 @@ function renderSidebar(){
     $('#active-scenario').textContent=data.demographyMetadata.serie_nombre;$('#active-selection').textContent=`${demographyTerritoryName(data,s.territory)} · ${selectionLabel(s.educationSelection)} · ${s.year}`;
     const value=totalForRange(data,s,s.demographyAgeRange);$('#sidebar-kpi-list').innerHTML=`<article class="sidebar-kpi" style="--kpi-color:${COLORS.primary}"><div class="kpi-line"><span class="kpi-label">Población seleccionada</span><strong>${fmt.format(value)}</strong></div><small>${demographySexLabel(s.sex)}</small></article>`;return;
   }
-  if(s.module==='productivos'){$('#sidebar-kpi-list').innerHTML='';return;}
+  if(s.module==='productivos'){$('#active-scenario').textContent='Producción y energía';$('#active-selection').textContent='Inventario y escenario editable';$('#sidebar-kpi-list').innerHTML='';$('#sidebar-guide-links').innerHTML='<button type="button" data-page-section="production-map">Mapa e inventario</button><button type="button" data-page-section="production-results-title">Resultados del escenario</button>';return;}
+  if(s.module==='comparador'){$('#active-scenario').textContent='Comparador de escenarios';$('#active-selection').textContent='Año, territorio y capas sincronizados';$('#sidebar-guide-links').innerHTML='<button type="button" data-page-section="cmp-diff-title">Diferencia entre escenarios</button><button type="button" data-page-section="cmp-map-title-a">Mapas e indicadores</button>';return;}
   $('#active-scenario').textContent='Módulo pendiente';$('#active-selection').textContent='Sin datos disponibles';$('#sidebar-kpi-list').innerHTML='';
 }
 function renderTable(){const s=getState(),rows=demographyRows(data,s,{year:'all'}),byYear=new Map();rows.forEach(r=>byYear.set(r.year,(byYear.get(r.year)||0)+r.poblacion));const base=byYear.get(2022)||0,territory=demographyTerritoryName(data,s.territory);$('#demography-table').innerHTML=[2022,2025,2030,2040,2050,s.year].filter((y,i,a)=>a.indexOf(y)===i).sort().map(y=>`<tr><td>${y}</td><td>${y===2022?'Año inicial ajustado':y<=2040?'Proyección ajustada · referencia INDEC':'Extensión provista'}</td><td>${territory}</td><td class="number">${fmt.format(byYear.get(y)||0)}</td><td class="number">${base?pct.format((byYear.get(y)||0)/base-1):'—'}</td></tr>`).join('');}
@@ -186,6 +195,8 @@ function renderCurrent(){const route=getState().module;renderSidebar();if(route=
 function scheduleRender(){if(renderFrame)cancelAnimationFrame(renderFrame);renderFrame=requestAnimationFrame(()=>{renderFrame=null;renderCurrent();});}
 async function activateRoute(route){
   const token=++routeToken;
+  closeMobileSidebar();
+  window.scrollTo({top:0,left:0,behavior:'instant'});
   document.querySelector('.app-shell').classList.toggle('production-workspace-active',route==='productivos');
   document.querySelector('.app-shell').classList.toggle('future-workspace-active',['escenarios','comparador'].includes(route));
   $('#error-state').hidden=true;
@@ -215,5 +226,5 @@ async function activateRoute(route){
   if(token!==routeToken)return;
   $('#loading-state').hidden=true;syncControls(getState());scheduleRender();
 }
-async function init(){try{data=await loadCoreData();renderMetadata();setupControls();subscribe((s)=>{syncControls(s);scheduleRender();});initRouter(route=>activateRoute(route));initFloatingPanels();}catch(error){$('#loading-state').hidden=true;const p=$('#error-state');p.hidden=false;p.innerHTML=`<strong>No se pudo iniciar la V2.</strong><span>${error.message}</span>`;console.error(error);}}
+async function init(){try{data=await loadCoreData();renderMetadata();initPageLayout();setupControls();subscribe((s)=>{syncControls(s);scheduleRender();});initRouter(route=>activateRoute(route));initFloatingPanels();}catch(error){$('#loading-state').hidden=true;const p=$('#error-state');p.hidden=false;p.innerHTML=`<strong>No se pudo iniciar la V2.</strong><span>${error.message}</span>`;console.error(error);}}
 init();

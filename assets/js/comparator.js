@@ -52,6 +52,7 @@ export function renderComparator(data){
  const diff=comparisonDifference(points.a,points.b);
  $('cmp-difference-values').innerHTML=[[diff.mw,'MW en operación'],[diff.people,'personas'],[diff.education,'estudiantes potenciales']].map(([v,title])=>`<div><strong>${sf.format(v)}</strong><span>${title}</span></div>`).join('');
  const names=['a','b'].map(side=>COMPARISON_SCENARIOS[ui[side]]);
+ $('active-scenario').textContent=names.join(' / ');$('active-selection').textContent=`${name} · ${ui.year}`;
  $('cmp-difference-story').textContent=ui.a===ui.b?`Ambos lados muestran ${names[0]}. Sus indicadores coinciden.`:`${names[1]} menos ${names[0]} · ${name} · ${ui.year}. Los indicadores educativos comparan el total de niveles.`;
  const educationDiffs=FUTURE_LEVELS.map(([key,title])=>({title,value:points.b.educationLevels[key]-points.a.educationLevels[key]}));
  const strongest=[...educationDiffs].sort((a,b)=>Math.abs(b.value)-Math.abs(a.value))[0];

@@ -33,7 +33,7 @@ function init(data){
   }catch{}
   for(const [id,value] of Object.entries(data.territoryById).sort((a,b)=>a[1].territorio_nombre.localeCompare(b[1].territorio_nombre,'es'))) $('future-territory').add(new Option(value.territorio_nombre,id));
   for(const year of model.years)$('future-year').add(new Option(year,year));
-  document.querySelectorAll('#escenarios [data-scenario]').forEach(button=>button.addEventListener('click',()=>change({scenario:button.dataset.scenario})));
+  document.querySelectorAll('#future-sidebar [data-scenario]').forEach(button=>button.addEventListener('click',()=>change({scenario:button.dataset.scenario})));
   $('future-territory').addEventListener('change',event=>{installation=null;change({territory:event.target.value});});
   $('future-year').addEventListener('change',event=>change({year:Number(event.target.value)}));
   $('future-peak-year').addEventListener('click',()=>change({year:futurePeak(current().series,ui.mode,ui.level).year}));
@@ -161,7 +161,7 @@ export function renderFuture(data){
   document.querySelectorAll('[data-future-mode]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.futureMode===ui.mode)));
   document.querySelectorAll('[data-future-tab]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.futureTab===ui.tab)));
   document.querySelectorAll('[data-future-panel]').forEach(panel=>panel.hidden=panel.dataset.futurePanel!==ui.tab);
-  document.querySelectorAll('#escenarios [data-scenario]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.scenario===ui.scenario)));
+  document.querySelectorAll('#future-sidebar [data-scenario]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.scenario===ui.scenario)));
   document.querySelectorAll('#escenarios .fp-scenario-name').forEach(element=>element.textContent=label());
   const view=futureValues(p,ui.mode,ui.level),peak=futurePeak(scope.series,ui.mode,ui.level),peakView=futureValues(peak,ui.mode,ui.level);
   const unit=ui.mode==='population'?'personas':'estudiantes potenciales';

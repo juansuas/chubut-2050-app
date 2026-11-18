@@ -256,3 +256,8 @@ La regeneración desde el inventario auditado aplica automáticamente `data/loca
 ### Escenario Total · 2.24.0
 
 Total incorpora los 22 proyectos de la cartera habilitada: 1.635,17 MW adicionales en operación en 2050. Disponible en Escenarios de futuro y Comparador. Conserva el calendario de Intensivo e incorpora Rada Tilly, El Angelito y El Escorial en 2050 como hipótesis. [Definición y validación](docs/37_ESCENARIO_TOTAL.md).
+
+
+### Barras laterales y secciones web · 2.25.0
+
+Los cinco módulos comparten un lateral fijo bajo la cabecera. Escenarios reúne allí escenarios, territorio, año y accesos al máximo y a 2050. En pantallas pequeñas se abre como panel fijo. Las secciones de lectura incorporan fondos suaves y separadores, con encabezados adaptables. [Organización y verificación](docs/38_BARRAS_LATERALES_Y_SECCIONES_WEB.md). Validación: python scripts/validar_estructura_web.py.
