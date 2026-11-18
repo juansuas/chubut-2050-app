@@ -1,4 +1,4 @@
-import {renderFutureStory} from './future-story.js?v=2.23.0';
+import {renderFutureStory} from './future-story.js?v=2.23.1';
 import {futureValues,futurePeak,futureEducationTraces,futureChartRange,toggleFutureTerritory} from './future-view.js?v=2.22.0';
 import {buildFutureTerritories,FUTURE_LEVELS,futurePhase} from './future-territories.js?v=2.18.0';
 import {activitySymbol} from './production.js?v=2.23.0';
