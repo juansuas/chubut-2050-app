@@ -269,3 +269,7 @@ Relatos e instrucciones más sencillos, con foco en cómo los proyectos generan 
 ### Referencias cartográficas eólicas · 2.27.0
 
 La Flecha se representa con una referencia del predio. El Escorial y Aluar–Etapa II (96 MW) se muestran mediante puntos orientativos en Gastre y Biedma, identificados con ≈. Aplicación y regeneración: python scripts/aplicar_referencias_cartograficas.py. Validación: python scripts/validar_referencias_cartograficas.py. [Criterios y trazabilidad](docs/40_REFERENCIAS_CARTOGRAFICAS_EOLICAS.md).
+
+### Tipografía y colores compartidos · 2.28.0
+
+Los cinco módulos comparten una escala compacta de títulos, textos, indicadores y notas. Títulos en teal oscuro, texto general en gris oscuro y notas con mayor contraste. Los rótulos sobre las barras de Demografía eligen blanco u oscuro según el fondo. Revisado en escritorio y móvil. [Criterios y comprobaciones](docs/41_TIPOGRAFIA_Y_COLORES_COMPARTIDOS.md).

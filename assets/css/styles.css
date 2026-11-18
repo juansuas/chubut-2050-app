@@ -592,3 +592,60 @@ input[list],select,input[type=number]{width:100%;background:var(--surface);borde
  #escenarios .future-summary strong{font-size:22px}
 }
 @media(max-width:420px){#escenarios .story-level-card h4{font-size:17px}}
+/* Shared compact reading scale and text colors across all five modules. */
+:root{
+ --text-heading:#14586A;--text-body:#334652;--text-muted:#52636E;--muted:var(--text-muted);
+ --type-page:30px;--type-section:23px;--type-panel:18px;--type-body:13px;--type-note:12px;--type-sidebar:20px
+}
+body{color:var(--text-body)}
+:is(#demografia,#oferta,#productivos,#comparador){font-size:var(--type-body)}
+.module>.section-heading h2{font-size:var(--type-page);color:var(--text-heading);line-height:1.18}
+.module .page-band-title{font-size:var(--type-section);color:var(--text-heading)}
+:is(#demografia,#oferta,#productivos,#comparador) .panel-heading h3,
+:is(#demografia,#oferta,#productivos,#comparador) .scenario-panel-header h3,
+#oferta .rate-policy-heading h3,#oferta .threshold-policy h3{font-size:var(--type-panel);color:var(--text-heading);line-height:1.3}
+.module>.section-heading>p,.module .chart-explainer,.module .method-note{font-size:var(--type-body);color:var(--text-muted);line-height:1.6}
+.module .source-line,.module .panel-caption,.module .scenario-panel-summary{font-size:var(--type-note);color:var(--text-muted);line-height:1.5}
+.module .label,.module .section-number,.sidebar-kicker{color:var(--text-heading)}
+.module .inline-controls label,.module .panel-control,.module .demography-year-control{font-size:var(--type-note);color:var(--text-muted)}
+.module .inline-controls select,.module .panel-control select{font-size:var(--type-note);color:var(--text-body)}
+.module .range-limits,.module .dual-range-limits{font-size:11px;color:var(--text-muted)}
+.module .demography-year-control output{font-size:18px;color:var(--text-heading)}
+.module details,.module summary{font-size:var(--type-note)}
+.module .chart-explainer strong,.module .map-legend strong{color:var(--text-heading)}
+.module .pressure-state{color:var(--text-body)}
+.atlas-sidebar .active-context strong{font-size:var(--type-sidebar);color:var(--text-heading)}
+.atlas-sidebar .active-context span,.atlas-sidebar .sidebar-kpi .kpi-label{font-size:var(--type-note);color:var(--text-muted)}
+.atlas-sidebar .sidebar-kpi strong{font-size:var(--type-sidebar);color:var(--text-heading)}
+.atlas-sidebar .sidebar-kpi small{font-size:11px;color:var(--text-muted)}
+.atlas-sidebar .sidebar-actions button,.sidebar-page-guide button{font-size:var(--type-note)}
+#oferta .rate-policy-heading p,#oferta .threshold-policy p,#oferta .rate-slider{font-size:var(--type-note);color:var(--text-muted)}
+#oferta .threshold-policy-wrap>summary{font-size:var(--type-note);color:var(--text-heading)}
+#productivos .production-kpis strong,#productivos .scenario-summary strong{font-size:20px;color:var(--text-heading)}
+#productivos .production-kpis span,#productivos .production-kpis small,
+#productivos .scenario-summary span,#productivos .scenario-summary small{font-size:var(--type-note);color:var(--text-muted)}
+#productivos .production-tabs button{font-size:var(--type-note)}
+#productivos .installation-card-heading h4{font-size:20px;color:var(--text-heading)}
+#productivos .production-context p,#productivos .production-selection-note{font-size:var(--type-note);color:var(--text-heading)}
+#productivos .production-context .inline-controls label{min-width:0}
+#comparador .cmp-context,#comparador .cmp-difference p,#comparador .cmp-method{font-size:var(--type-body);color:var(--text-body)}
+#comparador .cmp-difference h3{font-size:20px;color:var(--text-heading)}
+#comparador .cmp-side>header h3{font-size:22px;color:var(--text-heading)}
+#comparador .cmp-side>h4{font-size:var(--type-body);color:var(--text-heading);line-height:1.5}
+#comparador .cmp-difference-values strong{font-size:26px;color:var(--text-heading)}
+#comparador .cmp-indicators strong{font-size:23px;color:var(--text-heading)}
+#comparador select{font-size:var(--type-note)}
+#comparador .cmp-indicators small,#comparador .cmp-indicators span,#comparador .cmp-chart-key,
+#comparador .cmp-difference-values span,#comparador .cmp-legend{color:var(--text-muted)}
+#escenarios .future-heading h2{font-size:var(--type-page)}
+#escenarios .story-section-heading h3{font-size:var(--type-section)}
+#escenarios .story-lead{color:var(--text-body)}
+#escenarios .story-chain-step span,#escenarios .story-highlights small,#escenarios .story-highlights span,
+#escenarios .story-level-card p,#escenarios .story-calendar-row small,#escenarios .story-calendar-axis{color:var(--text-muted)}
+#escenarios .future-line-legend,#escenarios .future-map-legend{color:var(--text-muted)}
+/* Annotation color must remain readable even when its line is yellow or coral. */
+.module .js-plotly-plot .annotation-text{fill:var(--text-body)!important}
+@media(max-width:680px){
+ :root{--type-page:25px;--type-section:21px}
+ #comparador .cmp-difference-values strong{font-size:23px}
+}

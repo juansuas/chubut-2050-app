@@ -10,6 +10,12 @@ const layoutBase = {
 };
 const config={displayModeBar:false,responsive:true};
 
+function readableBarText(hex){
+  const linear=[1,3,5].map(i=>parseInt(hex.slice(i,i+2),16)/255).map(v=>v<=.04045?v/12.92:((v+.055)/1.055)**2.4);
+  const luminance=linear[0]*.2126+linear[1]*.7152+linear[2]*.0722;
+  return 1.05/(luminance+.05)>=4.5?'#FFFFFF':'#111111';
+}
+
 function plot(id,traces,layout={}) {
   const el=document.getElementById(id);
   if(!el)return;
@@ -93,7 +99,7 @@ export function renderDepartmentShareChart(data,state) {
         line:{color:state.demographyTerritory===item.territorio_id?COLORS.ink:COLORS.surface,width:state.demographyTerritory===item.territorio_id?3:1}
       },
       text:[percentage>=3?`${percentage.toLocaleString('es-AR',{minimumFractionDigits:1,maximumFractionDigits:1})}%`:'' ],
-      textposition:'inside',textangle:0,insidetextanchor:'middle',textfont:{color:index<5?COLORS.surface:COLORS.ink},
+      textposition:'inside',textangle:0,insidetextanchor:'middle',textfont:{color:readableBarText(palette[index%palette.length])},
       hovertemplate:`<b>${item.territorio_nombre}</b><br>%{customdata[0]:,.0f} personas<br>%{customdata[1]:.1f}% del total provincial<extra></extra>`
     };
   });
