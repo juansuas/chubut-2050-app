@@ -1,0 +1,81 @@
+{
+  "fecha": "2026-11-18",
+  "registros": [
+    {
+      "instalacion_id": "AUD-EOL-0E949805E5DE",
+      "nombre": "Parque Eólico La Flecha (Aluar)",
+      "departamento_id": "26007",
+      "tipo_localizacion": "referencia_predio",
+      "etiqueta_localizacion": "Punto de referencia del predio",
+      "fuente_localizacion_id": "ALUAR_LA_FLECHA_PREDIO_2026_11_18",
+      "referencia_localizacion": "Punto de referencia del predio La Flecha, calculado a partir de los cuatro vértices publicados en el estudio ambiental de Aluar. No indica una turbina ni un edificio.",
+      "url_localizacion": "https://www.aluar.com.ar/assets/admin/archivos/menu_principal/pdf/72/ampliacion_peal_etapa_v_iv.pdf",
+      "precision_localizacion": "Centro aproximado del predio; no representa la posición de los aerogeneradores.",
+      "vertices_predio_lon_lat": [
+        [
+          -65.4520888888889,
+          -42.68269166666666
+        ],
+        [
+          -65.33031666666666,
+          -42.67975555555555
+        ],
+        [
+          -65.44824722222222,
+          -42.77292222222222
+        ],
+        [
+          -65.32600555555555,
+          -42.77010555555555
+        ]
+      ],
+      "metodo": "Promedio de latitudes y longitudes de los cuatro vértices del predio. Tabla 1, página 9 del informe de monitoreo La Flecha incluido en el EsIA Etapas V y VI."
+    },
+    {
+      "instalacion_id": "AUD-EOL-4539CD2DA0C1",
+      "nombre": "Parque Eólico El Escorial",
+      "departamento_id": "26049",
+      "tipo_localizacion": "departamental",
+      "etiqueta_localizacion": "Ubicación orientativa en Gastre",
+      "fuente_localizacion_id": "APP_REFERENCIA_DEPARTAMENTAL_2026_11_18",
+      "referencia_localizacion": "Ubicación orientativa dentro del departamento Gastre. El emplazamiento real del proyecto no está confirmado; este punto sólo sirve para mostrarlo en el mapa.",
+      "url_localizacion": null,
+      "precision_localizacion": "Sólo departamento; sin precisión de emplazamiento.",
+      "metodo": "Punto interior calculado sobre la geometría departamental de la app. Acordado por el usuario el 18/11/2026."
+    },
+    {
+      "instalacion_id": "AUD-EOL-E330DF59A5A4",
+      "nombre": "Parque Eólico Aluar – Etapa II",
+      "departamento_id": "26007",
+      "tipo_localizacion": "departamental",
+      "etiqueta_localizacion": "Ubicación orientativa en Biedma",
+      "fuente_localizacion_id": "APP_REFERENCIA_DEPARTAMENTAL_2026_11_18",
+      "referencia_localizacion": "Ubicación orientativa dentro del departamento Biedma. El emplazamiento real del proyecto no está confirmado; este punto sólo sirve para mostrarlo en el mapa.",
+      "url_localizacion": null,
+      "precision_localizacion": "Sólo departamento; sin precisión de emplazamiento.",
+      "metodo": "Punto interior calculado sobre la geometría departamental de la app. Acordado por el usuario el 18/11/2026."
+    }
+  ],
+  "fuentes": [
+    {
+      "fuente_id": "ALUAR_LA_FLECHA_PREDIO_2026_11_18",
+      "titulo": "Aluar · EsIA V y VI · vértices del predio La Flecha",
+      "institucion": "Aluar",
+      "cobertura": "Biedma, Chubut",
+      "tipo_recurso": "PDF",
+      "url": "https://www.aluar.com.ar/assets/admin/archivos/menu_principal/pdf/72/ampliacion_peal_etapa_v_iv.pdf",
+      "uso": "Punto de referencia del predio derivado de sus vértices",
+      "limitaciones": "No representa turbinas ni edificios; referencia calculada del predio."
+    },
+    {
+      "fuente_id": "APP_REFERENCIA_DEPARTAMENTAL_2026_11_18",
+      "titulo": "Referencias orientativas por departamento · acuerdo del 18/11/2026",
+      "institucion": "Equipo Chubut 2050",
+      "cobertura": "Gastre y Biedma",
+      "tipo_recurso": "Geometría departamental y criterio cartográfico",
+      "url": "data/departamentos_chubut.geojson",
+      "uso": "Mostrar El Escorial y Aluar–Etapa II dentro de sus departamentos",
+      "limitaciones": "Puntos sintéticos; no son coordenadas verificadas del proyecto."
+    }
+  ]
+}

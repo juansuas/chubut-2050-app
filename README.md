@@ -54,7 +54,7 @@ La versión 2.14 usa «Capa construida» del inventario auditado el 09/11/2026. 
 | Hidroeléctrica | 606,800 | 9 | 392,570 | 392,570 |
 | Térmica | 434,835 | 0 | 0 | 0 |
 
-La capacidad eólica combina el corte CAMMESA de septiembre (1.314,91 MW) con La Flecha, etapa V de Aluar (+336 MW). La capacidad hidroeléctrica se conserva según el registro 2023, con estado contrastado con la base de generadores de CAMMESA. El piso térmico confirmado es parcial: incluye 57,735 MW de autogeneración no firme (MBE2). Las térmicas sin estado confirmado conservan su potencia histórica en la ficha. No se crean puntos en el mapa para registros sin coordenadas.
+La capacidad eólica combina el corte CAMMESA de septiembre (1.314,91 MW) con La Flecha, etapa V de Aluar (+336 MW). La capacidad hidroeléctrica se conserva según el registro 2023, con estado contrastado con la base de generadores de CAMMESA. El piso térmico confirmado es parcial: incluye 57,735 MW de autogeneración no firme (MBE2). Las térmicas sin estado confirmado conservan su potencia histórica en la ficha. La Flecha cuenta con una referencia del predio; El Escorial y Aluar–Etapa II tienen puntos orientativos dentro de sus departamentos, identificados con ≈. Estos últimos no son emplazamientos verificados.
 
 Los valores cargados en la columna de instalada para filas proyectadas se tratan como potencia de proyecto. Se excluyen del consolidado las filas duplicadas de El Tordillo y Manantiales Behr II. El equipo confirmó el 17/11/2026 la adopción de 80 MW de PLAHE para Frontera II y la independencia de Aluar Etapa II como ampliación futura de 96 MW. Los 22 proyectos quedan habilitados, por 1.635,17 MW.
 
@@ -265,3 +265,7 @@ Los cinco módulos comparten un lateral fijo bajo la cabecera. Escenarios reúne
 ### Textos claros y cercanos · 2.26.0
 
 Relatos e instrucciones más sencillos, con foco en cómo los proyectos generan trabajo, llegada de personas y nuevas necesidades educativas. Se explican tendencial, estudiantes potenciales y los supuestos de salida al terminar las obras. Incluye ayudas de los cinco módulos. [Revisión editorial](docs/39_TEXTOS_CLAROS_Y_CERCANOS.md).
+
+### Referencias cartográficas eólicas · 2.27.0
+
+La Flecha se representa con una referencia del predio. El Escorial y Aluar–Etapa II (96 MW) se muestran mediante puntos orientativos en Gastre y Biedma, identificados con ≈. Aplicación y regeneración: python scripts/aplicar_referencias_cartograficas.py. Validación: python scripts/validar_referencias_cartograficas.py. [Criterios y trazabilidad](docs/40_REFERENCIAS_CARTOGRAFICAS_EOLICAS.md).

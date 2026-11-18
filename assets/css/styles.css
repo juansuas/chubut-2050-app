@@ -558,3 +558,7 @@ input[list],select,input[type=number]{width:100%;background:var(--surface);borde
 .page-band-grid .panel-heading>.panel-control{flex:1 1 180px}
 .web-section-list,#escenarios .fp-main,#comparador,#productivos{container-type:inline-size}
 @media(min-width:981px) and (max-width:1199px){.demography-controls{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* Department-only locations: distinct from verified project sites. */
+.approx-department{position:relative}
+.approx-department::after{content:"≈";position:absolute;right:-6px;bottom:-5px;display:grid;place-items:center;width:16px;height:16px;border:1px solid #8A5A44;border-radius:50%;background:#FFF5DF;color:#6B451F;font:700 14px/1 system-ui;box-shadow:0 1px 3px #0003}

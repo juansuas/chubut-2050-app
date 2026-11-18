@@ -72,7 +72,7 @@ function activityIcon(row,selected=false,inScenario=false){
   const stateClass=`state-${String(row.estado_id||'SIN_INFO').toLowerCase()}`;
   return L.divIcon({
     className:'production-div-icon',
-    html:`<span class="production-map-symbol ${activityClass} ${stateClass}${selected?' is-selected':''}${inScenario?' is-in-scenario':''}" style="--marker-size:${size}px;--activity-color:${ACTIVITY_COLORS[row.actividad_id]||COLORS.muted};--state-color:${STATE_COLORS[row.estado_id]||COLORS.muted}">${activitySymbol(row.actividad_id)}</span>`,
+    html:`<span class="production-map-symbol ${activityClass} ${stateClass}${selected?' is-selected':''}${inScenario?' is-in-scenario':''}${row.tipo_localizacion==='departamental'?' approx-department':''}" style="--marker-size:${size}px;--activity-color:${ACTIVITY_COLORS[row.actividad_id]||COLORS.muted};--state-color:${STATE_COLORS[row.estado_id]||COLORS.muted}">${activitySymbol(row.actividad_id)}</span>`,
     iconSize:[size,size],
     iconAnchor:[size/2,size/2],
     tooltipAnchor:[0,-size/2]
@@ -115,7 +115,7 @@ function renderProductionMap(data,state,rows,onTerritorySelect,onInstallationSel
     const selected=row.instalacion_id===selectedId;
     const marker=L.marker([row.latitud,row.longitud],{
       icon:activityIcon(row,selected,Object.hasOwn(state.scenarioProjects||{},row.instalacion_id)),
-      title:`${row.nombre_instalacion} · ${row.actividad_nombre} · ${row.estado_nombre}`,
+      title:`${row.nombre_instalacion} · ${row.actividad_nombre} · ${row.estado_nombre}${row.etiqueta_localizacion?' · '+row.etiqueta_localizacion:''}`,
       alt:`${row.nombre_instalacion}, ${row.actividad_nombre}, ${row.estado_nombre}`,
       keyboard:true,
       riseOnHover:true,
@@ -195,7 +195,7 @@ function renderMatrixChart(rows){
 function renderKpis(rows){
   const summary=productionSummary(rows);
   const cards=[
-    ['Instalaciones',fmt.format(summary.installations),`${rows.filter(row=>Number.isFinite(row.latitud)&&Number.isFinite(row.longitud)).length} con coordenadas`],
+    ['Instalaciones',fmt.format(summary.installations),`${rows.filter(row=>Number.isFinite(row.latitud)&&Number.isFinite(row.longitud)).length} puntos en el mapa; incluye referencias orientativas`],
     ['Capacidad instalada',`${formatDecimal(summary.installed)} MW`,`${summary.withInstalled} instalaciones con dato`],
     ['Potencia de proyecto',`${formatDecimal(summary.projectPower)} MW`,'Valor documental; no se suma como instalada'],
     ['Proyectos futuros',fmt.format(summary.future),'Cartera del inventario auditado']
@@ -229,7 +229,7 @@ function renderDetail(data,state,rows){
       <div><dt>Empleo de operación</dt><dd>Sin dato observado</dd></div>
       <div><dt>Año declarado</dt><dd>${escapeHTML(row.anio_referencia||'Sin informar')}</dd></div>
     </dl>
-    ${row.referencia_localizacion?`<p class="source-line">${escapeHTML(row.referencia_localizacion)} Precisión métrica: ${escapeHTML(row.precision_localizacion)} <a href="${escapeHTML(row.url_localizacion)}" target="_blank" rel="noopener">Ficha de localización PLAHE</a></p>`:''}
+    ${row.referencia_localizacion?`<p class="source-line">${escapeHTML(row.referencia_localizacion)} Detalle de ubicación: ${escapeHTML(row.precision_localizacion)} ${row.url_localizacion?`<a href="${escapeHTML(row.url_localizacion)}" target="_blank" rel="noopener">Ver fuente de ubicación</a>`:''}</p>`:''}
     ${row.nota_conciliacion?`<p class="project-pending">${escapeHTML(row.nota_conciliacion)}</p>`:''}
     <footer><strong>Fuente primaria</strong>${sourceLink}<small>${escapeHTML(source?.institucion||'')} ${source?.fecha_actualizacion_declarada?`· actualización declarada ${escapeHTML(source.fecha_actualizacion_declarada)}`:'· fecha de corte no informada'}</small>${supportingSources.filter(item=>item.url).map(item=>`<a href="${escapeHTML(item.url)}" target="_blank" rel="noopener">${escapeHTML(item.titulo)}</a>`).join('')}</footer>
   </article>`;

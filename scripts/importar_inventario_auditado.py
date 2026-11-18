@@ -10,6 +10,7 @@ from pathlib import Path
 
 from openpyxl import load_workbook
 from aplicar_localizaciones_hidro import apply_locations, update_metadata, register_source
+from aplicar_referencias_cartograficas import apply_cartographic_references, update_reference_metadata, register_reference_sources
 
 AUDIT = "AUDITORIA_MANUAL_2026_11_09"
 EXTRA = {
@@ -91,6 +92,7 @@ def compile_inventory(path, data):
         features.append({"type": "Feature", "geometry": None if lat is None else {"type": "Point", "coordinates": [lon, lat]}, "properties": r})
 
     apply_locations(features, data)
+    apply_cartographic_references(features, data)
     rows = [f["properties"] for f in features]
     if len({r["instalacion_id"] for r in rows}) != len(rows):
         raise ValueError("IDs duplicados")
@@ -122,6 +124,7 @@ def compile_inventory(path, data):
         ],
     }
     update_metadata(meta, features)
+    update_reference_metadata(meta, features)
     def dump(name, value):
         (data/name).write_text(json.dumps(value, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     dump("instalaciones_energeticas.geojson", {"type": "FeatureCollection", "features": features})
@@ -147,6 +150,7 @@ def compile_inventory(path, data):
         writer.writeheader()
         writer.writerows(old.values())
     register_source(data)
+    register_reference_sources(data)
     print(json.dumps(totals, ensure_ascii=False))
 
 if __name__ == "__main__":

@@ -1,6 +1,6 @@
 {
   "nombre": "Inventario productivo y energético · Chubut 2050",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "fecha_construccion": "2026-11-16",
   "inventario_auditado": "Chubut_2050_inventario_control_piso_termico_2026-11-09.xlsx",
   "hoja": "Capa construida",
@@ -39,7 +39,7 @@
       "simulable_mw": 0
     }
   },
-  "registros_con_coordenadas": 89,
+  "registros_con_coordenadas": 92,
   "duplicados_excluidos": [
     {
       "fila": 19,
@@ -58,7 +58,10 @@
     "La capacidad instalada suma unidades operativas con dato. El piso térmico de septiembre de 2026 es parcial: la potencia histórica de centrales sin estado confirmado queda sólo en sus fichas.",
     "La capacidad hidroeléctrica conserva el registro nacional de 2023; el estado se contrastó con la base de generadores de CAMMESA.",
     "La potencia declarada de instalaciones operativas es una referencia histórica; no integra la cartera. Los proyectos con conciliación pendiente se muestran aparte y no suman MW simulables.",
-    "Nueve proyectos hidroeléctricos incorporan puntos de referencia del aprovechamiento publicados por PLAHE; no necesariamente corresponden al edificio de la central. Precisión métrica no informada."
+    "Nueve proyectos hidroeléctricos incorporan puntos de referencia del aprovechamiento publicados por PLAHE; no necesariamente corresponden al edificio de la central. Precisión métrica no informada.",
+    "La Flecha se muestra con un punto de referencia del predio. El Escorial y Aluar–Etapa II (96 MW) usan puntos orientativos dentro de sus departamentos; no son ubicaciones verificadas de los proyectos."
   ],
-  "fecha_actualizacion_localizaciones": "2026-11-18"
+  "fecha_actualizacion_localizaciones": "2026-11-18",
+  "referencias_departamentales": 2,
+  "referencias_predio": 1
 }

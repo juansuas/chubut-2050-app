@@ -3868,7 +3868,13 @@
     },
     {
       "type": "Feature",
-      "geometry": null,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -68.938573,
+          -42.669394
+        ]
+      },
       "properties": {
         "instalacion_id": "AUD-EOL-4539CD2DA0C1",
         "nombre_instalacion": "Parque Eólico El Escorial",
@@ -3889,7 +3895,7 @@
         "registro_id_fuente": null,
         "calidad_registro": "auditado_manualmente",
         "descripcion_fuente": null,
-        "fuente_localizacion_id": null,
+        "fuente_localizacion_id": "APP_REFERENCIA_DEPARTAMENTAL_2026_11_18",
         "fuente_estado_id": "AUDITORIA_MANUAL_2026_11_09",
         "fuente_capacidad_instalada_id": null,
         "periodo_capacidad_instalada": null,
@@ -3900,12 +3906,24 @@
         "fila_auditoria": 97,
         "capacidad_historica_mw": null,
         "tecnologia_impacto_id": "EOL",
-        "nota_conciliacion": null
+        "nota_conciliacion": null,
+        "tipo_localizacion": "departamental",
+        "etiqueta_localizacion": "Ubicación orientativa en Gastre",
+        "referencia_localizacion": "Ubicación orientativa dentro del departamento Gastre. El emplazamiento real del proyecto no está confirmado; este punto sólo sirve para mostrarlo en el mapa.",
+        "url_localizacion": null,
+        "precision_localizacion": "Sólo departamento; sin precisión de emplazamiento.",
+        "fecha_verificacion_localizacion": "2026-11-18"
       }
     },
     {
       "type": "Feature",
-      "geometry": null,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -65.194585,
+          -42.439422
+        ]
+      },
       "properties": {
         "instalacion_id": "AUD-EOL-E330DF59A5A4",
         "nombre_instalacion": "Parque Eólico Aluar – Etapa II",
@@ -3926,7 +3944,7 @@
         "registro_id_fuente": null,
         "calidad_registro": "auditado_manualmente",
         "descripcion_fuente": null,
-        "fuente_localizacion_id": null,
+        "fuente_localizacion_id": "APP_REFERENCIA_DEPARTAMENTAL_2026_11_18",
         "fuente_estado_id": "AUDITORIA_MANUAL_2026_11_09",
         "fuente_capacidad_instalada_id": null,
         "periodo_capacidad_instalada": null,
@@ -3938,12 +3956,24 @@
         "decision_conciliacion": "2026-11-17: el equipo confirma 96 MW de ampliación futura independiente de lo instalado.",
         "capacidad_historica_mw": null,
         "tecnologia_impacto_id": "EOL",
-        "nota_conciliacion": null
+        "nota_conciliacion": null,
+        "tipo_localizacion": "departamental",
+        "etiqueta_localizacion": "Ubicación orientativa en Biedma",
+        "referencia_localizacion": "Ubicación orientativa dentro del departamento Biedma. El emplazamiento real del proyecto no está confirmado; este punto sólo sirve para mostrarlo en el mapa.",
+        "url_localizacion": null,
+        "precision_localizacion": "Sólo departamento; sin precisión de emplazamiento.",
+        "fecha_verificacion_localizacion": "2026-11-18"
       }
     },
     {
       "type": "Feature",
-      "geometry": null,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -65.389165,
+          -42.726369
+        ]
+      },
       "properties": {
         "instalacion_id": "AUD-EOL-0E949805E5DE",
         "nombre_instalacion": "Parque Eólico La Flecha (Aluar)",
@@ -3964,7 +3994,7 @@
         "registro_id_fuente": null,
         "calidad_registro": "auditado_manualmente",
         "descripcion_fuente": null,
-        "fuente_localizacion_id": null,
+        "fuente_localizacion_id": "ALUAR_LA_FLECHA_PREDIO_2026_11_18",
         "fuente_estado_id": "AUDITORIA_MANUAL_2026_11_09",
         "fuente_capacidad_instalada_id": "ALUAR_PARQUE",
         "periodo_capacidad_instalada": "2026",
@@ -3975,7 +4005,13 @@
         "fila_auditoria": 99,
         "capacidad_historica_mw": null,
         "tecnologia_impacto_id": null,
-        "nota_conciliacion": null
+        "nota_conciliacion": null,
+        "tipo_localizacion": "referencia_predio",
+        "etiqueta_localizacion": "Punto de referencia del predio",
+        "referencia_localizacion": "Punto de referencia del predio La Flecha, calculado a partir de los cuatro vértices publicados en el estudio ambiental de Aluar. No indica una turbina ni un edificio.",
+        "url_localizacion": "https://www.aluar.com.ar/assets/admin/archivos/menu_principal/pdf/72/ampliacion_peal_etapa_v_iv.pdf",
+        "precision_localizacion": "Centro aproximado del predio; no representa la posición de los aerogeneradores.",
+        "fecha_verificacion_localizacion": "2026-11-18"
       }
     }
   ]
