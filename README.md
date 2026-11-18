@@ -241,3 +241,7 @@ Escenarios Tendencial, Moderado e Intensivo seleccionables por lado. Año, terri
 ## Publicación en GitHub Pages
 
 Versión 2.21.0 preparada el 18/11/2026. Sitio: https://juansuas.github.io/chubut-2050-app/ · [Módulo 1](https://juansuas.github.io/chubut-2050-app/#escenarios) · [Módulo 5](https://juansuas.github.io/chubut-2050-app/#comparador). Las menciones de entrega local en las secciones históricas describen el estado previo a esta publicación.
+
+### Ajustes de lectura del módulo 01 · 2.22.0
+
+Escenario punteado, rango vertical ampliable, gráfico educativo conjunto por nivel, selectores de escenario ampliados y mapas con segundo clic para quitar filtros. Proyectos georreferenciados sobre el mapa departamental y leyenda de hitos por marcadores. [Detalles y verificación](docs/34_MODULO_01_AJUSTES_LECTURA.md). Validación: `node scripts/validar_ajustes_modulo01.mjs`.

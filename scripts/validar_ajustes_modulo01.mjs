@@ -1,0 +1,14 @@
+import assert from 'node:assert/strict';
+import {futureEducationTraces,futureChartRange,toggleFutureTerritory} from '../assets/js/future-view.js';
+const rows=[{year:2030,base:{levels:{INI:100,PRI:200}},scenarioLevels:{INI:110,PRI:201}},{year:2031,base:{levels:{INI:90,PRI:195}},scenarioLevels:{INI:92,PRI:195}}];
+const traces=futureEducationTraces(rows,[['INI','Inicial'],['PRI','Primario']],'Moderado');
+assert.equal(traces.length,4);
+assert.equal(traces[0].line.color,traces[1].line.color);
+assert.notEqual(traces[0].line.color,traces[2].line.color);
+assert.equal(traces[0].line.dash,'solid');assert.equal(traces[1].line.dash,'dot');
+assert.deepEqual(traces[1].y.map((v,i)=>v-traces[0].y[i]),[10,2]);
+assert.deepEqual(traces[3].y.map((v,i)=>v-traces[2].y[i]),[1,0]);
+assert.equal(toggleFutureTerritory('all','26007'),'26007');assert.equal(toggleFutureTerritory('26007','26007'),'all');assert.equal(toggleFutureTerritory('26007','26056'),'26056');
+const zoom=futureChartRange([124765,124837],true).range;assert.ok(zoom[0]<124765&&zoom[1]>124837);assert.ok(zoom[0]>0);
+assert.equal(futureChartRange([],true).rangemode,'tozero');
+console.log('AJUSTES M01 OK: curvas por nivel, colores, trazos, diferencias, rango ampliado y segundo clic territorial.');

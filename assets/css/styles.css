@@ -440,3 +440,42 @@ input[list],select,input[type=number]{width:100%;background:var(--surface);borde
 #comparador button:focus-visible,#comparador select:focus-visible{outline:3px solid #B07437;outline-offset:3px}
 @media(max-width:950px){#comparador .cmp-difference{grid-template-columns:1fr}#comparador .cmp-side{padding:12px}#comparador .cmp-columns{gap:12px}#comparador .cmp-side>header{display:block}#comparador .cmp-side>header h3{margin-bottom:12px}}
 @media(max-width:680px){#comparador .cmp-columns{grid-template-columns:1fr}#comparador .cmp-controls{gap:10px;padding:12px}#comparador .cmp-controls label{flex-basis:calc(50% - 10px)}#comparador .cmp-difference{padding:14px}#comparador .cmp-difference-values{gap:10px}#comparador .cmp-difference-values strong{font-size:25px}#comparador .cmp-map{height:310px}}
+/* 2.22: clearer scenario choices, wrapping, education curves and event keys. */
+#escenarios .future-heading{flex-wrap:wrap;align-items:start}
+#escenarios .future-heading>div:first-child{flex:1 1 260px;min-width:0}
+#escenarios .future-scenario-choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;flex:1.5 1 540px}
+#escenarios .future-scenario-choices button{display:flex;align-items:center;gap:14px;text-align:left;min-width:0;padding:17px 18px;border:1px solid #B4C8CA;border-radius:8px;background:#F8FAF7;color:#14586A;cursor:pointer}
+#escenarios .future-scenario-choices button[aria-pressed=true]{background:#14586A;border-color:#14586A;color:white;box-shadow:0 3px 0 #C69C5C}
+#escenarios .future-scenario-choices strong{display:block;font:25px/1.2 var(--serif)}
+#escenarios .future-scenario-choices small,#escenarios .future-scenario-choices em{display:block;font:12px/1.5 system-ui;margin-top:5px}
+#escenarios .future-scenario-icon{font:30px/1 system-ui;flex:0 0 auto}
+#escenarios .story-opening h3,#escenarios .story-lead{width:100%;max-width:none}
+#escenarios .story-opening h3{font-size:clamp(27px,2.6vw,38px);line-height:1.25;text-wrap:pretty}
+#escenarios .story-lead,#escenarios .story-insight{white-space:normal;overflow-wrap:break-word;height:auto;line-height:1.65;text-wrap:pretty}
+#escenarios .story-section-heading>div,#escenarios .story-chain-step,#escenarios .panel-heading>div{min-width:0}
+#escenarios .story-section-heading h3{white-space:normal;overflow-wrap:break-word;line-height:1.3}
+#escenarios .story-number{flex:0 0 auto}
+#escenarios .story-project-layout{grid-template-columns:minmax(0,.8fr) minmax(0,1.4fr)}
+#escenarios .story-project-layout>div{min-width:0}
+#escenarios .story-chain{grid-template-columns:repeat(4,minmax(0,1fr))}
+#escenarios .story-chain-step span{white-space:normal;overflow-wrap:break-word;line-height:1.5}
+#escenarios .story-calendar-row>span{min-width:0;overflow-wrap:break-word;line-height:1.5;padding-top:5px;padding-bottom:5px}
+#escenarios #story-project-map .future-marker{width:28px;height:28px;border-color:white}
+#escenarios .future-expand-control{display:flex;align-items:center;gap:8px;font-size:13px;margin:12px 0}
+#escenarios .future-key.scenario:before{border-top-style:dotted}
+#escenarios .future-event-key{display:inline-flex;gap:7px;font-weight:600}
+#escenarios .future-event-key.construction{color:#98612A}
+#escenarios .future-event-key.operation{color:#247C8C}
+#escenarios .future-level-key{display:inline-flex;gap:6px;align-items:center}
+#escenarios .future-level-key:before{content:'';width:20px;border-top:3px solid var(--level-color)}
+#escenarios .story-education-controls{display:flex;gap:12px 22px;flex-wrap:wrap;margin:20px 0 12px}
+#escenarios .story-education-controls label{display:flex;gap:7px;align-items:center;font-size:14px;border-bottom:3px solid var(--level-color);padding:8px 0}
+#escenarios .story-education-controls input{accent-color:var(--level-color)}
+#escenarios #story-education-chart{width:100%;height:470px;min-width:0}
+#escenarios .story-level-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+#escenarios .story-level-card{border-color:var(--level-color)}
+#escenarios .story-level-card h4{font-size:22px}
+@media(max-width:900px){#escenarios .story-level-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:760px){#escenarios .story-project-layout{grid-template-columns:1fr}#escenarios .story-chain{grid-template-columns:repeat(2,minmax(0,1fr))}#escenarios .future-scenario-choices{width:100%;flex-basis:auto}#escenarios .future-scenario-choices button{padding:13px 10px;gap:8px}#escenarios .future-scenario-choices strong{font-size:22px}#escenarios .future-scenario-icon{font-size:22px}#escenarios .future-scenario-choices small,#escenarios .future-scenario-choices em{font-size:11px}}
+@media(max-width:420px){#escenarios .future-scenario-choices{grid-template-columns:1fr}#escenarios .future-scenario-choices button{padding:12px 14px}#escenarios .future-scenario-choices small,#escenarios .future-scenario-choices em{font-size:12px}#escenarios .story-level-card{padding:12px}#escenarios .story-level-card h4{font-size:19px}}
+@media(max-width:760px){#escenarios .future-heading>div:first-child,#escenarios .future-scenario-choices{flex:0 0 auto;width:100%}}

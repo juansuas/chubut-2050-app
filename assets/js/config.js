@@ -10,7 +10,7 @@ export const DATA_PATHS = {
   productionMetadata:'data/productivo_metadata.json?v=2.15.1',
   productionSources:'data/fuentes_productivas.csv?v=2.15.1',
   departmentBoundaries:'data/departamentos_chubut.geojson',
-  metadata:'data/metadata.json?v=2.21.0'
+  metadata:'data/metadata.json?v=2.22.0'
 };
 
 export const YEARS=Array.from({length:29},(_,index)=>2022+index);

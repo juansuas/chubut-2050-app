@@ -1,5 +1,5 @@
 import {renderComparator} from './comparator.js?v=2.21.0';
-import {renderFuture} from './future.js?v=2.20.0';
+import {renderFuture} from './future.js?v=2.22.0';
 import {COLORS,DEFAULT_CAPACITY_THRESHOLDS,fmt,pct} from './config.js?v=2.15.1';
 import {getState,setState,subscribe,resetState} from './state.js?v=2.15.0';
 import {initRouter} from './router.js?v=2.21.0';

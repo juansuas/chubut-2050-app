@@ -1,5 +1,5 @@
-import {renderFutureStory} from './future-story.js?v=2.20.0';
-import {futureValues,futurePeak} from './future-view.js?v=2.19.0';
+import {renderFutureStory} from './future-story.js?v=2.22.0';
+import {futureValues,futurePeak,futureEducationTraces,futureChartRange,toggleFutureTerritory} from './future-view.js?v=2.22.0';
 import {buildFutureTerritories,FUTURE_LEVELS,futurePhase} from './future-territories.js?v=2.18.0';
 import {activitySymbol} from './production.js?v=2.16.0';
 
@@ -10,7 +10,7 @@ const $=id=>document.getElementById(id),text=(id,value)=>{$(id).textContent=valu
 const escape=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const percent=value=>value===null?'—':`+${df.format(value*100)} %`;
 let model,owner,ready=false,map,territoryLayer,markers,mapScope=null,installation=null;
-let ui={scenario:'moderado',territory:'all',year:2050,mode:'population',level:'all',eventMode:'both',tab:'territories',installations:false,rank:'current',mapMetric:'absolute'};
+let ui={scenario:'moderado',territory:'all',year:2050,mode:'population',expanded:false,educationLevels:['INI','PRI','SEC','AGE18'],level:'all',eventMode:'both',tab:'territories',installations:false,rank:'current',mapMetric:'absolute'};
 const current=()=>model.scenarios[ui.scenario].territories[ui.territory];
 const point=()=>current().series.find(row=>row.year===ui.year);
 const label=()=>ui.scenario==='moderado'?'Moderado':'Intensivo';
@@ -25,6 +25,8 @@ function init(data){
     if(Number.isInteger(saved.year)&&saved.year>=2026&&saved.year<=2050)ui.year=saved.year;
     // The story opens with population; the comparison switch stays available.
     if(['all',...Object.keys(colors)].includes(saved.level))ui.level=saved.level;
+    if(typeof saved.expanded==='boolean')ui.expanded=saved.expanded;
+    if(Array.isArray(saved.educationLevels))ui.educationLevels=saved.educationLevels.filter(key=>key in colors);
     if(['both','construction','operation','none'].includes(saved.eventMode))ui.eventMode=saved.eventMode;
     if(['current','relative','peak'].includes(saved.rank))ui.rank=saved.rank;
     if(['absolute','relative'].includes(saved.mapMetric))ui.mapMetric=saved.mapMetric;
@@ -37,6 +39,8 @@ function init(data){
   $('future-peak-year').addEventListener('click',()=>change({year:futurePeak(current().series,ui.mode,ui.level).year}));
   $('future-horizon').addEventListener('click',()=>change({year:2050}));
   document.querySelectorAll('[data-future-mode]').forEach(button=>button.addEventListener('click',()=>change({mode:button.dataset.futureMode})));
+  $('future-expand-range').addEventListener('change',event=>change({expanded:event.target.checked}));
+  document.querySelectorAll('[data-story-level]').forEach(input=>input.addEventListener('change',()=>change({educationLevels:[...document.querySelectorAll('[data-story-level]:checked')].map(el=>el.dataset.storyLevel)})));
   $('future-level').addEventListener('change',event=>change({level:event.target.value}));
   $('future-event-mode').addEventListener('change',event=>change({eventMode:event.target.value}));
   $('future-show-installations').addEventListener('change',event=>{installation=null;change({installations:event.target.checked});});
@@ -60,9 +64,12 @@ function renderChart(data){
   const peak=futurePeak(series,ui.mode,ui.level),peakValue=futureValues(peak,ui.mode,ui.level).delta;
   const traces=[
     {name:'Tendencial',y:values.map(v=>v.base),line:{color:'#78848B',width:2}},
-    {name:label()+' · con proyectos',y:values.map(v=>v.total),line:{color:'#176B7C',width:3},fill:'tonexty',fillcolor:'rgba(36,124,140,.14)'},
+    {name:label()+' · con proyectos',y:values.map(v=>v.total),line:{color:'#176B7C',width:2.5,dash:'dot'},fill:'tonexty',fillcolor:'rgba(36,124,140,.14)'},
     {name:'Diferencia adicional',y:values.map(v=>v.delta),yaxis:'y2',line:{color:'#176B7C',width:2},fill:'tozeroy',fillcolor:'rgba(36,124,140,.16)'}
   ].map(trace=>({type:'scatter',mode:'lines',x:model.years,hovertemplate:'%{y:,.1f}<extra>%{fullData.name}</extra>',...trace}));
+  if(ui.mode==='education'){const selected=FUTURE_LEVELS.filter(([key])=>ui.level==='all'||key===ui.level);traces.splice(0,2,...futureEducationTraces(series,selected,label()).map(t=>({...t,hovertemplate:'%{x}: %{y:,.1f}<extra>%{fullData.name}</extra>'})));}
+  const plotted=traces.filter(t=>!t.yaxis).flatMap(t=>t.y);
+  $('future-chart-legend').innerHTML=(ui.mode==='population'?'<span class="future-key base">Tendencial</span><span class="future-key scenario">Con proyectos · punteada</span>':FUTURE_LEVELS.filter(([key])=>ui.level==='all'||key===ui.level).map(([key,title])=>`<span class="future-level-key" style="--level-color:${colors[key]}">${title}</span>`).join('')+'<span>Continua: tendencial · punteada: escenario</span>')+(ui.eventMode==='none'?'':`${['both','construction'].includes(ui.eventMode)?'<span class="future-event-key construction">◆ Inicio de obra</span>':''}${['both','operation'].includes(ui.eventMode)?'<span class="future-event-key operation">▲ Entrada en operación</span>':''}`);
   const shapes=[{type:'line',xref:'x',yref:'paper',x0:ui.year,x1:ui.year,y0:0,y1:1,line:{color:'#1F2933',width:1.5}}];
   for(const phase of ['construction','operation']){
     if(ui.eventMode==='none'||!['both',phase].includes(ui.eventMode))continue;
@@ -74,7 +81,7 @@ function renderChart(data){
   Plotly.react(chart,traces,{
     height:480,margin:{l:72,r:22,t:25,b:42},paper_bgcolor:'transparent',plot_bgcolor:'transparent',font:{family:'Inter, system-ui, sans-serif',color:'#1F2933',size:12},hovermode:'x unified',showlegend:false,
     xaxis:{range:[2025.6,2050.4],tickvals:[2026,2030,2035,2040,2045,2050],tickformat:'d',anchor:'y2',title:'Año · seleccioná un punto para consultar'},
-    yaxis:{domain:[.43,1],rangemode:'tozero',gridcolor:'#E5E0D6',automargin:true,title:unit},
+    yaxis:{domain:[.43,1],...futureChartRange(plotted,ui.expanded),gridcolor:'#E5E0D6',automargin:true,title:unit},
     yaxis2:{domain:[0,.23],rangemode:'tozero',gridcolor:'#E5E0D6',automargin:true,title:'Adicional'},
     yaxis3:{domain:[.31,.38],range:[0,1],visible:false,fixedrange:true},shapes,
     annotations:[{xref:'paper',yref:'paper',x:0,y:.27,xanchor:'left',showarrow:false,text:'Diferencia respecto del tendencial',font:{size:12,color:'#14586A'}},...(peakValue>0?[{xref:'x',yref:'y2',x:peak.year,y:peakValue,text:'Máximo +'+nf.format(peakValue)+' · '+peak.year,showarrow:true,arrowhead:2,ax:peak.year>2042?-65:60,ay:-22,bgcolor:'#ffffff'}]:[])]
@@ -101,7 +108,7 @@ function renderMap(data){
     style:feature=>{const id=String(feature.properties.territorio_id),value=values[id];return {fillColor:'#247C8C',fillOpacity:value===null||value===0?.04:.13+.7*value/(maximum||1),color:id===ui.territory?'#B9472F':'#697780',weight:id===ui.territory?3:1};},
     onEachFeature:(feature,polygon)=>{const id=String(feature.properties.territorio_id),p=scopes[id].series.find(row=>row.year===ui.year);
       polygon.bindTooltip(`<strong>${escape(feature.properties.territorio_nombre)} · ${ui.year}</strong><br>+${ef.format(p.education)} estudiantes potenciales<br>${percent(p.relative)} frente al tendencial local`);
-      polygon.on('click',()=>{installation=null;change({territory:id});});
+      polygon.on('click',()=>{installation=null;change({territory:toggleFutureTerritory(ui.territory,id)});});
     }
   }).addTo(map);
   markers=L.layerGroup().addTo(map);
@@ -117,7 +124,7 @@ function renderMap(data){
     const color=phase==='construction'?'#FF6B35':phase==='operation'?'#247C8C':phase==='planned'?'#14586A':'#78888C';
     const phaseLabel={construction:'En construcción',operation:'En operación',planned:'Proyecto futuro',observed:'Base operativa'}[phase];
     const icon=L.divIcon({className:'future-div-icon',html:`<span class="future-marker phase-${phase}" style="--future-marker:${color}">${activitySymbol(row.actividad_id)}</span>`,iconSize:[25,25],iconAnchor:[12,12]});
-    L.marker([row.latitud,row.longitud],{icon,title:`${row.nombre_instalacion} · ${phaseLabel}`,keyboard:true}).bindTooltip(`<strong>${escape(row.nombre_instalacion)}</strong><br>${phaseLabel} · ${escape(row.departamento_nombre)}${project?`<br>Obra ${project.startYear}–${project.operationYear-1} · operación ${project.operationYear}`:''}`).on('click',()=>{installation=row.instalacion_id;change({territory:row.departamento_id});}).addTo(markers);
+    L.marker([row.latitud,row.longitud],{icon,title:`${row.nombre_instalacion} · ${phaseLabel}`,keyboard:true}).bindTooltip(`<strong>${escape(row.nombre_instalacion)}</strong><br>${phaseLabel} · ${escape(row.departamento_nombre)}${project?`<br>Obra ${project.startYear}–${project.operationYear-1} · operación ${project.operationYear}`:''}`).on('click',()=>{const repeated=installation===row.instalacion_id;installation=repeated?null:row.instalacion_id;change({territory:repeated?'all':row.departamento_id});}).addTo(markers);
   }
   if(mapScope!==ui.territory){const geometry=ui.territory==='all'?data.departmentBoundaries:data.departmentBoundaries.features.find(feature=>String(feature.properties.territorio_id)===ui.territory);const bounds=L.geoJSON(geometry).getBounds();if(bounds.isValid())map.fitBounds(bounds,{padding:[16,16],maxZoom:9});mapScope=ui.territory;}
   const p=point();text('fp-local',`${ui.territory==='all'?'Toda la provincia':data.territoryById[ui.territory].territorio_nombre} · ${ui.year}: tendencial ${ef.format(p.base.education)}, escenario ${ef.format(p.educationTotal)}, diferencia +${ef.format(p.education)} (${percent(p.relative)}).`);
@@ -145,6 +152,8 @@ export function renderFuture(data){
   if(owner!==data||!model){owner=data;model=buildFutureTerritories(data);}
   if(!ready)init(data);
   const scope=current(),p=point(),name=ui.territory==='all'?'Toda la provincia':data.territoryById[ui.territory].territorio_nombre;
+  $('future-expand-range').checked=ui.expanded;
+  document.querySelectorAll('[data-story-level]').forEach(input=>input.checked=ui.educationLevels.includes(input.dataset.storyLevel));
   $('future-territory').value=ui.territory;$('future-year').value=ui.year;
   $('future-rank').value=ui.rank;$('future-map-metric').value=ui.mapMetric;
   $('future-level').value=ui.level;$('future-level-control').hidden=ui.mode!=='education';$('future-event-mode').value=ui.eventMode;
@@ -159,6 +168,8 @@ export function renderFuture(data){
   const title=ui.mode==='population'?'Población total':`Demanda educativa · ${ui.level==='all'?'todos los niveles':FUTURE_LEVELS.find(([key])=>key===ui.level)[1]}`;
   text('future-context-caption',`${name} · ${label()} · año de lectura ${ui.year}`);
   text('future-detail-context',`${name} · ${ui.year} · ${label()}. Comparación territorial: todos los departamentos y niveles educativos. La apertura por nivel corresponde al territorio seleccionado.`);
+  const selectedDelta=ef.format(view.delta),selectedBase=nf.format(view.base);
+  text('future-overlap-note',view.delta===0?`En ${ui.year} las curvas coinciden: el incremento calculado es cero. ${ui.expanded?'El eje vertical está ampliado y no comienza necesariamente en cero.':''}`:`En ${ui.year}: +${selectedDelta} sobre ${selectedBase} (${percent(view.relative)}). Las diferencias pequeñas pueden quedar superpuestas a esta escala; consultá la franja adicional. ${ui.expanded?'El eje vertical está ampliado y no comienza necesariamente en cero.':''}`);
   text('future-chart-title',title);text('future-reading-title',`${name} · ${ui.year} · ${unit}`);
   text('fp-education-base',nf.format(view.base));text('fp-education',nf.format(view.total));text('fp-education-delta','+'+ef.format(view.delta));text('future-relative',percent(view.relative)+' sobre el tendencial');
   $('future-peak-year').disabled=peakView.delta<=0;
