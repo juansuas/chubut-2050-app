@@ -123,7 +123,7 @@ function renderProductionMap(data,state,rows,onTerritorySelect,onInstallationSel
     });
     const capacity=number(row.capacidad_instalada_mw);
     const project=number(row.potencia_declarada_proyecto_mw);
-    marker.bindTooltip(`<div class="map-tooltip"><strong>${escapeHTML(row.nombre_instalacion)}</strong><br>${escapeHTML(row.actividad_nombre)} · ${escapeHTML(row.estado_nombre)}${Object.hasOwn(state.scenarioProjects||{},row.instalacion_id)?`<br>Incluido en escenario · entrada ${escapeHTML(state.scenarioProjects[row.instalacion_id])}`:''}<br>${capacity!==null?`${formatDecimal(capacity)} MW instalados`:project!==null?`${formatDecimal(project)} MW declarados de proyecto`:'Capacidad sin informar'}</div>`);
+    marker.bindTooltip(`<div class="map-tooltip"><strong>${escapeHTML(row.nombre_instalacion)}</strong><br>${escapeHTML(row.actividad_nombre)} · ${escapeHTML(row.estado_nombre)}${Object.hasOwn(state.scenarioProjects||{},row.instalacion_id)?`<br>Incluido en escenario · entrada ${escapeHTML(state.scenarioProjects[row.instalacion_id])}`:''}<br>${capacity!==null?`${formatDecimal(capacity)} MW instalados`:project!==null?`${formatDecimal(project)} MW declarados de proyecto`:'Capacidad sin informar'}${row.referencia_localizacion?`<br><em>${escapeHTML(row.referencia_localizacion)}</em>`:''}</div>`);
     marker.on('click',()=>onInstallationSelect?.(row.instalacion_id));
     marker.addTo(markers);
   });
@@ -215,7 +215,7 @@ function renderDetail(data,state,rows){
   if(!row){container.innerHTML='<div class="production-detail-empty"><span>↖</span><h4>Seleccioná una instalación</h4><p>El mapa y la tabla abren una ficha con capacidad, estado, operador y fuente. Los campos sin respaldo permanecen vacíos.</p></div>';return;}
   const source=data.productionSourceById?.[row.fuente_primaria_id];
   const sourceLink=source?.url?`<a href="${escapeHTML(source.url)}" target="_blank" rel="noopener">${escapeHTML(source.titulo||source.fuente_id)}</a>`:escapeHTML(row.fuente_primaria_id);
-  const supportingSources=[...new Set([...(row.fuentes_secundarias_ids||'').split('|'),row.fuente_estado_id,row.fuente_capacidad_instalada_id,row.fuente_potencia_proyecto_id])].filter(id=>id&&id!==row.fuente_primaria_id)
+  const supportingSources=[...new Set([...(row.fuentes_secundarias_ids||'').split('|'),row.fuente_estado_id,row.fuente_capacidad_instalada_id,row.fuente_potencia_proyecto_id,row.fuente_localizacion_id])].filter(id=>id&&id!==row.fuente_primaria_id)
     .map(id=>data.productionSourceById?.[id])
     .filter(Boolean);
   container.innerHTML=`<article class="installation-card">
@@ -229,6 +229,7 @@ function renderDetail(data,state,rows){
       <div><dt>Empleo de operación</dt><dd>Sin dato observado</dd></div>
       <div><dt>Año declarado</dt><dd>${escapeHTML(row.anio_referencia||'Sin informar')}</dd></div>
     </dl>
+    ${row.referencia_localizacion?`<p class="source-line">${escapeHTML(row.referencia_localizacion)} Precisión métrica: ${escapeHTML(row.precision_localizacion)} <a href="${escapeHTML(row.url_localizacion)}" target="_blank" rel="noopener">Ficha de localización PLAHE</a></p>`:''}
     ${row.nota_conciliacion?`<p class="project-pending">${escapeHTML(row.nota_conciliacion)}</p>`:''}
     <footer><strong>Fuente primaria</strong>${sourceLink}<small>${escapeHTML(source?.institucion||'')} ${source?.fecha_actualizacion_declarada?`· actualización declarada ${escapeHTML(source.fecha_actualizacion_declarada)}`:'· fecha de corte no informada'}</small>${supportingSources.filter(item=>item.url).map(item=>`<a href="${escapeHTML(item.url)}" target="_blank" rel="noopener">${escapeHTML(item.titulo)}</a>`).join('')}</footer>
   </article>`;

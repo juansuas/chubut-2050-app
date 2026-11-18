@@ -3443,7 +3443,13 @@
     },
     {
       "type": "Feature",
-      "geometry": null,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -71.584111,
+          -43.206678
+        ]
+      },
       "properties": {
         "instalacion_id": "AUD-HID-F08D55DFBCD7",
         "nombre_instalacion": "Baggilt",
@@ -3464,7 +3470,7 @@
         "registro_id_fuente": null,
         "calidad_registro": "auditado_manualmente",
         "descripcion_fuente": null,
-        "fuente_localizacion_id": null,
+        "fuente_localizacion_id": "PLAHE_LOCALIZACION_2026_11_18",
         "fuente_estado_id": "AUDITORIA_MANUAL_2026_11_09",
         "fuente_capacidad_instalada_id": null,
         "periodo_capacidad_instalada": null,
@@ -3475,12 +3481,22 @@
         "fila_auditoria": 88,
         "capacidad_historica_mw": null,
         "tecnologia_impacto_id": "HID_PAH",
-        "nota_conciliacion": null
+        "nota_conciliacion": null,
+        "referencia_localizacion": "Punto de referencia del aprovechamiento (PLAHE); no necesariamente el edificio de la central.",
+        "url_localizacion": "https://plahe.energia-argentina.com.ar/include.aprov.informacion.php?id=223",
+        "precision_localizacion": "No informada por la fuente",
+        "fecha_verificacion_localizacion": "2026-11-18"
       }
     },
     {
       "type": "Feature",
-      "geometry": null,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -71.7474098568,
+          -43.5701150332
+        ]
+      },
       "properties": {
         "instalacion_id": "AUD-HID-2E5F3094956F",
         "nombre_instalacion": "Frontera II",
@@ -3501,7 +3517,7 @@
         "registro_id_fuente": null,
         "calidad_registro": "auditado_manualmente",
         "descripcion_fuente": null,
-        "fuente_localizacion_id": null,
+        "fuente_localizacion_id": "PLAHE_LOCALIZACION_2026_11_18",
         "fuente_estado_id": "AUDITORIA_MANUAL_2026_11_09",
         "fuente_capacidad_instalada_id": null,
         "periodo_capacidad_instalada": null,
@@ -3514,12 +3530,22 @@
         "decision_conciliacion": "2026-11-17: el equipo adopta los 80 MW de la ficha PLAHE.",
         "capacidad_historica_mw": null,
         "tecnologia_impacto_id": "HID_GRANDE",
-        "nota_conciliacion": null
+        "nota_conciliacion": null,
+        "referencia_localizacion": "Punto de referencia del aprovechamiento (PLAHE); no necesariamente el edificio de la central.",
+        "url_localizacion": "https://plahe.energia-argentina.com.ar/include.aprov.informacion.php?id=85",
+        "precision_localizacion": "No informada por la fuente",
+        "fecha_verificacion_localizacion": "2026-11-18"
       }
     },
     {
       "type": "Feature",
-      "geometry": null,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -71.2543921936085,
+          -43.7695682001627
+        ]
+      },
       "properties": {
         "instalacion_id": "AUD-HID-192200C5984D",
         "nombre_instalacion": "Jaramillo",
@@ -3540,7 +3566,7 @@
         "registro_id_fuente": null,
         "calidad_registro": "auditado_manualmente",
         "descripcion_fuente": null,
-        "fuente_localizacion_id": null,
+        "fuente_localizacion_id": "PLAHE_LOCALIZACION_2026_11_18",
         "fuente_estado_id": "AUDITORIA_MANUAL_2026_11_09",
         "fuente_capacidad_instalada_id": null,
         "periodo_capacidad_instalada": null,
@@ -3551,12 +3577,22 @@
         "fila_auditoria": 90,
         "capacidad_historica_mw": null,
         "tecnologia_impacto_id": "HID_PAH",
-        "nota_conciliacion": null
+        "nota_conciliacion": null,
+        "referencia_localizacion": "Punto de referencia del aprovechamiento (PLAHE); no necesariamente el edificio de la central.",
+        "url_localizacion": "https://plahe.energia-argentina.com.ar/include.aprov.informacion.php?id=87",
+        "precision_localizacion": "No informada por la fuente",
+        "fecha_verificacion_localizacion": "2026-11-18"
       }
     },
     {
       "type": "Feature",
-      "geometry": null,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -71.2266829275827,
+          -43.7517059065422
+        ]
+      },
       "properties": {
         "instalacion_id": "AUD-HID-F4A2015EBF15",
         "nombre_instalacion": "La Caridad",
@@ -3577,7 +3613,7 @@
         "registro_id_fuente": null,
         "calidad_registro": "auditado_manualmente",
         "descripcion_fuente": null,
-        "fuente_localizacion_id": null,
+        "fuente_localizacion_id": "PLAHE_LOCALIZACION_2026_11_18",
         "fuente_estado_id": "AUDITORIA_MANUAL_2026_11_09",
         "fuente_capacidad_instalada_id": null,
         "periodo_capacidad_instalada": null,
@@ -3588,12 +3624,22 @@
         "fila_auditoria": 91,
         "capacidad_historica_mw": null,
         "tecnologia_impacto_id": "HID_GRANDE",
-        "nota_conciliacion": null
+        "nota_conciliacion": null,
+        "referencia_localizacion": "Punto de referencia del aprovechamiento (PLAHE); no necesariamente el edificio de la central.",
+        "url_localizacion": "https://plahe.energia-argentina.com.ar/include.aprov.informacion.php?id=88",
+        "precision_localizacion": "No informada por la fuente",
+        "fecha_verificacion_localizacion": "2026-11-18"
       }
     },
     {
       "type": "Feature",
-      "geometry": null,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -71.3322077681152,
+          -43.6871706575541
+        ]
+      },
       "properties": {
         "instalacion_id": "AUD-HID-B134C38EC00B",
         "nombre_instalacion": "La Elena",
@@ -3614,7 +3660,7 @@
         "registro_id_fuente": null,
         "calidad_registro": "auditado_manualmente",
         "descripcion_fuente": null,
-        "fuente_localizacion_id": null,
+        "fuente_localizacion_id": "PLAHE_LOCALIZACION_2026_11_18",
         "fuente_estado_id": "AUDITORIA_MANUAL_2026_11_09",
         "fuente_capacidad_instalada_id": null,
         "periodo_capacidad_instalada": null,
@@ -3625,12 +3671,22 @@
         "fila_auditoria": 92,
         "capacidad_historica_mw": null,
         "tecnologia_impacto_id": "HID_GRANDE",
-        "nota_conciliacion": null
+        "nota_conciliacion": null,
+        "referencia_localizacion": "Punto de referencia del aprovechamiento (PLAHE); no necesariamente el edificio de la central.",
+        "url_localizacion": "https://plahe.energia-argentina.com.ar/include.aprov.informacion.php?id=89",
+        "precision_localizacion": "No informada por la fuente",
+        "fecha_verificacion_localizacion": "2026-11-18"
       }
     },
     {
       "type": "Feature",
-      "geometry": null,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -71.578638,
+          -42.888886
+        ]
+      },
       "properties": {
         "instalacion_id": "AUD-HID-BA8AA4BE3766",
         "nombre_instalacion": "Los Alerces",
@@ -3651,7 +3707,7 @@
         "registro_id_fuente": null,
         "calidad_registro": "auditado_manualmente",
         "descripcion_fuente": null,
-        "fuente_localizacion_id": null,
+        "fuente_localizacion_id": "PLAHE_LOCALIZACION_2026_11_18",
         "fuente_estado_id": "AUDITORIA_MANUAL_2026_11_09",
         "fuente_capacidad_instalada_id": null,
         "periodo_capacidad_instalada": null,
@@ -3662,12 +3718,22 @@
         "fila_auditoria": 93,
         "capacidad_historica_mw": null,
         "tecnologia_impacto_id": "HID_PAH",
-        "nota_conciliacion": null
+        "nota_conciliacion": null,
+        "referencia_localizacion": "Punto de referencia del aprovechamiento (PLAHE); no necesariamente el edificio de la central.",
+        "url_localizacion": "https://plahe.energia-argentina.com.ar/include.aprov.informacion.php?id=224",
+        "precision_localizacion": "No informada por la fuente",
+        "fecha_verificacion_localizacion": "2026-11-18"
       }
     },
     {
       "type": "Feature",
-      "geometry": null,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -69.575935139,
+          -45.9823429417
+        ]
+      },
       "properties": {
         "instalacion_id": "AUD-HID-8049C9C06587",
         "nombre_instalacion": "Los Monos",
@@ -3688,7 +3754,7 @@
         "registro_id_fuente": null,
         "calidad_registro": "auditado_manualmente",
         "descripcion_fuente": null,
-        "fuente_localizacion_id": null,
+        "fuente_localizacion_id": "PLAHE_LOCALIZACION_2026_11_18",
         "fuente_estado_id": "AUDITORIA_MANUAL_2026_11_09",
         "fuente_capacidad_instalada_id": null,
         "periodo_capacidad_instalada": null,
@@ -3699,12 +3765,22 @@
         "fila_auditoria": 94,
         "capacidad_historica_mw": null,
         "tecnologia_impacto_id": "HID_PAH",
-        "nota_conciliacion": null
+        "nota_conciliacion": null,
+        "referencia_localizacion": "Punto de referencia del aprovechamiento (PLAHE); no necesariamente el edificio de la central.",
+        "url_localizacion": "https://plahe.energia-argentina.com.ar/include.aprov.informacion.php?id=127",
+        "precision_localizacion": "No informada por la fuente",
+        "fecha_verificacion_localizacion": "2026-11-18"
       }
     },
     {
       "type": "Feature",
-      "geometry": null,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -71.4551721312,
+          -42.931905864
+        ]
+      },
       "properties": {
         "instalacion_id": "AUD-HID-2C5E1B587FE4",
         "nombre_instalacion": "Percy",
@@ -3725,7 +3801,7 @@
         "registro_id_fuente": null,
         "calidad_registro": "auditado_manualmente",
         "descripcion_fuente": null,
-        "fuente_localizacion_id": null,
+        "fuente_localizacion_id": "PLAHE_LOCALIZACION_2026_11_18",
         "fuente_estado_id": "AUDITORIA_MANUAL_2026_11_09",
         "fuente_capacidad_instalada_id": null,
         "periodo_capacidad_instalada": null,
@@ -3736,12 +3812,22 @@
         "fila_auditoria": 95,
         "capacidad_historica_mw": null,
         "tecnologia_impacto_id": "HID_PAH",
-        "nota_conciliacion": null
+        "nota_conciliacion": null,
+        "referencia_localizacion": "Punto de referencia del aprovechamiento (PLAHE); no necesariamente el edificio de la central.",
+        "url_localizacion": "https://plahe.energia-argentina.com.ar/include.aprov.informacion.php?id=95",
+        "precision_localizacion": "No informada por la fuente",
+        "fecha_verificacion_localizacion": "2026-11-18"
       }
     },
     {
       "type": "Feature",
-      "geometry": null,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -71.6463887167,
+          -43.4348027684
+        ]
+      },
       "properties": {
         "instalacion_id": "AUD-HID-E9652BA846A1",
         "nombre_instalacion": "Río Hielo",
@@ -3762,7 +3848,7 @@
         "registro_id_fuente": null,
         "calidad_registro": "auditado_manualmente",
         "descripcion_fuente": null,
-        "fuente_localizacion_id": null,
+        "fuente_localizacion_id": "PLAHE_LOCALIZACION_2026_11_18",
         "fuente_estado_id": "AUDITORIA_MANUAL_2026_11_09",
         "fuente_capacidad_instalada_id": null,
         "periodo_capacidad_instalada": null,
@@ -3773,7 +3859,11 @@
         "fila_auditoria": 96,
         "capacidad_historica_mw": null,
         "tecnologia_impacto_id": "HID_GRANDE",
-        "nota_conciliacion": null
+        "nota_conciliacion": null,
+        "referencia_localizacion": "Punto de referencia del aprovechamiento (PLAHE); no necesariamente el edificio de la central.",
+        "url_localizacion": "https://plahe.energia-argentina.com.ar/include.aprov.informacion.php?id=86",
+        "precision_localizacion": "No informada por la fuente",
+        "fecha_verificacion_localizacion": "2026-11-18"
       }
     },
     {

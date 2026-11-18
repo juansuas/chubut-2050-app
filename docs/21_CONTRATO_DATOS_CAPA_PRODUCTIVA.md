@@ -93,7 +93,7 @@ El equipo confirmó el 17 de noviembre de 2026:
 
 La cartera no incluye proyectos térmicos. Los coeficientes de ciclo combinado quedan disponibles para futuras incorporaciones respaldadas.
 
-Once proyectos carecen de coordenadas. Tienen departamento y participan en el inventario y el simulador cuando están habilitados. Sus coordenadas son necesarias para mostrarlos como puntos en el mapa, sin afectar el cálculo departamental.
+Desde el 18/11/2026, los nueve proyectos hidroeléctricos incorporan coordenadas oficiales PLAHE como puntos de referencia del aprovechamiento, no necesariamente del edificio de la central. Sólo dos proyectos de la cartera completa carecen de coordenadas: El Escorial y Aluar Etapa II. Conservan departamento y participan en el inventario y el simulador. La localización no modifica el cálculo departamental. La tabla `data/localizaciones_hidroelectricas.json` y `scripts/aplicar_localizaciones_hidro.py` mantienen la trazabilidad y permiten regenerar el inventario sin perder los nueve puntos.
 
 El piso térmico operativo continúa siendo parcial. La ampliación de su cobertura no condiciona el cálculo incremental de proyectos.
 

@@ -1,6 +1,6 @@
 import {FUTURE_LEVELS} from './future-territories.js?v=2.18.0';
 import {futurePeak,futureEducationTraces,futureChartRange,FUTURE_LEVEL_COLORS,toggleFutureTerritory} from './future-view.js?v=2.22.0';
-import {activitySymbol} from './production.js?v=2.16.0';
+import {activitySymbol} from './production.js?v=2.23.0';
 const $=id=>document.getElementById(id),nf=new Intl.NumberFormat('es-AR',{maximumFractionDigits:0}),df=new Intl.NumberFormat('es-AR',{maximumFractionDigits:1});
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let projectMap,projectLayer,projectMarkers,projectMapTerritory=null;
@@ -48,8 +48,8 @@ export function renderFutureStory(data,model,ui,change){
   located++;
   const color={EOL:'#247C8C',HID:'#416AA3',TER:'#8A5A44'}[row.actividad_id]||'#697780';
   const icon=L.divIcon({className:'future-div-icon',html:`<span class="future-marker" style="--future-marker:${color}">${activitySymbol(row.actividad_id)}</span>`,iconSize:[28,28],iconAnchor:[14,14]});
-  L.marker([row.latitud,row.longitud],{icon,bubblingMouseEvents:false,title:row.nombre_instalacion+' · '+row.actividad_nombre}).bindTooltip(`<strong>${esc(row.nombre_instalacion)}</strong><br>${esc(row.actividad_nombre)} · ${esc(row.departamento_nombre)}<br>${df.format(project.potencia_declarada_proyecto_mw)} MW · obra ${project.startYear}–${project.operationYear-1} · operación ${project.operationYear}`).on('click',()=>change({territory:toggleFutureTerritory(ui.territory,row.departamento_id)})).addTo(projectMarkers);
+  L.marker([row.latitud,row.longitud],{icon,bubblingMouseEvents:false,title:row.nombre_instalacion+' · '+row.actividad_nombre+(row.referencia_localizacion?' · Punto de referencia del aprovechamiento':'')}).bindTooltip(`<strong>${esc(row.nombre_instalacion)}</strong><br>${esc(row.actividad_nombre)} · ${esc(row.departamento_nombre)}<br>${df.format(project.potencia_declarada_proyecto_mw)} MW · obra ${project.startYear}–${project.operationYear-1} · operación ${project.operationYear}${row.referencia_localizacion?`<br><em>${esc(row.referencia_localizacion)}</em>`:''}`).on('click',()=>change({territory:toggleFutureTerritory(ui.territory,row.departamento_id)})).addTo(projectMarkers);
  }
- $('story-project-map-note').textContent=`Cartera provincial: ${located} proyectos localizados; ${mapProjects.length-located} sin coordenadas puntuales, incluidos en las áreas, calendario y cálculos. Los iconos distinguen eólica, hidroeléctrica y térmica. Un segundo clic en el departamento seleccionado quita el filtro.`;
+ $('story-project-map-note').textContent=`Cartera provincial: ${located} proyectos localizados; ${mapProjects.length-located} sin coordenadas puntuales, incluidos en las áreas, calendario y cálculos. Los nueve proyectos hidroeléctricos se muestran como puntos de referencia del aprovechamiento publicados por PLAHE, no necesariamente como edificios de generación. Los iconos distinguen eólica, hidroeléctrica y térmica. Un segundo clic en el departamento seleccionado quita el filtro.`;
  if(projectMapTerritory!==ui.territory){const feature=ui.territory==='all'?data.departmentBoundaries:data.departmentBoundaries.features.find(f=>String(f.properties.territorio_id)===ui.territory);projectMap.fitBounds(L.geoJSON(feature).getBounds(),{padding:[14,14],maxZoom:8,animate:false});projectMapTerritory=ui.territory;}
 }

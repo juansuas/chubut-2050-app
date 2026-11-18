@@ -1,4 +1,4 @@
-import {DATA_PATHS} from './config.js?v=2.15.1';
+import {DATA_PATHS} from './config.js?v=2.23.0';
 
 async function fetchJSON(path){const response=await fetch(path);if(!response.ok)throw new Error(`No se pudo cargar ${path} (${response.status})`);return response.json();}
 async function fetchCSV(path){

@@ -1,9 +1,9 @@
 import {renderComparator} from './comparator.js?v=2.21.0';
-import {renderFuture} from './future.js?v=2.22.0';
-import {COLORS,DEFAULT_CAPACITY_THRESHOLDS,fmt,pct} from './config.js?v=2.15.1';
+import {renderFuture} from './future.js?v=2.23.0';
+import {COLORS,DEFAULT_CAPACITY_THRESHOLDS,fmt,pct} from './config.js?v=2.23.0';
 import {getState,setState,subscribe,resetState} from './state.js?v=2.15.0';
 import {initRouter} from './router.js?v=2.21.0';
-import {loadCoreData,loadDemographyData,loadCapacityData,loadProductionData,loadMigrationEducationData,loadFutureScenarioData} from './data.js?v=2.17.0';
+import {loadCoreData,loadDemographyData,loadCapacityData,loadProductionData,loadMigrationEducationData,loadFutureScenarioData} from './data.js?v=2.23.0';
 import {renderDemographyMap} from './maps.js';
 import {renderDemographyChart,renderPopulationPyramid,renderDepartmentShareChart,renderGrowthPolesChart} from './charts.js';
 import {downloadCSV} from './exports.js';
@@ -11,7 +11,7 @@ import {demographyTerritoryName,demographySexLabel,demographyRows,demographyMapS
 import {POLICY_GROUPS,initialScenarioRates,currentRate,projectedSections,aggregateCapacity,groupForId} from './scenario-model.js';
 import {renderSchoolCapacityMap,renderPotentialDemandEvolution,renderAttendanceDumbbell,renderOccupancyDistribution,renderDepartmentOccupancyComparison,schoolName,categorySummary} from './capacity.js';
 import {initFloatingPanels,setPanelSummary} from './floating-panels.js';
-import {filteredProductionRows,productionFilterOptions,renderProduction} from './production.js?v=2.16.0';
+import {filteredProductionRows,productionFilterOptions,renderProduction} from './production.js?v=2.23.0';
 import {renderProductiveScenario,eligibleProject,START_YEAR,END_YEAR} from './productive-scenario.js?v=2.16.0';
 import {initProductionWorkspace,productionView,syncProductionWorkspace} from './production-workspace.js?v=2.16.0';
 import {renderMigrationEducation} from './migration-education.js?v=2.15.0';
@@ -180,7 +180,7 @@ function exportFiltered(){
   const s=getState();
   if(s.module==='oferta'&&data.capacitySections){const rows=projectedSections(data,s),headers=['seccion_id','departamento_id','departamento_nombre','cue_anexo','establecimiento_nombre','nivel_id','grupo_edad_id','grupo_tasa_id','matricula_actual','matricula_varones_actual','matricula_mujeres_actual','capacidad','matricula_base_seleccionada','ocupacion_base_2024_pct','demanda_potencial_2024_varones','demanda_potencial_2024_mujeres','demanda_potencial_proyectada_varones','demanda_potencial_proyectada_mujeres','factor_demanda_varones','factor_demanda_mujeres','factor_demanda_ponderado','carga_equivalente_proyectada','ocupacion_pct','holgura_modelada','sobreocupacion_modelada','categoria_ocupacion'];downloadCSV(`chubut_ocupacion_${s.territory}_${s.year}.csv`,headers,rows.map(r=>headers.map(h=>r[h]??'')));return;}
   if(s.module==='demografia'){const rows=demographyRows(data,s),headers=['departamento_id','departamento_nombre','year','edad','sexo_id','poblacion'];downloadCSV(`chubut_demografia_${s.territory}_${s.year}.csv`,headers,rows.map(r=>[r.territorio_id,r.territorio_nombre,r.year,r.edad,r.sexo,r.poblacion]));return;}
-  if(s.module==='productivos'&&data.productionInstallations){const rows=filteredProductionRows(data,{...s,territory:s.scenarioPopulationDepartment||'all'}),headers=['instalacion_id','nombre_instalacion','actividad_id','actividad_nombre','operador','departamento_id','departamento_nombre','latitud','longitud','estado_id','estado_nombre','condicion_informacion','anio_referencia','capacidad_instalada_mw','capacidad_historica_mw','potencia_declarada_proyecto_mw','tecnologia_impacto_id','nota_conciliacion','fila_auditoria','fuente_primaria_id','fuente_estado_id','fuente_capacidad_instalada_id','fuente_potencia_proyecto_id','calidad_registro'];downloadCSV(`chubut_productivos_${s.scenarioPopulationDepartment||'all'}.csv`,headers,rows.map(row=>headers.map(header=>row[header]??'')));}
+  if(s.module==='productivos'&&data.productionInstallations){const rows=filteredProductionRows(data,{...s,territory:s.scenarioPopulationDepartment||'all'}),headers=['instalacion_id','nombre_instalacion','actividad_id','actividad_nombre','operador','departamento_id','departamento_nombre','latitud','longitud','estado_id','estado_nombre','condicion_informacion','anio_referencia','capacidad_instalada_mw','capacidad_historica_mw','potencia_declarada_proyecto_mw','tecnologia_impacto_id','referencia_localizacion','fuente_localizacion_id','url_localizacion','precision_localizacion','nota_conciliacion','fila_auditoria','fuente_primaria_id','fuente_estado_id','fuente_capacidad_instalada_id','fuente_potencia_proyecto_id','calidad_registro'];downloadCSV(`chubut_productivos_${s.scenarioPopulationDepartment||'all'}.csv`,headers,rows.map(row=>headers.map(header=>row[header]??'')));}
 }
 function renderCurrent(){const route=getState().module;renderSidebar();if(route==='escenarios'&&data.futurePresets)renderFuture(data);if(route==='comparador'&&data.futurePresets)renderComparator(data);if(route==='demografia'&&data.demographyPopulation)renderDemography();if(route==='oferta'&&data.capacitySections)renderCapacity();if(route==='productivos'&&data.productionInstallations)renderProductivos();}
 function scheduleRender(){if(renderFrame)cancelAnimationFrame(renderFrame);renderFrame=requestAnimationFrame(()=>{renderFrame=null;renderCurrent();});}

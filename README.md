@@ -245,3 +245,9 @@ Versión 2.21.0 preparada el 18/11/2026. Sitio: https://juansuas.github.io/chubu
 ### Ajustes de lectura del módulo 01 · 2.22.0
 
 Escenario punteado, rango vertical ampliable, gráfico educativo conjunto por nivel, selectores de escenario ampliados y mapas con segundo clic para quitar filtros. Proyectos georreferenciados sobre el mapa departamental y leyenda de hitos por marcadores. [Detalles y verificación](docs/34_MODULO_01_AJUSTES_LECTURA.md). Validación: `node scripts/validar_ajustes_modulo01.mjs`.
+
+### Localización hidroeléctrica · 2.23.0
+
+Los nueve proyectos hidroeléctricos tienen coordenadas oficiales PLAHE, identificadas como puntos de referencia del aprovechamiento. La fuente y precisión figuran en la ficha; no equivalen necesariamente al edificio de la central. [Incorporación y verificación](docs/36_INCORPORACION_LOCALIZACIONES_HIDRO.md).
+
+La regeneración desde el inventario auditado aplica automáticamente `data/localizaciones_hidroelectricas.json`. Para aplicar sólo las localizaciones: `python scripts/aplicar_localizaciones_hidro.py`. Verificación: `python scripts/validar_localizaciones_hidro.py`.

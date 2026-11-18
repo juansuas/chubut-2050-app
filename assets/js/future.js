@@ -1,7 +1,7 @@
-import {renderFutureStory} from './future-story.js?v=2.22.0';
+import {renderFutureStory} from './future-story.js?v=2.23.0';
 import {futureValues,futurePeak,futureEducationTraces,futureChartRange,toggleFutureTerritory} from './future-view.js?v=2.22.0';
 import {buildFutureTerritories,FUTURE_LEVELS,futurePhase} from './future-territories.js?v=2.18.0';
-import {activitySymbol} from './production.js?v=2.16.0';
+import {activitySymbol} from './production.js?v=2.23.0';
 
 const nf=new Intl.NumberFormat('es-AR',{maximumFractionDigits:0}),df=new Intl.NumberFormat('es-AR',{maximumFractionDigits:2}),ef=new Intl.NumberFormat('es-AR',{maximumFractionDigits:1});
 const colors={INI:'#D5A92A',PRI:'#63A6B1',SEC:'#247C8C',AGE18:'#8A5A44'};
@@ -124,7 +124,7 @@ function renderMap(data){
     const color=phase==='construction'?'#FF6B35':phase==='operation'?'#247C8C':phase==='planned'?'#14586A':'#78888C';
     const phaseLabel={construction:'En construcción',operation:'En operación',planned:'Proyecto futuro',observed:'Base operativa'}[phase];
     const icon=L.divIcon({className:'future-div-icon',html:`<span class="future-marker phase-${phase}" style="--future-marker:${color}">${activitySymbol(row.actividad_id)}</span>`,iconSize:[25,25],iconAnchor:[12,12]});
-    L.marker([row.latitud,row.longitud],{icon,title:`${row.nombre_instalacion} · ${phaseLabel}`,keyboard:true}).bindTooltip(`<strong>${escape(row.nombre_instalacion)}</strong><br>${phaseLabel} · ${escape(row.departamento_nombre)}${project?`<br>Obra ${project.startYear}–${project.operationYear-1} · operación ${project.operationYear}`:''}`).on('click',()=>{const repeated=installation===row.instalacion_id;installation=repeated?null:row.instalacion_id;change({territory:repeated?'all':row.departamento_id});}).addTo(markers);
+    L.marker([row.latitud,row.longitud],{icon,title:`${row.nombre_instalacion} · ${phaseLabel}${row.referencia_localizacion?' · Punto de referencia del aprovechamiento':''}`,keyboard:true}).bindTooltip(`<strong>${escape(row.nombre_instalacion)}</strong><br>${phaseLabel} · ${escape(row.departamento_nombre)}${project?`<br>Obra ${project.startYear}–${project.operationYear-1} · operación ${project.operationYear}`:''}${row.referencia_localizacion?`<br><em>${escape(row.referencia_localizacion)}</em>`:''}`).on('click',()=>{const repeated=installation===row.instalacion_id;installation=repeated?null:row.instalacion_id;change({territory:repeated?'all':row.departamento_id});}).addTo(markers);
   }
   if(mapScope!==ui.territory){const geometry=ui.territory==='all'?data.departmentBoundaries:data.departmentBoundaries.features.find(feature=>String(feature.properties.territorio_id)===ui.territory);const bounds=L.geoJSON(geometry).getBounds();if(bounds.isValid())map.fitBounds(bounds,{padding:[16,16],maxZoom:9});mapScope=ui.territory;}
   const p=point();text('fp-local',`${ui.territory==='all'?'Toda la provincia':data.territoryById[ui.territory].territorio_nombre} · ${ui.year}: tendencial ${ef.format(p.base.education)}, escenario ${ef.format(p.educationTotal)}, diferencia +${ef.format(p.education)} (${percent(p.relative)}).`);
@@ -132,7 +132,7 @@ function renderMap(data){
   $('future-map-legend').hidden=!ui.installations;
   const record=installation?data.productionInstallations.find(row=>row.instalacion_id===installation):null;
   $('future-installation-detail').hidden=!record;
-  if(record){const project=projects.get(record.instalacion_id);$('future-installation-detail').innerHTML=`<strong>${escape(record.nombre_instalacion)}</strong><p>${escape(record.actividad_nombre)} · ${escape(record.departamento_nombre)} · ${project?`${df.format(project.potencia_declarada_proyecto_mw)} MW de proyecto`:`${df.format(record.capacidad_instalada_mw)} MW instalados conocidos`}</p>`+(project?`<p>Obra: ${project.startYear}–${project.operationYear-1}. Operación: ${project.operationYear}.</p><button type="button" class="text-button" data-future-year="${project.startYear}">Ver inicio de obra</button> <button type="button" class="text-button" data-future-year="${project.operationYear}">Ver operación</button>`:'');}
+  if(record){const project=projects.get(record.instalacion_id);$('future-installation-detail').innerHTML=`<strong>${escape(record.nombre_instalacion)}</strong><p>${escape(record.actividad_nombre)} · ${escape(record.departamento_nombre)} · ${project?`${df.format(project.potencia_declarada_proyecto_mw)} MW de proyecto`:`${df.format(record.capacidad_instalada_mw)} MW instalados conocidos`}</p>${record.referencia_localizacion?`<p>${escape(record.referencia_localizacion)} <a href="${escape(record.url_localizacion)}" target="_blank" rel="noopener">Fuente PLAHE</a></p>`:''}`+(project?`<p>Obra: ${project.startYear}–${project.operationYear-1}. Operación: ${project.operationYear}.</p><button type="button" class="text-button" data-future-year="${project.startYear}">Ver inicio de obra</button> <button type="button" class="text-button" data-future-year="${project.operationYear}">Ver operación</button>`:'');}
   requestAnimationFrame(()=>map.invalidateSize());
 }
 

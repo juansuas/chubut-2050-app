@@ -9,6 +9,7 @@ from collections import Counter, defaultdict
 from pathlib import Path
 
 from openpyxl import load_workbook
+from aplicar_localizaciones_hidro import apply_locations, update_metadata, register_source
 
 AUDIT = "AUDITORIA_MANUAL_2026_11_09"
 EXTRA = {
@@ -89,6 +90,7 @@ def compile_inventory(path, data):
             raise ValueError(f"Coordenada incompleta en fila {n}")
         features.append({"type": "Feature", "geometry": None if lat is None else {"type": "Point", "coordinates": [lon, lat]}, "properties": r})
 
+    apply_locations(features, data)
     rows = [f["properties"] for f in features]
     if len({r["instalacion_id"] for r in rows}) != len(rows):
         raise ValueError("IDs duplicados")
@@ -119,6 +121,7 @@ def compile_inventory(path, data):
             "La potencia declarada de instalaciones operativas es una referencia histórica; no integra la cartera. Los proyectos con conciliación pendiente se muestran aparte y no suman MW simulables.",
         ],
     }
+    update_metadata(meta, features)
     def dump(name, value):
         (data/name).write_text(json.dumps(value, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     dump("instalaciones_energeticas.geojson", {"type": "FeatureCollection", "features": features})
@@ -143,6 +146,7 @@ def compile_inventory(path, data):
         writer = csv.DictWriter(handle, fields)
         writer.writeheader()
         writer.writerows(old.values())
+    register_source(data)
     print(json.dumps(totals, ensure_ascii=False))
 
 if __name__ == "__main__":
