@@ -1,4 +1,4 @@
-import {renderFutureStory} from './future-story.js?v=2.24.0';
+import {renderFutureStory} from './future-story.js?v=2.26.0';
 import {futureValues,futurePeak,futureEducationTraces,futureChartRange,toggleFutureTerritory} from './future-view.js?v=2.22.0';
 import {buildFutureTerritories,FUTURE_LEVELS,futurePhase} from './future-territories.js?v=2.24.0';
 import {activitySymbol} from './production.js?v=2.23.0';
@@ -89,10 +89,10 @@ function renderChart(data){
     if(chart._futureClick)chart.removeListener('plotly_click',chart._futureClick);
     chart._futureClick=event=>{const year=Math.round(Number(event.points?.[0]?.x));if(year>=2026&&year<=2050)change({year});};chart.on('plotly_click',chart._futureClick);
   });
-  $('future-events').innerHTML=scope.events.map(event=>`<button type="button" class="text-button" data-future-year="${event.year}" aria-pressed="${event.year===ui.year}">${event.year} · ${event.items.length} ${event.items.length===1?'hito':'hitos'}</button>`).join('')||'<p>No hay hitos productivos en este territorio.</p>';
+  $('future-events').innerHTML=scope.events.map(event=>`<button type="button" class="text-button" data-future-year="${event.year}" aria-pressed="${event.year===ui.year}">${event.year} · ${event.items.length} ${event.items.length===1?'hito':'hitos'}</button>`).join('')||'<p>No hay inicios de obra ni puestas en marcha en este lugar.</p>';
   const events=scope.events.find(event=>event.year===ui.year)?.items||[];
   const active=scope.projects.filter(project=>futurePhase(project,ui.year)==='construction'),online=scope.projects.filter(project=>futurePhase(project,ui.year)==='operation');
-  $('future-event-detail').innerHTML=`<strong>${ui.year}: ${active.length} proyectos en obra y ${online.length} en operación.</strong>`+(events.length?'<ul>'+events.map(item=>`<li>${item.phase==='construction'?'Empieza la obra':'Entra en operación'}: ${escape(item.project.nombre_instalacion)} · ${escape(item.project.departamento_nombre)} · ${df.format(item.project.potencia_declarada_proyecto_mw)} MW.</li>`).join('')+'</ul>':' No hay un inicio de obra o entrada en operación programado en este año.');
+  $('future-event-detail').innerHTML=`<strong>${ui.year}: ${active.length} proyectos en obra y ${online.length} en operación.</strong>`+(events.length?'<ul>'+events.map(item=>`<li>${item.phase==='construction'?'Empieza la obra':'Entra en operación'}: ${escape(item.project.nombre_instalacion)} · ${escape(item.project.departamento_nombre)} · ${df.format(item.project.potencia_declarada_proyecto_mw)} MW.</li>`).join('')+'</ul>':' Según el calendario supuesto, este año no empieza ninguna obra ni comienza a funcionar un nuevo proyecto.');
 }
 
 function renderMap(data){
@@ -145,7 +145,7 @@ function renderRanking(data){
   $('future-ranking-bars').innerHTML=ranking.map(({id,scope,p})=>{const v=order({id,scope,p});return `<button type="button" class="future-bar-row ${id===ui.territory?'is-selected':''}" data-future-department="${id}" ${ui.rank==='peak'&&scope.peak.education>0?`data-future-year="${scope.peak.year}"`:''}><span>${escape(data.territoryById[id].territorio_nombre)}</span><span class="future-bar-track"><i style="width:${Math.max(0,v)/max*100}%"></i></span><strong>${ui.rank==='relative'?percent(p.relative):'+'+ef.format(v)}${ui.rank==='peak'&&v>0?' · '+scope.peak.year:''}</strong></button>`;}).join('');
   $('future-departments').innerHTML=ranking.map(({id,scope,p})=>`<tr class="${id===ui.territory?'is-selected':''}"><th scope="row"><button type="button" data-future-department="${id}">${escape(data.territoryById[id].territorio_nombre)}</button></th><td class="number">${ef.format(p.base.education)}</td><td class="number">+${ef.format(p.education)}</td><td class="number">${percent(p.relative)}</td><td>${scope.peak.education>0?`<button type="button" data-future-department="${id}" data-future-year="${scope.peak.year}">+${ef.format(scope.peak.education)} · ${scope.peak.year}</button>`:'Sin incremento'}</td></tr>`).join('');
   const scope=current(),p=point(),name=ui.territory==='all'?'La provincia':data.territoryById[ui.territory].territorio_nombre;
-  text('future-department-story',`${name}, ${ui.year}: +${ef.format(p.education)} estudiantes potenciales (${percent(p.relative)} sobre su tendencial). ${scope.peak.education>0?`Máximo local: +${ef.format(scope.peak.education)} en ${scope.peak.year} (${percent(scope.peak.relative)} sobre el tendencial de ese año).`:`Sin incremento por proyectos durante el período.`} Estos valores no son estudiantes nuevos acumulados entre años.`);
+  text('future-department-story',`${name}, ${ui.year}: +${ef.format(p.education)} estudiantes potenciales (${percent(p.relative)} sobre su tendencial). ${scope.peak.education>0?`Máximo local: +${ef.format(scope.peak.education)} en ${scope.peak.year} (${percent(scope.peak.relative)} sobre el tendencial de ese año).`:`Sin incremento por proyectos durante el período.`} El número muestra ese año: no suma estudiantes de años anteriores.`);
 }
 
 export function renderFuture(data){
@@ -166,15 +166,15 @@ export function renderFuture(data){
   const view=futureValues(p,ui.mode,ui.level),peak=futurePeak(scope.series,ui.mode,ui.level),peakView=futureValues(peak,ui.mode,ui.level);
   const unit=ui.mode==='population'?'personas':'estudiantes potenciales';
   const title=ui.mode==='population'?'Población total':`Demanda educativa · ${ui.level==='all'?'todos los niveles':FUTURE_LEVELS.find(([key])=>key===ui.level)[1]}`;
-  text('future-context-caption',`${name} · ${label()} · año de lectura ${ui.year}`);
-  text('future-detail-context',`${name} · ${ui.year} · ${label()}. Comparación territorial: todos los departamentos y niveles educativos. La apertura por nivel corresponde al territorio seleccionado.`);
+  text('future-context-caption',`${name} · ${label()} · año ${ui.year}`);
+  text('future-detail-context',`${name} · ${ui.year} · ${label()}. La comparación entre departamentos incluye todos los niveles. El detalle por nivel muestra el lugar que elegiste.`);
   const selectedDelta=ef.format(view.delta),selectedBase=nf.format(view.base);
-  text('future-overlap-note',view.delta===0?`En ${ui.year} las curvas coinciden: el incremento calculado es cero. ${ui.expanded?'El eje vertical está ampliado y no comienza necesariamente en cero.':''}`:`En ${ui.year}: +${selectedDelta} sobre ${selectedBase} (${percent(view.relative)}). Las diferencias pequeñas pueden quedar superpuestas a esta escala; consultá la franja adicional. ${ui.expanded?'El eje vertical está ampliado y no comienza necesariamente en cero.':''}`);
+  text('future-overlap-note',view.delta===0?`En ${ui.year} las líneas coinciden porque este año el modelo no suma ${unit} por los proyectos. ${ui.expanded?'La escala está acercada y puede empezar por encima de cero.':''}`:`En ${ui.year}: +${selectedDelta} sobre ${selectedBase} (${percent(view.relative)}). Cuando el aumento es pequeño frente al total, las líneas pueden verse juntas. Abajo podés ver la diferencia con más claridad. ${ui.expanded?'La escala está acercada y puede empezar por encima de cero.':''}`);
   text('future-chart-title',title);text('future-reading-title',`${name} · ${ui.year} · ${unit}`);
   text('fp-education-base',nf.format(view.base));text('fp-education',nf.format(view.total));text('fp-education-delta','+'+ef.format(view.delta));text('future-relative',percent(view.relative)+' sobre el tendencial');
   $('future-peak-year').disabled=peakView.delta<=0;
   text('future-peak-caption',peakView.delta>0?`Máximo adicional: +${ef.format(peakView.delta)} ${unit} en ${peak.year}. En 2050: +${ef.format(futureValues(scope.final,ui.mode,ui.level).delta)}.`:'Sin incremento por proyectos en esta selección.');
-  text('future-project-context',`${scope.projects.length} proyectos del escenario en ${name}. En ${ui.year}: +${nf.format(p.people)} personas y ${df.format(p.addedMw)} MW incorporados en operación. Calendario hipotético.`);
+  text('future-project-context',`${scope.projects.length} proyectos del escenario en ${name}. En ${ui.year}: +${nf.format(p.people)} personas y ${df.format(p.addedMw)} MW de proyectos que ya estarían funcionando. Las fechas son supuestos de esta simulación.`);
   const levelMax=Math.max(1,...Object.values(p.educationLevels));
   $('future-level-bars').innerHTML=FUTURE_LEVELS.map(([key,title])=>`<div class="future-bar-row"><span>${title}</span><span class="future-bar-track"><i style="width:${p.educationLevels[key]/levelMax*100}%"></i></span><strong>+${ef.format(p.educationLevels[key])}</strong></div>`).join('');
   $('fp-levels').innerHTML=FUTURE_LEVELS.map(([key,title])=>`<tr><th scope="row">${title}</th><td class="number">${nf.format(p.base.ages[key])}</td><td class="number">${p.base.ages[key]>0?df.format(p.base.levels[key]/p.base.ages[key]*100)+' %':'—'}</td><td class="number">${ef.format(p.base.levels[key])}</td><td class="number">${ef.format(p.scenarioLevels[key])}</td><td class="number">+${ef.format(p.educationLevels[key])}</td></tr>`).join('');

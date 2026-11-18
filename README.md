@@ -261,3 +261,7 @@ Total incorpora los 22 proyectos de la cartera habilitada: 1.635,17 MW adicional
 ### Barras laterales y secciones web · 2.25.0
 
 Los cinco módulos comparten un lateral fijo bajo la cabecera. Escenarios reúne allí escenarios, territorio, año y accesos al máximo y a 2050. En pantallas pequeñas se abre como panel fijo. Las secciones de lectura incorporan fondos suaves y separadores, con encabezados adaptables. [Organización y verificación](docs/38_BARRAS_LATERALES_Y_SECCIONES_WEB.md). Validación: python scripts/validar_estructura_web.py.
+
+### Textos claros y cercanos · 2.26.0
+
+Relatos e instrucciones más sencillos, con foco en cómo los proyectos generan trabajo, llegada de personas y nuevas necesidades educativas. Se explican tendencial, estudiantes potenciales y los supuestos de salida al terminar las obras. Incluye ayudas de los cinco módulos. [Revisión editorial](docs/39_TEXTOS_CLAROS_Y_CERCANOS.md).

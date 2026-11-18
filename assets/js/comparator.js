@@ -46,17 +46,17 @@ export function renderComparator(data){
  for(const key of ['territory','year','layer','impact','level'])$('cmp-'+key).value=ui[key];
  $('cmp-impact-control').hidden=ui.layer!=='impact';$('cmp-level-control').hidden=ui.layer!=='impact'||ui.impact!=='education';$('cmp-reset').hidden=ui.territory==='all';
  const name=ui.territory==='all'?'Toda la provincia':data.territoryById[ui.territory].territorio_nombre;
- $('cmp-context').textContent=`${name} · ${ui.year} · ${metricTitle()}. Ambos mapas comparten escala, vista y selección territorial.`;
+ $('cmp-context').textContent=`${name} · ${ui.year} · ${metricTitle()}. Los dos mapas usan la misma escala de colores y muestran el mismo lugar. Si movés uno, el otro lo acompaña.`;
  const series=Object.fromEntries(['a','b'].map(side=>[side,comparisonSeries(model,ui[side],ui.territory)]));
  const points=Object.fromEntries(['a','b'].map(side=>[side,series[side].find(r=>r.year===ui.year)]));
  const diff=comparisonDifference(points.a,points.b);
  $('cmp-difference-values').innerHTML=[[diff.mw,'MW en operación'],[diff.people,'personas'],[diff.education,'estudiantes potenciales']].map(([v,title])=>`<div><strong>${sf.format(v)}</strong><span>${title}</span></div>`).join('');
  const names=['a','b'].map(side=>COMPARISON_SCENARIOS[ui[side]]);
  $('active-scenario').textContent=names.join(' / ');$('active-selection').textContent=`${name} · ${ui.year}`;
- $('cmp-difference-story').textContent=ui.a===ui.b?`Ambos lados muestran ${names[0]}. Sus indicadores coinciden.`:`${names[1]} menos ${names[0]} · ${name} · ${ui.year}. Los indicadores educativos comparan el total de niveles.`;
+ $('cmp-difference-story').textContent=ui.a===ui.b?`Ambos lados muestran ${names[0]}. Sus indicadores coinciden.`:`${names[1]} menos ${names[0]} · ${name} · ${ui.year}. La comparación educativa reúne todos los niveles.`;
  const educationDiffs=FUTURE_LEVELS.map(([key,title])=>({title,value:points.b.educationLevels[key]-points.a.educationLevels[key]}));
  const strongest=[...educationDiffs].sort((a,b)=>Math.abs(b.value)-Math.abs(a.value))[0];
- if(Math.abs(diff.education)>1e-7)$('cmp-difference-story').textContent+=` La mayor diferencia por nivel está en ${strongest.title}: ${sf.format(strongest.value)}.`;
+ if(Math.abs(diff.education)>1e-7)$('cmp-difference-story').textContent+=` La diferencia más grande entre niveles aparece en ${strongest.title}: ${sf.format(strongest.value)}.`;
  const popMax=Math.max(1,...Object.values(series).flatMap(rows=>rows.flatMap(r=>[r.base.population,r.populationTotal])))*1.06;
  const eduMax=Math.max(1,...Object.values(points).flatMap(p=>Object.values(p.educationLevels)))*1.25;
  for(const side of ['a','b']){
