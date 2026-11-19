@@ -1,5 +1,5 @@
-import {currentRate} from './scenario-model.js';
-import {IMPACT,projectImpact} from './productive-scenario.js?v=2.15.0';
+import {currentRate,parameterRate} from './scenario-model.js?v=2.29.0';
+import {IMPACT,projectImpact} from './productive-scenario.js?v=2.29.0';
 
 export const EDUCATION_LEVELS=[
   ['INI','Inicial'],['PRI','Primario'],['SEC','Secundario (12–17)'],['AGE18','Secundario (18 años)']
@@ -38,12 +38,12 @@ export function educationImpact(projects,departmentId,year,options,profile,rateF
 
 const decimal=value=>value.toLocaleString('es-AR',{maximumFractionDigits:1});
 
-export function renderMigrationEducation(data,projects,departmentId,year,options){
+export function renderMigrationEducation(data,projects,departmentId,year,options,state=null){
   const section=document.getElementById('scenario-education-comparison');
   section.hidden=!options.includePeople;
   if(section.hidden)return;
   const profiles=[data.migrationProfiles.confluencia];
-  const rate=(department,group,sex)=>currentRate(data,department,group,sex).tasa_asistencia;
+  const rate=(department,group,sex)=>state?parameterRate(data,state,department,group,sex):currentRate(data,department,group,sex).tasa_asistencia;
   const estimate=profile=>educationImpact(projects,departmentId,year,options,profile,rate);
   const estimates=profiles.map(estimate);
   const row=(label,values)=>

@@ -1,10 +1,10 @@
-import { COLORS } from './config.js';
-import { metricsFor, sum } from './scenarios.js';
-import { demographyRows, demographyMapStats, populationTotal } from './demography.js';
+import { COLORS } from './config.js?v=2.29.0';
+import { metricsFor, sum } from './scenarios.js?v=2.29.0';
+import { demographyRows, demographyMapStats, populationTotal } from './demography.js?v=2.29.0';
 
 const layoutBase = {
   paper_bgcolor:COLORS.surface, plot_bgcolor:COLORS.surface, font:{family:'Inter, system-ui, sans-serif',color:COLORS.ink,size:12},
-  margin:{l:55,r:20,t:28,b:48}, hoverlabel:{bgcolor:COLORS.surface,bordercolor:COLORS.line,font:{color:COLORS.ink}},
+  margin:{l:55,r:20,t:28,b:48}, hoverlabel:{bgcolor:'#FBF8F1',bordercolor:COLORS.line,font:{color:COLORS.ink}},
   xaxis:{gridcolor:'#EEF0EE',zeroline:false}, yaxis:{gridcolor:'#EEF0EE',zeroline:false, separatethousands:true},
   legend:{orientation:'h',y:1.12,x:0}
 };
@@ -28,9 +28,13 @@ export function renderDemographyChart(data,state,onYearSelect) {
   const years=Array.from({length:29},(_,index)=>2022+index);
   const values=years.map(year=>populationTotal(rows.filter(row=>row.year===year)));
   const traces=[{
-    type:'scatter',mode:'lines+markers',name:'Proyección departamental',x:years,y:values,
+    type:'scatter',mode:'lines+markers',name:data.activeScenarioName||'Proyección departamental',x:years,y:values,
     line:{color:COLORS.primary,width:3},marker:{color:COLORS.primary,size:5},hovertemplate:'%{x}<br>%{y:,.0f} personas<br>Clic para seleccionar el año<extra></extra>'
   }];
+  if(data.baselineDemographyPopulation&&data.activeScenarioName!=='Tendencial'){
+    const baseRows=demographyRows({...data,demographyPopulation:data.baselineDemographyPopulation},state,{year:'all'});
+    traces.push({type:'scatter',mode:'lines',name:'Sin proyectos',x:years,y:years.map(y=>populationTotal(baseRows.filter(r=>r.year===y))),line:{color:COLORS.muted,width:2,dash:'dot'}});
+  }
   if(state.demographyTerritory==='all'&&state.demographyAgeRange==='0-100') {
     const referenceSex=state.demographySex==='all'?'T':state.demographySex;
     const reference=data.demographyIndec.filter(row=>row.sexo===referenceSex);

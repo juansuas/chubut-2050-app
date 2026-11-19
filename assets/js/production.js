@@ -1,4 +1,4 @@
-import {COLORS,fmt} from './config.js';
+import {COLORS,fmt} from './config.js?v=2.29.0';
 
 export const ACTIVITY_COLORS={EOL:COLORS.primary,HID:COLORS.support,TER:COLORS.coral,PET:COLORS.primaryDark,GAS:COLORS.brown,H2:COLORS.yellow,OTR:COLORS.muted};
 const STATE_ORDER=['OPERATIVO','EN_CONSTRUCCION','PROYECTADO','FUERA_SERVICIO','SIN_INFO'];
@@ -130,11 +130,11 @@ function renderProductionMap(data,state,rows,onTerritorySelect,onInstallationSel
   entry.layers=[boundaries,markers];addMapLegend(entry);
   const selectedBoundary=state.territory==='all'?data.departmentBoundaries:data.departmentBoundaries.features.find(feature=>String(feature.properties.territorio_id)===state.territory);
   const bounds=L.geoJSON(selectedBoundary||data.departmentBoundaries).getBounds();
-  if(bounds.isValid())entry.map.fitBounds(bounds,{padding:[24,24],maxZoom:state.territory==='all'?7:9});
+  if(bounds.isValid()&&entry.fittedTerritory!==state.territory){entry.map.fitBounds(bounds,{padding:[24,24],maxZoom:state.territory==='all'?7:9});entry.fittedTerritory=state.territory;}
 }
 
 function baseLayout(extra={}){
-  return {paper_bgcolor:COLORS.surface,plot_bgcolor:COLORS.surface,font:{family:'Inter, system-ui, sans-serif',color:COLORS.ink,size:12},margin:{l:55,r:18,t:20,b:48},hoverlabel:{bgcolor:COLORS.surface,bordercolor:COLORS.line,font:{color:COLORS.ink}},legend:{orientation:'h',y:1.13,x:0},...extra};
+  return {paper_bgcolor:COLORS.surface,plot_bgcolor:COLORS.surface,font:{family:'Inter, system-ui, sans-serif',color:COLORS.ink,size:12},margin:{l:55,r:18,t:20,b:48},hoverlabel:{bgcolor:'#FBF8F1',bordercolor:COLORS.line,font:{color:COLORS.ink}},legend:{orientation:'h',y:1.13,x:0},...extra};
 }
 
 function renderDepartmentChart(rows,onTerritorySelect){

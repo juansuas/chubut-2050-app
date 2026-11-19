@@ -1,7 +1,9 @@
-import {renderFutureStory} from './future-story.js?v=2.27.0';
-import {futureValues,futurePeak,futureEducationTraces,futureChartRange,toggleFutureTerritory} from './future-view.js?v=2.22.0';
-import {buildFutureTerritories,FUTURE_LEVELS,futurePhase} from './future-territories.js?v=2.24.0';
-import {activitySymbol} from './production.js?v=2.27.0';
+import {getState,setState} from './state.js?v=2.29.0';
+import {SCENARIO_NAMES} from './scenario-population.js?v=2.29.0';
+import {renderFutureStory} from './future-story.js?v=2.29.0';
+import {futureValues,futurePeak,futureEducationTraces,futureChartRange,toggleFutureTerritory} from './future-view.js?v=2.29.0';
+import {buildFutureTerritories,FUTURE_LEVELS,futurePhase} from './future-territories.js?v=2.29.0';
+import {activitySymbol} from './production.js?v=2.29.0';
 
 const nf=new Intl.NumberFormat('es-AR',{maximumFractionDigits:0}),df=new Intl.NumberFormat('es-AR',{maximumFractionDigits:2}),ef=new Intl.NumberFormat('es-AR',{maximumFractionDigits:1});
 const colors={INI:'#D5A92A',PRI:'#63A6B1',SEC:'#247C8C',AGE18:'#8A5A44'};
@@ -9,20 +11,17 @@ const KEY='chubut2050.future.workspace';
 const $=id=>document.getElementById(id),text=(id,value)=>{$(id).textContent=value;};
 const escape=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const percent=value=>value===null?'—':`+${df.format(value*100)} %`;
-let model,owner,ready=false,map,territoryLayer,markers,mapScope=null,installation=null;
+let model,modelKey,owner,ready=false,map,territoryLayer,markers,mapScope=null,installation=null;
 let ui={scenario:'moderado',territory:'all',year:2050,mode:'population',expanded:false,educationLevels:['INI','PRI','SEC','AGE18'],level:'all',eventMode:'both',tab:'territories',installations:false,rank:'current',mapMetric:'absolute'};
 const current=()=>model.scenarios[ui.scenario].territories[ui.territory];
 const point=()=>current().series.find(row=>row.year===ui.year);
-const label=()=>({moderado:'Moderado',intensivo:'Intensivo',total:'Total'}[ui.scenario]);
+const label=()=>SCENARIO_NAMES[ui.scenario];
 function save(){try{localStorage.setItem(KEY,JSON.stringify(ui));localStorage.setItem('chubut2050.future.preset',ui.scenario);}catch{}}
-function change(patch){Object.assign(ui,patch);save();renderFuture(owner);}
+function change(patch){Object.assign(ui,patch);save();const shared={};if(patch.territory!==undefined)shared.territory=patch.territory;if(patch.year!==undefined)shared.year=patch.year;if(Object.keys(shared).length)setState(shared);else renderFuture(owner);}
 
 function init(data){
   try{
     const saved=JSON.parse(localStorage.getItem(KEY))||{},preset=localStorage.getItem('chubut2050.future.preset');
-    if(['moderado','intensivo','total'].includes(saved.scenario??preset))ui.scenario=saved.scenario??preset;
-    if(saved.territory==='all'||data.territoryById[saved.territory])ui.territory=saved.territory;
-    if(Number.isInteger(saved.year)&&saved.year>=2026&&saved.year<=2050)ui.year=saved.year;
     // The story opens with population; the comparison switch stays available.
     if(['all',...Object.keys(colors)].includes(saved.level))ui.level=saved.level;
     if(typeof saved.expanded==='boolean')ui.expanded=saved.expanded;
@@ -31,20 +30,12 @@ function init(data){
     if(['current','relative','peak'].includes(saved.rank))ui.rank=saved.rank;
     if(['absolute','relative'].includes(saved.mapMetric))ui.mapMetric=saved.mapMetric;
   }catch{}
-  for(const [id,value] of Object.entries(data.territoryById).sort((a,b)=>a[1].territorio_nombre.localeCompare(b[1].territorio_nombre,'es'))) $('future-territory').add(new Option(value.territorio_nombre,id));
-  for(const year of model.years)$('future-year').add(new Option(year,year));
-  document.querySelectorAll('#future-sidebar [data-scenario]').forEach(button=>button.addEventListener('click',()=>change({scenario:button.dataset.scenario})));
-  $('future-territory').addEventListener('change',event=>{installation=null;change({territory:event.target.value});});
-  $('future-year').addEventListener('change',event=>change({year:Number(event.target.value)}));
-  $('future-peak-year').addEventListener('click',()=>change({year:futurePeak(current().series,ui.mode,ui.level).year}));
-  $('future-horizon').addEventListener('click',()=>change({year:2050}));
   document.querySelectorAll('[data-future-mode]').forEach(button=>button.addEventListener('click',()=>change({mode:button.dataset.futureMode})));
   $('future-expand-range').addEventListener('change',event=>change({expanded:event.target.checked}));
   document.querySelectorAll('[data-story-level]').forEach(input=>input.addEventListener('change',()=>change({educationLevels:[...document.querySelectorAll('[data-story-level]:checked')].map(el=>el.dataset.storyLevel)})));
   $('future-level').addEventListener('change',event=>change({level:event.target.value}));
   $('future-event-mode').addEventListener('change',event=>change({eventMode:event.target.value}));
   $('future-show-installations').addEventListener('change',event=>{installation=null;change({installations:event.target.checked});});
-  $('future-reset-territory').addEventListener('click',()=>{installation=null;change({territory:'all'});});
   document.querySelectorAll('[data-future-tab]').forEach(button=>button.addEventListener('click',()=>change({tab:button.dataset.futureTab})));
   $('future-ranking-bars').addEventListener('click',event=>{const button=event.target.closest('[data-future-department]');if(button){installation=null;change({territory:button.dataset.futureDepartment,...(button.dataset.futureYear?{year:Number(button.dataset.futureYear)}:{})});}});
   $('future-rank').addEventListener('change',event=>change({rank:event.target.value}));
@@ -79,8 +70,8 @@ function renderChart(data){
   }
   const chart=$('future-coordinated-chart');
   Plotly.react(chart,traces,{
-    height:480,margin:{l:72,r:22,t:25,b:42},paper_bgcolor:'transparent',plot_bgcolor:'transparent',font:{family:'Inter, system-ui, sans-serif',color:'#1F2933',size:12},hovermode:'x unified',showlegend:false,
-    xaxis:{range:[2025.6,2050.4],tickvals:[2026,2030,2035,2040,2045,2050],tickformat:'d',anchor:'y2',title:'Año · seleccioná un punto para consultar'},
+    height:480,margin:{l:72,r:22,t:25,b:42},hoverlabel:{bgcolor:'#FBF8F1',bordercolor:'#A6B8B8',font:{color:'#243D46',size:12}},paper_bgcolor:'transparent',plot_bgcolor:'transparent',font:{family:'Inter, system-ui, sans-serif',color:'#1F2933',size:12},hovermode:'x unified',showlegend:false,
+    xaxis:{range:[2021.6,2050.4],tickvals:[2022,2026,2030,2040,2050],tickformat:'d',anchor:'y2',title:'Año · seleccioná un punto para consultar'},
     yaxis:{domain:[.43,1],...futureChartRange(plotted,ui.expanded),gridcolor:'#E5E0D6',automargin:true,title:unit},
     yaxis2:{domain:[0,.23],rangemode:'tozero',gridcolor:'#E5E0D6',automargin:true,title:'Adicional'},
     yaxis3:{domain:[.31,.38],range:[0,1],visible:false,fixedrange:true},shapes,
@@ -149,7 +140,9 @@ function renderRanking(data){
 }
 
 export function renderFuture(data){
-  if(owner!==data||!model){owner=data;model=buildFutureTerritories(data);}
+  const shared=getState(),key=JSON.stringify([shared.capacityRateProgress,shared.capacityRates,shared.scenarioProjects,shared.activeScenario==='personalizado',shared.scenarioIncludeConstruction,shared.scenarioIncludeRelated,shared.scenarioIncludePeople,shared.scenarioExternalPercent]);
+  if(owner!==data||!model||key!==modelKey){owner=data;model=buildFutureTerritories(data,shared);modelKey=key;}
+  Object.assign(ui,{scenario:shared.activeScenario,territory:shared.territory,year:shared.year});
   if(!ready)init(data);
   const scope=current(),p=point(),name=ui.territory==='all'?'Toda la provincia':data.territoryById[ui.territory].territorio_nombre;
   $('future-expand-range').checked=ui.expanded;
@@ -172,7 +165,7 @@ export function renderFuture(data){
   text('future-overlap-note',view.delta===0?`En ${ui.year} las líneas coinciden porque este año el modelo no suma ${unit} por los proyectos. ${ui.expanded?'La escala está acercada y puede empezar por encima de cero.':''}`:`En ${ui.year}: +${selectedDelta} sobre ${selectedBase} (${percent(view.relative)}). Cuando el aumento es pequeño frente al total, las líneas pueden verse juntas. Abajo podés ver la diferencia con más claridad. ${ui.expanded?'La escala está acercada y puede empezar por encima de cero.':''}`);
   text('future-chart-title',title);text('future-reading-title',`${name} · ${ui.year} · ${unit}`);
   text('fp-education-base',nf.format(view.base));text('fp-education',nf.format(view.total));text('fp-education-delta','+'+ef.format(view.delta));text('future-relative',percent(view.relative)+' sobre el tendencial');
-  $('future-peak-year').disabled=peakView.delta<=0;
+  $('future-peak-year').disabled=peakView.delta<=0;$('future-peak-year').dataset.peakYear=peak.year;
   text('future-peak-caption',peakView.delta>0?`Máximo adicional: +${ef.format(peakView.delta)} ${unit} en ${peak.year}. En 2050: +${ef.format(futureValues(scope.final,ui.mode,ui.level).delta)}.`:'Sin incremento por proyectos en esta selección.');
   text('future-project-context',`${scope.projects.length} proyectos del escenario en ${name}. En ${ui.year}: +${nf.format(p.people)} personas y ${df.format(p.addedMw)} MW de proyectos que ya estarían funcionando. Las fechas son supuestos de esta simulación.`);
   const levelMax=Math.max(1,...Object.values(p.educationLevels));

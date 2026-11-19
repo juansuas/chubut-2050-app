@@ -12,17 +12,23 @@ Convención vigente desde el 17/11/2026: capa y módulo utilizan el mismo númer
 | 04 | Producción y energía | `#productivos` |
 | 05 | Comparador | `#comparador` |
 
-El módulo 01 reemplaza al antiguo Resumen provincial. Desde 2.21.0 se recupera el módulo 05 como comparador independiente; `#resumen` redirige a `#escenarios` y `#comparador` abre el módulo 05. El módulo 01 presenta los escenarios prefijados Moderado, Intensivo y Total frente al tendencial fijo. Productivos (04) conserva su escenario editable independiente.
+El módulo 01 reemplaza al antiguo Resumen provincial. Desde 2.21.0 se recupera el módulo 05 como comparador independiente; `#resumen` redirige a `#escenarios` y `#comparador` abre el módulo 05. Desde la versión 2.29.0, los módulos 01–04 comparten los escenarios Tendencial, Moderado, Intensivo y Total, además del territorio y el año. Productivos conserva el editor: al modificar un proyecto o parámetro, la selección pasa a Personalizado. El módulo 05 mantiene su comparación independiente entre dos escenarios. Actualización aprobada para publicación el 19/11/2026.
 
 La denominación anterior «capa 3» para Productivos queda reemplazada por «capa / módulo 04». Educación corresponde a la capa / módulo 03. Los nombres de archivos históricos que contienen `CAPA_3` se conservan como identificadores de archivo, no como numeración vigente. Los números iniciales de los documentos (21, 22, etc.) son su orden documental y no identifican módulos.
 
 Aplicación web estática con cinco módulos activos: `Escenarios de futuro`, `Demografía`, `Oferta y capacidad`, `Producción y energía` y `Comparador`.
 
+## Escenarios compartidos y capacidad educativa · versión 2.29.0
+
+El módulo 01 presenta cinco secciones: proyectos, población, distribución territorial, demanda educativa y ocupación de la capacidad actual. La última incorpora mapa por nivel, comparación departamental y tasas de asistencia editables en un panel flotante. Véase [42_ESCENARIOS_COMPARTIDOS_Y_CAPACIDAD_EDUCATIVA.md](docs/42_ESCENARIOS_COMPARTIDOS_Y_CAPACIDAD_EDUCATIVA.md).
+
+Validación de integración: `node scripts/validar_escenarios_compartidos.mjs`.
+
 ## Interfaz productiva · capa 04
 
 La capa 04 reúne un contexto territorial y temporal, el mapa junto al editor y una zona de resultados con pestañas. Los detalles de organización y verificación están en [27_INTERFAZ_CAPA_04.md](docs/27_INTERFAZ_CAPA_04.md).
 
-El territorio de Productivos utiliza `scenarioPopulationDepartment` y no modifica el territorio de Demografía o Educación. Cambiar de departamento o filtrar la cartera conserva todos los proyectos del escenario. Los resultados muestran el territorio seleccionado; los parámetros continúan siendo globales para el escenario. «Limpiar filtros» sólo restablece los filtros del inventario; «Vaciar escenario» elimina la selección de proyectos y conserva los parámetros.
+El territorio de Productivos utiliza `scenarioPopulationDepartment`, sincronizado con el territorio compartido de Demografía, Educación y Escenarios. Cambiar de departamento o filtrar la cartera conserva todos los proyectos del escenario. Los resultados muestran el territorio seleccionado; los parámetros continúan siendo globales para el escenario. «Limpiar filtros» sólo restablece los filtros del inventario; «Vaciar escenario» elimina la selección de proyectos y conserva los parámetros.
 
 Para validar el modelo y la coordinación de interfaz desde esta carpeta:
 

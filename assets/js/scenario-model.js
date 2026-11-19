@@ -1,4 +1,5 @@
-import {DEFAULT_CAPACITY_THRESHOLDS,occupancyStatus} from './config.js';
+import {additionalGroupPopulation} from './scenario-population.js?v=2.29.0';
+import {DEFAULT_CAPACITY_THRESHOLDS,occupancyStatus} from './config.js?v=2.29.0';
 
 export const POLICY_GROUPS=[
   {id:'0_3',label:'0–3 años',level:'INI',levelLabel:'Inicial',color:'#FFC928'},
@@ -38,25 +39,25 @@ export function currentRate(data,territory,group,sex='T'){
 export function initialScenarioRates(data,territory,sex='all'){const s=sex==='all'?'T':sex;return Object.fromEntries(POLICY_GROUPS.map(g=>[g.id,currentRate(data,territory,g.id,s).tasa_asistencia]));}
 export function groupForId(id){return POLICY_GROUPS.find(g=>g.id===id);}
 function population(data,territory,year,group,sex){const p=indexes(data).population;if(territory!=='all')return p.get(`${territory}|${year}|${group}|${sex}`)||0;return Object.keys(data.territoryById).reduce((t,id)=>t+(p.get(`${id}|${year}|${group}|${sex}`)||0),0);}
-function progress(data,state,group){const sex=state.sex==='all'?'T':state.sex,base=Number(currentRate(data,state.territory,group,sex).tasa_asistencia)||0,chosen=Math.max(base,Math.min(1,Number(state.capacityRates?.[group]??base)));return base>=1?0:(chosen-base)/(1-base);}
+function progress(data,state,group){if(Number.isFinite(state.capacityRateProgress?.[group]))return state.capacityRateProgress[group];const sex=state.sex==='all'?'T':state.sex,base=Number(currentRate(data,state.territory,group,sex).tasa_asistencia)||0,chosen=Math.max(base,Math.min(1,Number(state.capacityRates?.[group]??base)));return base>=1?0:(chosen-base)/(1-base);}
 export function parameterRate(data,state,territory,group,sex){const current=Number(currentRate(data,territory,group,sex).tasa_asistencia)||0;return current+progress(data,state,group)*(1-current);}
 function sexProjection(data,state,territory,group,sex,year,mode){
-  const chosen=mode==='trend'?'trend':Number(state.capacityRates?.[group]??-1),key=`${territory}|${group}|${sex}|${year}|${mode}|${chosen}|${state.territory}|${state.sex}`;
+  const chosen=JSON.stringify([state.activeScenario,state.scenarioProjects,state.scenarioIncludeConstruction,state.scenarioIncludeRelated,state.scenarioIncludePeople,state.scenarioExternalPercent,state.capacityRateProgress,state.capacityRates]),key=`${territory}|${group}|${sex}|${year}|${mode}|${chosen}|${state.territory}|${state.sex}`;
   if(factorCache.has(key))return factorCache.get(key);
-  const currentInfo=currentRate(data,territory,group,sex),current=Number(currentInfo.tasa_asistencia)||0,basePopulation=population(data,territory,2024,group,sex),projectedPopulation=population(data,territory,year,group,sex),rate=mode==='trend'?current:parameterRate(data,state,territory,group,sex),baseDemand=basePopulation*current,projectedDemand=projectedPopulation*rate,factor=baseDemand>0?projectedDemand/baseDemand:1;
+  const currentInfo=currentRate(data,territory,group,sex),current=Number(currentInfo.tasa_asistencia)||0,basePopulation=population(data,territory,2024,group,sex),projectedPopulation=population(data,territory,year,group,sex)+(mode==='scenario'&&state.activeScenario?additionalGroupPopulation(data,state,territory,year,group,sex):0),rate=parameterRate(data,state,territory,group,sex),baseDemand=basePopulation*current,projectedDemand=projectedPopulation*rate,factor=baseDemand>0?projectedDemand/baseDemand:1;
   const value={basePopulation,projectedPopulation,currentRate:current,projectedRate:rate,baseDemand,projectedDemand,factor,rateSource:currentInfo.source};factorCache.set(key,value);return value;
 }
 function categoryId(x){return x>1?'SATURADA':x>=.85?'ALTA_PRESION':x>=.60?'EQUILIBRIO':'CAPACIDAD_DISPONIBLE';}
 export function projectSection(data,state,row,mode=state.capacityMode||'scenario',year=state.year){
   const maleInputs=sexProjection(data,state,row.departamento_id,row.grupo_tasa_id,'M',Number(year),mode),femaleInputs=sexProjection(data,state,row.departamento_id,row.grupo_tasa_id,'F',Number(year),mode),maleLoad=row.matricula_varones_actual*maleInputs.factor,femaleLoad=row.matricula_mujeres_actual*femaleInputs.factor;
-  const baseEnrollment=state.sex==='M'?row.matricula_varones_actual:state.sex==='F'?row.matricula_mujeres_actual:row.matricula_actual,load=state.sex==='M'?maleLoad:state.sex==='F'?femaleLoad:maleLoad+femaleLoad,level=row.grupo_tasa_id==='18_SEC'?'SEC':row.nivel_id,capacity=Math.max(1,Number(state.capacityThresholds?.[level]??DEFAULT_CAPACITY_THRESHOLDS[level]??row.capacidad)),baseOccupancy=baseEnrollment/capacity,occupancy=load/capacity,factor=baseEnrollment>0?load/baseEnrollment:1;
+  const baseEnrollment=state.sex==='M'?row.matricula_varones_actual:state.sex==='F'?row.matricula_mujeres_actual:row.matricula_actual,load=state.sex==='M'?maleLoad:state.sex==='F'?femaleLoad:maleLoad+femaleLoad,level=row.grupo_tasa_id==='18_SEC'?'SEC':row.nivel_id,capacity=Math.max(1,Number(row.capacidad??DEFAULT_CAPACITY_THRESHOLDS[level])),baseOccupancy=baseEnrollment/capacity,occupancy=load/capacity,factor=baseEnrollment>0?load/baseEnrollment:1;
   return {...row,capacidad_base:row.capacidad,capacidad:capacity,matricula_base_seleccionada:baseEnrollment,ocupacion_base_2024:baseOccupancy,ocupacion_base_2024_pct:baseOccupancy*100,demanda_potencial_2024_varones:maleInputs.baseDemand,demanda_potencial_2024_mujeres:femaleInputs.baseDemand,demanda_potencial_proyectada_varones:maleInputs.projectedDemand,demanda_potencial_proyectada_mujeres:femaleInputs.projectedDemand,factor_demanda_varones:maleInputs.factor,factor_demanda_mujeres:femaleInputs.factor,factor_demanda_ponderado:factor,carga_equivalente_proyectada:load,carga_equivalente_varones:maleLoad,carga_equivalente_mujeres:femaleLoad,ocupacion:occupancy,ocupacion_pct:occupancy*100,holgura_modelada:Math.max(0,capacity-load),sobreocupacion_modelada:Math.max(0,load-capacity),categoria_ocupacion:categoryId(occupancy)};
 }
 function selectedGroups(selection){if(selection==='all')return Object.keys(GROUP_META);if(selection.startsWith('group:'))return[selection.slice(6)];return LEVEL_GROUPS[selection.slice(6)]||[];}
 function rowGroup(row){return row.grupo_tasa_id;}
 export function projectedSections(data,state,options={}){
   const territory=options.territory??state.territory,selection=options.selection??state.educationSelection,mode=options.mode||state.capacityMode||'scenario',year=options.year??state.year,groups=selectedGroups(selection);
-  const signature=[territory,selection,mode,year,state.sex,JSON.stringify(state.capacityRates),JSON.stringify(state.capacityThresholds)].join('|');
+  const signature=[territory,selection,mode,year,state.sex,JSON.stringify(state.capacityRates),JSON.stringify(state.capacityThresholds),state.activeScenario,JSON.stringify(state.capacityRateProgress),JSON.stringify(state.scenarioProjects),state.scenarioIncludeConstruction,state.scenarioIncludeRelated,state.scenarioIncludePeople,state.scenarioExternalPercent].join('|');
   let rows=projectionCache.get(signature);
   if(!rows){rows=data.capacitySections.filter(r=>(territory==='all'||r.departamento_id===territory)&&groups.includes(rowGroup(r))).map(r=>projectSection(data,state,r,mode,year));projectionCache.set(signature,rows);if(projectionCache.size>20)projectionCache.delete(projectionCache.keys().next().value);}
   const school=options.school===undefined?state.capacitySchool:options.school;return school&&school!=='all'?rows.filter(r=>r.cue_anexo===school):rows;
@@ -69,7 +70,16 @@ export function departmentLevelCapacity(data,state){
   const buckets=new Map();rows.forEach(r=>{const level=r.grupo_tasa_id==='18_SEC'?'AGE18':r.nivel_id;if(!levels.includes(level))return;const k=`${r.departamento_id}|${level}`;if(!buckets.has(k))buckets.set(k,[]);buckets.get(k).push(r);});
   return Object.keys(data.territoryById).flatMap(id=>levels.map(level=>({id,department:data.territoryById[id].territorio_nombre,level,levelLabel:LEVEL_META[level].label,...aggregateCapacity(buckets.get(`${id}|${level}`)||[])})));
 }
-function point(data,state,territory,components,year,mode){let pop=0,demand=0;const sources=new Set(),sexes=state.sex==='all'?['M','F']:[state.sex];components.forEach(group=>sexes.forEach(sex=>{const p=population(data,territory,year,group,sex),current=currentRate(data,territory,group,sex),rate=mode==='trend'?Number(current.tasa_asistencia)||0:parameterRate(data,state,territory,group,sex);pop+=p;demand+=p*rate;sources.add(mode==='trend'?current.source:'tasa de escenario');}));return{year,population:pop,rate:pop?demand/pop:0,demand,rateSource:[...sources].join(' / ')};}
+function point(data,state,territory,components,year,mode){
+ let pop=0,demand=0;const sources=new Set(),sexes=state.sex==='all'?['M','F']:[state.sex];
+ const ids=territory==='all'?Object.keys(data.territoryById):[territory];
+ for(const id of ids)for(const group of components)for(const sex of sexes){
+  const p=population(data,id,year,group,sex)+(mode==='scenario'&&state.activeScenario?additionalGroupPopulation(data,state,id,year,group,sex):0);
+  const current=currentRate(data,id,group,sex),rate=parameterRate(data,state,id,group,sex);
+  pop+=p;demand+=p*rate;sources.add(current.source);
+ }
+ return {year,population:pop,rate:pop?demand/pop:0,demand,rateSource:[...sources].join(' / ')};
+}
 export function potentialDemandSeries(data,state){
   const selection=state.educationSelection,groups=selectedGroups(selection);let defs;
   if(state.capacityTrendView==='level'&&!selection.startsWith('group:')){const levels=selection==='all'?['INI','PRI','SEC','AGE18']:[selection.slice(6)];defs=levels.map(id=>({id,label:LEVEL_META[id].label,color:LEVEL_META[id].color,components:LEVEL_GROUPS[id]}));}
@@ -89,3 +99,12 @@ export function departmentPressure(data,state,mode=state.capacityComparisonMode|
   return Object.keys(data.territoryById).map(id=>{const values=make(rows.filter(r=>r.departamento_id===id)),baseValues=make(base.filter(r=>r.departamento_id===id)),total=Object.values(values).reduce((a,b)=>a+b,0),baseTotal=Object.values(baseValues).reduce((a,b)=>a+b,0);return{id,name:data.territoryById[id].territorio_nombre,values,total,variation:baseTotal?total/baseTotal-1:0};}).sort((a,b)=>b.total-a.total);
 }
 export function occupancyLabel(id){return OCCUPANCY_CATEGORIES.find(x=>x.id===id)?.label||occupancyStatus(0).label;}
+
+export function capacityComparison(data,state,{level='all',territory=state.territory,year=state.year}={}){
+ const selection='all',options={territory,selection,school:'all',year};
+ const filter=rows=>rows.filter(r=>level==='all'||r.nivel_id===level);
+ const scenario=filter(projectedSections(data,state,{...options,mode:'scenario'}));
+ const reference=filter(projectedSections(data,state,{...options,mode:'trend'}));
+ const previous=filter(projectedSections(data,state,{...options,mode:'trend',year:2024}));
+ return {scenario,reference,previous,current:aggregateCapacity(scenario),withoutProjects:aggregateCapacity(reference),base:aggregateCapacity(previous)};
+}

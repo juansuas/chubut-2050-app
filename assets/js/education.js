@@ -1,4 +1,4 @@
-import {COLORS,fmt} from './config.js';
+import {COLORS,fmt} from './config.js?v=2.29.0';
 
 let educationMap;
 let educationLayer;
@@ -78,7 +78,7 @@ export function renderEducationMap(data,state,onSelect){
   },80);
 }
 
-const layout={paper_bgcolor:'rgba(0,0,0,0)',plot_bgcolor:'rgba(0,0,0,0)',font:{family:'Inter, Arial, sans-serif',size:11,color:'#5B6470'},margin:{l:62,r:18,t:20,b:48},xaxis:{gridcolor:'#ECE8DE',zeroline:false},yaxis:{gridcolor:'#ECE8DE',zeroline:false},hoverlabel:{bgcolor:'#FFFFFF',bordercolor:'#D8D4CA',font:{color:'#1F2933'}}};
+const layout={paper_bgcolor:'rgba(0,0,0,0)',plot_bgcolor:'rgba(0,0,0,0)',font:{family:'Inter, Arial, sans-serif',size:11,color:'#5B6470'},margin:{l:62,r:18,t:20,b:48},xaxis:{gridcolor:'#ECE8DE',zeroline:false},yaxis:{gridcolor:'#ECE8DE',zeroline:false},hoverlabel:{bgcolor:'#FBF8F1',bordercolor:'#D8D4CA',font:{color:'#1F2933'}}};
 const plot=(id,traces,extra={})=>Plotly.react(id,traces,{...layout,...extra},{displayModeBar:false,responsive:true});
 
 export function renderEducationTrend(data,state){

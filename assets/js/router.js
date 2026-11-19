@@ -1,5 +1,5 @@
-import {MODULES} from './config.js?v=2.21.0';
-import {getState,setState} from './state.js?v=2.15.0';
+import {MODULES} from './config.js?v=2.29.0';
+import {getState,setState} from './state.js?v=2.29.0';
 
 export function initRouter(onRoute){
   const activate=()=>{

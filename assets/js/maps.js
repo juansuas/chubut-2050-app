@@ -1,4 +1,4 @@
-import { COLORS, fmt, pct, occupancyStatus } from './config.js';
+import { COLORS, fmt, pct, occupancyStatus } from './config.js?v=2.29.0';
 
 const registry={};
 
@@ -271,7 +271,7 @@ export function renderDemographyMap(data,state,stats,onSelect) {
     ? data.departmentBoundaries
     : data.departmentBoundaries.features.find(feature=>String(feature.properties.territorio_id)===selectedId);
   const bounds=L.geoJSON(selected||data.departmentBoundaries).getBounds();
-  if(bounds.isValid())entry.map.fitBounds(bounds,{padding:[24,24],maxZoom:selectedId==='all'?7:9});
+  if(bounds.isValid()&&entry.fittedTerritory!==selectedId){entry.map.fitBounds(bounds,{padding:[24,24],maxZoom:selectedId==='all'?7:9});entry.fittedTerritory=selectedId;}
 }
 
 export function expandVisibleLayerControl() {

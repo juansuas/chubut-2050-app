@@ -1,4 +1,4 @@
-import {annualPopulationTotals} from './demography.js?v=2.14.5';
+import {annualPopulationTotals} from './demography.js?v=2.29.0';
 
 export const START_YEAR=2026;
 export const END_YEAR=2050;

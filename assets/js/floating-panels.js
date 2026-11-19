@@ -82,3 +82,5 @@ export function setPanelSummary(module,text){
   const output=document.querySelector(`[data-floating-panel][data-panel-module="${module}"] [data-panel-summary]`);
   if(output)output.textContent=text;
 }
+
+export function openFloatingPanel(id){const panel=document.getElementById(id);panel.hidden=false;setFloating(panel,true);panel.querySelector('input,button')?.focus();}

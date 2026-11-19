@@ -1,6 +1,6 @@
 {
   "nombre_app": "Chubut 2050 V2",
-  "version": "2.28.0",
+  "version": "2.29.0",
   "fecha_actualizacion": "2026-11-16",
   "modulos_disponibles": [
     "escenarios",
@@ -11,5 +11,5 @@
   ],
   "modulos_pendientes": [],
   "advertencia_datos": "La población se estima a partir de la proyección por departamento ajustada por Santiago Linares. Los valores educativos futuros son estimaciones. En energía se distingue lo que ya está instalado, lo previsto por los proyectos y los datos que faltan.",
-  "fecha_publicacion_app": "2026-11-18"
+  "fecha_publicacion_app": "2026-11-19"
 }

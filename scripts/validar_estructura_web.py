@@ -19,12 +19,13 @@ root=Path(__file__).resolve().parents[1];s=(root/'index.html').read_text(encodin
 for id in p.controls:assert id in p.ids,'Missing aria-controls target '+id
 for id in ['future-territory','future-year','future-peak-year','future-horizon','future-reset-territory']:
  assert 'module-sidebar' in p.ids[id] and 'future-sidebar' in p.ids[id],id
-assert len(p.scenarios)==3
-assert {s for s,a in p.scenarios}=={'moderado','intensivo','total'}
+assert len(p.scenarios)==4
+assert {s for s,a in p.scenarios}=={'tendencial','moderado','intensivo','total'}
 assert all('future-sidebar' in a for s,a in p.scenarios)
+assert s.index('id="story-pop-title"')<s.index('id="story-territory-title"')<s.index('id="story-edu-title"')<s.index('id="story-capacity-title"')
 for module,count in [('demografia',3),('oferta',4)]:
  for i in range(1,count+1):assert f'{module}-section-{i}' in p.ids
 if len(sys.argv)>1:
  old=Check();old.feed(Path(sys.argv[1]).read_text(encoding='utf-8'))
  assert set(old.ids)<=set(p.ids),'Existing controls or plots removed'
-print('ESTRUCTURA WEB OK: HTML, IDs únicos y preservados, ARIA, tres escenarios y controles en lateral, secciones 02/03.')
+print('ESTRUCTURA WEB OK: HTML, IDs únicos y preservados, ARIA, cuatro escenarios y controles en lateral, secciones 02/03.')
