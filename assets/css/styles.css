@@ -697,3 +697,58 @@ body{color:var(--text-body)}
 .capacity-project-key{display:block;padding:0 11px 8px;background:#F3E5C4;color:#634416;font:11px/1.4 var(--sans)}
 .capacity-project-key[hidden]{display:none}
 @media(max-width:680px){.capacity-project-control{max-width:190px}.capacity-project-control button{font-size:11px;padding:7px 9px}}
+
+/* Local module order: baseline themes first, productive assumptions in module 04. */
+#scenario-editor{margin:24px 0;background:#FBF8F1;min-width:0}
+#scenario-editor>summary{font:600 14px/1.5 var(--sans);color:var(--primary-dark);cursor:pointer}
+.scenario-editor-body{display:grid;gap:20px;min-width:0;margin-top:16px}
+#scenario-editor h3{font-size:19px;color:var(--primary-dark)}
+#scenario-editor .scenario-project-catalog{max-height:390px;overflow:auto}
+#scenario-editor .table-wrap{min-width:0;overflow:auto}
+#scenario-editor th{white-space:normal;font-size:11px}
+#scenario-editor td{font-size:12px;vertical-align:top}
+#scenario-editor .production-project-label{display:flex;align-items:flex-start;gap:8px}
+#scenario-editor .production-project-label small{display:block;font-size:11px;margin-top:4px;color:var(--muted)}
+#scenario-editor .production-project-detail{font-size:11px;margin:5px 0 0 23px}
+#scenario-editor .production-parameters{min-width:0;border:1px solid var(--line);padding:16px;border-radius:6px}
+#scenario-editor .production-impact-options{display:flex;flex-wrap:wrap;gap:12px;align-items:center;font-size:12px}
+#scenario-editor .production-external{display:flex;gap:12px;align-items:center;margin-top:14px;font-size:12px}
+#scenario-editor .production-external input{width:90px;max-width:100%}
+#scenario-editor .scenario-method-note{font-size:12px}
+@media(max-width:680px){#scenario-editor .production-external{flex-wrap:wrap}#scenario-editor .production-project-label{min-width:160px}}
+
+/* Four scenarios share the same reading rows and synchronized map scales. */
+body.comparator-wide .app-shell{grid-template-columns:minmax(0,1fr)}
+body.comparator-wide .app-shell>.main-content{grid-column:1}
+body.comparator-wide #module-sidebar,body.comparator-wide #sidebar-toggle{display:none!important}
+#comparador .cmp-columns-scroll{overflow-x:auto;max-width:100%;margin:20px 0;scrollbar-gutter:stable}
+#comparador .cmp-columns-scroll:focus-visible{outline:3px solid #247C8C;outline-offset:2px}
+#comparador .cmp-columns[data-columns="4"]{grid-template-columns:repeat(4,minmax(200px,1fr));gap:10px;padding:10px;margin:0}
+#comparador .cmp-columns[data-columns="2"]{grid-template-columns:repeat(2,minmax(260px,1fr));margin:0}
+#comparador .cmp-side{border-top-color:var(--comparison-color)!important}
+#comparador .cmp-columns[data-columns="4"] .cmp-side{padding:12px}
+#comparador .cmp-side>header{display:block}
+#comparador .cmp-side>header h3{margin:0 0 10px;font-size:22px}
+#comparador .cmp-side>header label{font-size:11px}
+#comparador .cmp-side>header select{width:100%;min-width:0;font-size:12px}
+#comparador .cmp-columns[data-columns="4"] .cmp-side>.source-line{min-height:54px;font-size:11px;line-height:1.5}
+#comparador .cmp-columns[data-columns="4"] .cmp-indicators>div{grid-template-columns:1fr;gap:5px;padding:10px 0;min-height:100px}
+#comparador .cmp-columns[data-columns="4"] .cmp-indicators small{font-size:11px}
+#comparador .cmp-columns[data-columns="4"] .cmp-indicators strong{font-size:25px}
+#comparador .cmp-columns[data-columns="4"] .cmp-indicators span{font-size:11px}
+#comparador .cmp-columns[data-columns="4"] .cmp-side>h4{font-size:13px;min-height:60px;margin-top:16px}
+#comparador .cmp-columns[data-columns="4"] .cmp-map{height:270px}
+#comparador .cmp-education{height:auto;min-width:0;display:grid;gap:14px}
+#comparador .cmp-level-row>div:first-child{display:flex;justify-content:space-between;gap:8px;font-size:11px;margin-bottom:5px}
+#comparador .cmp-level-row strong{font-variant-numeric:tabular-nums;white-space:nowrap;color:var(--primary-dark)}
+#comparador .cmp-level-track{height:7px;border-radius:3px;background:#EAF0EF;overflow:hidden}
+#comparador .cmp-level-track>span{display:block;height:100%;border-radius:3px}
+@media(max-width:680px){#comparador .cmp-columns[data-columns="2"]{grid-template-columns:1fr}#comparador .cmp-columns[data-columns="4"]{grid-template-columns:repeat(4,260px)}}
+
+#productivos .energy-project-catalog{max-height:450px;overflow:auto}
+#productivos #energy-projects select{min-width:76px}
+#productivos #energy-results th{position:static;white-space:normal}
+#productivos #energy-summary article{min-width:0;padding:12px}
+#productivos #energy-summary article>span{display:block;font-size:11px;color:var(--muted)}
+#productivos #energy-summary article>strong{display:block;font:25px/1.4 var(--serif);color:var(--primary-dark)}
+#productivos .production-context .inline-controls{flex-wrap:wrap}

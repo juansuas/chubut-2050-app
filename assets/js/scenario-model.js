@@ -1,5 +1,5 @@
-import {additionalGroupPopulation} from './scenario-population.js?v=2.29.0';
-import {DEFAULT_CAPACITY_THRESHOLDS,occupancyStatus} from './config.js?v=2.29.0';
+import {additionalGroupPopulation} from './scenario-population.js?v=2.30.0';
+import {DEFAULT_CAPACITY_THRESHOLDS,occupancyStatus} from './config.js?v=2.30.0';
 
 export const POLICY_GROUPS=[
   {id:'0_3',label:'0–3 años',level:'INI',levelLabel:'Inicial',color:'#FFC928'},

@@ -1,9 +1,9 @@
-import {getState,setState} from './state.js?v=2.29.0';
-import {SCENARIO_NAMES} from './scenario-population.js?v=2.29.0';
-import {renderFutureStory} from './future-story.js?v=2.29.0';
-import {futureValues,futurePeak,futureEducationTraces,futureChartRange,toggleFutureTerritory} from './future-view.js?v=2.29.0';
-import {buildFutureTerritories,FUTURE_LEVELS,futurePhase} from './future-territories.js?v=2.29.0';
-import {activitySymbol} from './production.js?v=2.29.0';
+import {getState,setState} from './state.js?v=2.30.0';
+import {SCENARIO_NAMES} from './scenario-population.js?v=2.30.0';
+import {renderFutureStory} from './future-story.js?v=2.30.0';
+import {futureValues,futurePeak,futureEducationTraces,futureChartRange,toggleFutureTerritory} from './future-view.js?v=2.30.0';
+import {buildFutureTerritories,FUTURE_LEVELS,futurePhase} from './future-territories.js?v=2.30.0';
+import {activitySymbol} from './production.js?v=2.30.0';
 
 const nf=new Intl.NumberFormat('es-AR',{maximumFractionDigits:0}),df=new Intl.NumberFormat('es-AR',{maximumFractionDigits:2}),ef=new Intl.NumberFormat('es-AR',{maximumFractionDigits:1});
 const colors={INI:'#D5A92A',PRI:'#63A6B1',SEC:'#247C8C',AGE18:'#8A5A44'};

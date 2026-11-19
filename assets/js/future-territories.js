@@ -1,7 +1,7 @@
-import {buildFutureModel,FUTURE_LEVELS} from './future-model.js?v=2.29.0';
-import {educationImpact} from './migration-education.js?v=2.29.0';
-import {projectImpact,IMPACT} from './productive-scenario.js?v=2.29.0';
-import {currentRate,parameterRate} from './scenario-model.js?v=2.29.0';
+import {buildFutureModel,FUTURE_LEVELS} from './future-model.js?v=2.30.0';
+import {educationImpact} from './migration-education.js?v=2.30.0';
+import {projectImpact,IMPACT} from './productive-scenario.js?v=2.30.0';
+import {currentRate,parameterRate} from './scenario-model.js?v=2.30.0';
 
 export {FUTURE_LEVELS};
 const levels=()=>Object.fromEntries(FUTURE_LEVELS.map(([key])=>[key,0]));

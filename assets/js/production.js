@@ -1,4 +1,4 @@
-import {COLORS,fmt} from './config.js?v=2.29.0';
+import {COLORS,fmt} from './config.js?v=2.30.0';
 
 export const ACTIVITY_COLORS={EOL:COLORS.primary,HID:COLORS.support,TER:COLORS.coral,PET:COLORS.primaryDark,GAS:COLORS.brown,H2:COLORS.yellow,OTR:COLORS.muted};
 const STATE_ORDER=['OPERATIVO','EN_CONSTRUCCION','PROYECTADO','FUERA_SERVICIO','SIN_INFO'];
@@ -87,8 +87,8 @@ function addMapLegend(entry){
       <span><b class="production-legend-icon activity-eol" style="--activity-color:${ACTIVITY_COLORS.EOL}">${activitySymbol('EOL')}</b>Eólica</span>
       <span><b class="production-legend-icon activity-hid" style="--activity-color:${ACTIVITY_COLORS.HID}">${activitySymbol('HID')}</b>Hidroeléctrica</span>
       <span><b class="production-legend-icon activity-ter" style="--activity-color:${ACTIVITY_COLORS.TER}">${activitySymbol('TER')}</b>Térmica</span>
-      <span><i class="legend-ring in-scenario"></i>Incluido en escenario</span>
       <strong class="legend-subtitle">Estado</strong>
+      <span><i class="legend-ring in-scenario"></i>Proyecto activado</span>
       <span><i class="legend-ring operative"></i>Operativo</span>
       <span><i class="legend-ring projected"></i>Proyectado</span>
       <span><i class="legend-ring unknown"></i>Estado sin informar</span>`;
@@ -123,7 +123,7 @@ function renderProductionMap(data,state,rows,onTerritorySelect,onInstallationSel
     });
     const capacity=number(row.capacidad_instalada_mw);
     const project=number(row.potencia_declarada_proyecto_mw);
-    marker.bindTooltip(`<div class="map-tooltip"><strong>${escapeHTML(row.nombre_instalacion)}</strong><br>${escapeHTML(row.actividad_nombre)} · ${escapeHTML(row.estado_nombre)}${Object.hasOwn(state.scenarioProjects||{},row.instalacion_id)?`<br>Incluido en escenario · entrada ${escapeHTML(state.scenarioProjects[row.instalacion_id])}`:''}<br>${capacity!==null?`${formatDecimal(capacity)} MW instalados`:project!==null?`${formatDecimal(project)} MW declarados de proyecto`:'Capacidad sin informar'}${row.referencia_localizacion?`<br><em>${escapeHTML(row.referencia_localizacion)}</em>`:''}</div>`);
+    marker.bindTooltip(`<div class="map-tooltip"><strong>${escapeHTML(row.nombre_instalacion)}</strong><br>${escapeHTML(row.actividad_nombre)} · ${escapeHTML(row.estado_nombre)}${Object.hasOwn(state.scenarioProjects||{},row.instalacion_id)?`<br>Proyecto activado · entrada ${escapeHTML(state.scenarioProjects[row.instalacion_id])}`:''}<br>${capacity!==null?`${formatDecimal(capacity)} MW instalados`:project!==null?`${formatDecimal(project)} MW declarados de proyecto`:'Capacidad sin informar'}${row.referencia_localizacion?`<br><em>${escapeHTML(row.referencia_localizacion)}</em>`:''}</div>`);
     marker.on('click',()=>onInstallationSelect?.(row.instalacion_id));
     marker.addTo(markers);
   });
@@ -255,7 +255,7 @@ export function renderProduction(data,state,callbacks={}){
   renderTable(rows,state);
   renderDetail(data,state,territoryRows);
   const territory=state.territory==='all'?'Toda la provincia':data.territoryById?.[state.territory]?.territorio_nombre||'Departamento';
-  document.getElementById('production-map-caption').textContent=`${territory} · ${mapRows.filter(row=>Number.isFinite(row.latitud)&&Number.isFinite(row.longitud)).length} localizadas · ${state.productionView==='inventory'?'inventario filtrado':'base operativa + proyectos incluidos'}`;
+  document.getElementById('production-map-caption').textContent=`${territory} · ${mapRows.filter(row=>Number.isFinite(row.latitud)&&Number.isFinite(row.longitud)).length} localizadas · ${state.productionView==='inventory'?'inventario filtrado':'base operativa + proyectos activados'}`;
   document.getElementById('production-department-caption').textContent='MW documentados · clic para filtrar';
   document.getElementById('production-future-caption').textContent='Potencia de la cartera auditada; no implica una fecha de ejecución';
   document.getElementById('production-matrix-caption').textContent='Sólo capacidad instalada documentada; excluye potencia declarada de proyectos';

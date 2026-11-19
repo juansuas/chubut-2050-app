@@ -1,5 +1,5 @@
-import {currentRate,parameterRate} from './scenario-model.js?v=2.29.0';
-import {IMPACT,projectImpact} from './productive-scenario.js?v=2.29.0';
+import {currentRate,parameterRate} from './scenario-model.js?v=2.30.0';
+import {IMPACT,projectImpact} from './productive-scenario.js?v=2.30.0';
 
 export const EDUCATION_LEVELS=[
   ['INI','Inicial'],['PRI','Primario'],['SEC','Secundario (12–17)'],['AGE18','Secundario (18 años)']

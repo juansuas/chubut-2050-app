@@ -1,4 +1,4 @@
-import { COLORS, fmt, pct, occupancyStatus } from './config.js?v=2.29.0';
+import { COLORS, fmt, pct, occupancyStatus } from './config.js?v=2.30.0';
 
 const registry={};
 

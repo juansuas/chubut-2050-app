@@ -1,8 +1,9 @@
+import {moduleState} from '../assets/js/module-context.js?v=2.30.0';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
-import {buildFutureTerritories} from '../assets/js/future-territories.js?v=2.29.0';
-import {scenarioPopulation,presetPatch} from '../assets/js/scenario-population.js?v=2.29.0';
-import {capacityComparison,potentialDemandSeries} from '../assets/js/scenario-model.js?v=2.29.0';
+import {buildFutureTerritories} from '../assets/js/future-territories.js?v=2.30.0';
+import {scenarioPopulation,presetPatch} from '../assets/js/scenario-population.js?v=2.30.0';
+import {capacityComparison,potentialDemandSeries} from '../assets/js/scenario-model.js?v=2.30.0';
 const root=new URL('../data/',import.meta.url);
 const json=async name=>JSON.parse(await readFile(new URL(name,root),'utf8'));
 function csv(text){
@@ -57,9 +58,19 @@ const customModel=buildFutureTerritories(data,custom);
 assert.equal(customModel.scenarios.personalizado.territories.all.series.find(r=>r.year===2024).people,0);
 assert.equal(capacityComparison(data,{...base,...presetPatch(data,'total'),capacityThresholds:{INI:60,PRI:60,SEC:60}}).current.capacity,capacity,'La capacidad actual no cambia con parámetros antiguos guardados');
 const storage=new Map();globalThis.localStorage={getItem:k=>storage.get(k)||null,setItem:(k,v)=>storage.set(k,v)};globalThis.location={hash:'#escenarios'};
-const {getState,setState}=await import('../assets/js/state.js?v=2.29.0');
+const {getState,setState}=await import('../assets/js/state.js?v=2.30.0');
 setState({...presetPatch(data,'total'),year:2048,territory:'26007'});
 for(const module of ['demografia','oferta','productivos','escenarios']){
  setState({module});const state=getState();assert.equal(state.activeScenario,'total');assert.equal(state.year,2048);assert.equal(state.demographyYear,2048);assert.equal(state.capacityYear,2048);assert.equal(state.scenarioImpactYear,2048);assert.equal(state.scenarioPopulationDepartment,'26007');
 }
-console.log('INTEGRACIÓN OK: cuatro escenarios, años y territorio compartidos, población y demanda coherentes entre módulos, capacidad fija, asistencia editable, Secundario sin duplicaciones.');
+const variants=['tendencial','moderado','intensivo','total'].map(key=>({...base,...presetPatch(data,key),year:2048,territory:'26049',capacityRateProgress:{'0_3':1,'4_5':1}}));
+for(const module of ['demografia','oferta','productivos']){
+ const neutral=variants.map(state=>moduleState({...state,module}));
+ for(const state of neutral){assert.equal(state.activeScenario,'tendencial');assert.deepEqual(state.scenarioProjects,{});assert.deepEqual(state.capacityRateProgress,{});assert.equal(scenarioPopulation(data,state).rows.length,0);}
+ const loads=neutral.map(state=>capacityComparison(data,state).current.load);
+ loads.forEach(load=>close(load,loads[0],'Los módulos de base no cambian con el escenario productivo'));
+}
+const chosen={...variants.at(-1),module:'escenarios'};
+assert.equal(moduleState(chosen),chosen,'Escenarios conserva sus supuestos y asistencia');
+assert.ok(capacityComparison(data,chosen).current.load>capacityComparison(data,moduleState({...chosen,module:'oferta'})).current.load,'Escenarios conserva el impacto productivo que Educación no incorpora');
+console.log('INTEGRACIÓN OK: cuatro escenarios exclusivos de Escenarios, base demográfica y educativa preservada, coherencia de población y demanda, capacidad fija, asistencia editable, Secundario sin duplicaciones.');

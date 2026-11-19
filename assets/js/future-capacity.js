@@ -1,9 +1,9 @@
-import {capacityComparison,potentialDemandSeries,aggregateSchools} from './scenario-model.js?v=2.29.0';
-import {renderCapacityMap} from './capacity-map.js?v=2.29.0';
-import {getState,setState} from './state.js?v=2.29.0';
-import {openFloatingPanel} from './floating-panels.js?v=2.29.0';
-import {SCENARIO_NAMES,scenarioProjects} from './scenario-population.js?v=2.29.0';
-import {fmt,pct} from './config.js?v=2.29.0';
+import {capacityComparison,potentialDemandSeries,aggregateSchools} from './scenario-model.js?v=2.30.0';
+import {renderCapacityMap} from './capacity-map.js?v=2.30.0';
+import {getState,setState} from './state.js?v=2.30.0';
+import {openFloatingPanel} from './floating-panels.js?v=2.30.0';
+import {SCENARIO_NAMES,scenarioProjects} from './scenario-population.js?v=2.30.0';
+import {fmt,pct} from './config.js?v=2.30.0';
 const $=id=>document.getElementById(id),pp=new Intl.NumberFormat('es-AR',{maximumFractionDigits:2,signDisplay:'always'});
 let ready=false,level='all',metric='occupancy',school='all',highlightProjects=false;
 export function renderFutureCapacity(data,state){

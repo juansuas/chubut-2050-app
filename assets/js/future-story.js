@@ -1,7 +1,7 @@
-import {SCENARIO_NAMES} from './scenario-population.js?v=2.29.0';
-import {FUTURE_LEVELS} from './future-territories.js?v=2.29.0';
-import {futurePeak,futureEducationTraces,futureChartRange,FUTURE_LEVEL_COLORS,toggleFutureTerritory} from './future-view.js?v=2.29.0';
-import {activitySymbol} from './production.js?v=2.29.0';
+import {SCENARIO_NAMES} from './scenario-population.js?v=2.30.0';
+import {FUTURE_LEVELS} from './future-territories.js?v=2.30.0';
+import {futurePeak,futureEducationTraces,futureChartRange,FUTURE_LEVEL_COLORS,toggleFutureTerritory} from './future-view.js?v=2.30.0';
+import {activitySymbol} from './production.js?v=2.30.0';
 const $=id=>document.getElementById(id),nf=new Intl.NumberFormat('es-AR',{maximumFractionDigits:0}),df=new Intl.NumberFormat('es-AR',{maximumFractionDigits:1});
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let projectMap,projectLayer,projectMarkers,projectMapTerritory=null;

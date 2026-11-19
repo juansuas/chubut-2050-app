@@ -28,4 +28,15 @@ for module,count in [('demografia',3),('oferta',4)]:
 if len(sys.argv)>1:
  old=Check();old.feed(Path(sys.argv[1]).read_text(encoding='utf-8'))
  assert set(old.ids)<=set(p.ids),'Existing controls or plots removed'
-print('ESTRUCTURA WEB OK: HTML, IDs únicos y preservados, ARIA, cuatro escenarios y controles en lateral, secciones 02/03.')
+assert s.index('data-route="demografia"')<s.index('data-route="oferta"')<s.index('data-route="productivos"')<s.index('data-route="escenarios"')<s.index('data-route="comparador"')
+for id in ['scenario-projects','scenario-coefficients','scenario-external-percent','scenario-include-construction']:
+ assert 'escenarios' in p.ids[id] and 'productivos' not in p.ids[id],id
+for id in ['capacity-comparison-mode','capacity-rate-sliders','production-tab-projects','production-results-title']:assert id not in p.ids,id
+assert 'productivos' in p.ids['production-inventory-view']
+for id in ['energy-projects','energy-analysis-year','production-mode','energy-results']:assert 'productivos' in p.ids[id]
+for side in 'abcd':
+ for prefix in ['cmp-title-','cmp-scenario-','cmp-map-','cmp-education-']:assert prefix+side in p.ids
+ assert 'cmp-population-'+side not in p.ids
+assert 'cmp-columns' in p.ids
+assert '<span class="future-scenario-icon" aria-hidden="true">↗↗↗</span>' in s
+print('ESTRUCTURA WEB OK: HTML, ARIA, nuevo orden 01–05, activación energética en Producción y coeficientes en Escenarios.')

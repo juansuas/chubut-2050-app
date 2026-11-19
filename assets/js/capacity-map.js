@@ -1,5 +1,5 @@
-import {aggregateSchools,projectedSections,OCCUPANCY_CATEGORIES} from './scenario-model.js?v=2.29.0';
-import {occupancyStatus,pct,fmt} from './config.js?v=2.29.0';
+import {aggregateSchools,projectedSections,OCCUPANCY_CATEGORIES} from './scenario-model.js?v=2.30.0';
+import {occupancyStatus,pct,fmt} from './config.js?v=2.30.0';
 const maps=new Map();
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 export function renderCapacityMap(data,state,{id='capacity-school-map',rows,referenceRows,metric='occupancy',projectHighlight,onSchoolSelect=()=>{},onTerritorySelect=()=>{}}={}){
@@ -35,7 +35,8 @@ export function renderCapacityMap(data,state,{id='capacity-school-map',rows,refe
   const reference=references.get(school.cue_anexo),delta=(school.occupancy-(metric==='change2024'?school.baseOccupancy:reference?.occupancy||0))*100;
   const color=metric==='occupancy'?occupancyStatus(school.occupancy).color:delta>1?'#B9472F':delta< -1?'#247C8C':'#B9C3C5';
   const style={radius:state.capacitySchool===school.cue_anexo?8:5,fillColor:color,fillOpacity:.9,color:state.capacitySchool===school.cue_anexo?'#1F2933':'#FFFFFF',weight:state.capacitySchool===school.cue_anexo?3:1};
-  const info=`<div class="map-tooltip"><strong>${esc(school.name)}</strong><br>${esc(school.department)} · ${esc(school.level)}<br>Ocupación 2024: ${pct.format(school.baseOccupancy)}<br>Sin proyectos, mismas tasas: ${pct.format(reference?.occupancy||0)}<br>Escenario seleccionado: ${pct.format(school.occupancy)}<br>Capacidad actual de referencia: ${fmt.format(school.capacity)}<br>Lugares disponibles estimados: ${fmt.format(school.availablePlaces)}<br>Cursos con alta presión o saturados: ${(school.categories.ALTA_PRESION||0)+(school.categories.SATURADA||0)}<br><small>Estimación proporcional por departamento, edad y sexo; no asigna familias a una escuela.</small></div>`;
+  const projectionNote=state.module==='oferta'?`Proyección tendencial: ${pct.format(school.occupancy)}`:`Sin proyectos, mismas tasas: ${pct.format(reference?.occupancy||0)}<br>Escenario seleccionado: ${pct.format(school.occupancy)}`;
+  const info=`<div class="map-tooltip"><strong>${esc(school.name)}</strong><br>${esc(school.department)} · ${esc(school.level)}<br>Ocupación 2024: ${pct.format(school.baseOccupancy)}<br>${projectionNote}<br>Capacidad actual de referencia: ${fmt.format(school.capacity)}<br>Lugares disponibles estimados: ${fmt.format(school.availablePlaces)}<br>Cursos con alta presión o saturados: ${(school.categories.ALTA_PRESION||0)+(school.categories.SATURADA||0)}<br><small>Estimación proporcional por departamento, edad y sexo; no asigna familias a una escuela.</small></div>`;
   let marker=entry.markers.get(school.cue_anexo);
   if(!marker){marker=L.circleMarker([school.lat,school.lng],style).addTo(entry.layer);entry.markers.set(school.cue_anexo,marker);}
   marker.setStyle(style).setRadius(style.radius).bringToFront().unbindTooltip().bindTooltip(info).unbindPopup().bindPopup(info);

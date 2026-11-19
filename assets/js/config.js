@@ -10,12 +10,12 @@ export const DATA_PATHS = {
   productionMetadata:'data/productivo_metadata.json?v=2.27.0',
   productionSources:'data/fuentes_productivas.csv?v=2.27.0',
   departmentBoundaries:'data/departamentos_chubut.geojson',
-  metadata:'data/metadata.json?v=2.29.0'
+  metadata:'data/metadata.json?v=2.30.0'
 };
 
 export const YEARS=Array.from({length:29},(_,index)=>2022+index);
 export const DEFAULT_CAPACITY_THRESHOLDS=Object.freeze({INI:18,PRI:22,SEC:26});
-export const MODULES=['escenarios','demografia','oferta','productivos','comparador'];
+export const MODULES=['demografia','oferta','productivos','escenarios','comparador'];
 export const COLORS={
   primary:'#247C8C',primaryDark:'#14586A',coral:'#FF6B35',yellow:'#FFC928',support:'#63A6B1',critical:'#B9472F',brown:'#8A5A44',
   blue:'#14586A',green:'#247C8C',greenAlt:'#63A6B1',magenta:'#FF6B35',amber:'#FFC928',red:'#B9472F',

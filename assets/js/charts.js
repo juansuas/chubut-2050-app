@@ -1,6 +1,6 @@
-import { COLORS } from './config.js?v=2.29.0';
-import { metricsFor, sum } from './scenarios.js?v=2.29.0';
-import { demographyRows, demographyMapStats, populationTotal } from './demography.js?v=2.29.0';
+import { COLORS } from './config.js?v=2.30.0';
+import { metricsFor, sum } from './scenarios.js?v=2.30.0';
+import { demographyRows, demographyMapStats, populationTotal } from './demography.js?v=2.30.0';
 
 const layoutBase = {
   paper_bgcolor:COLORS.surface, plot_bgcolor:COLORS.surface, font:{family:'Inter, system-ui, sans-serif',color:COLORS.ink,size:12},

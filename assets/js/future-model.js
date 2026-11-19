@@ -1,7 +1,7 @@
-import {scenarioOptions} from './scenario-population.js?v=2.29.0';
-import {scheduledProjects,projectImpact,populationImpactSeries,IMPACT} from './productive-scenario.js?v=2.29.0';
-import {educationImpact} from './migration-education.js?v=2.29.0';
-import {currentRate,parameterRate} from './scenario-model.js?v=2.29.0';
+import {scenarioOptions} from './scenario-population.js?v=2.30.0';
+import {scheduledProjects,projectImpact,populationImpactSeries,IMPACT} from './productive-scenario.js?v=2.30.0';
+import {educationImpact} from './migration-education.js?v=2.30.0';
+import {currentRate,parameterRate} from './scenario-model.js?v=2.30.0';
 
 export const FUTURE_LEVELS=[['INI','Inicial'],['PRI','Primario'],['SEC','Secundario 12–17'],['AGE18','Secundario 18 años']];
 const emptyLevels=()=>Object.fromEntries(FUTURE_LEVELS.map(([key])=>[key,0]));

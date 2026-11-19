@@ -1,4 +1,4 @@
-import {scheduledProjects,projectImpact,IMPACT} from './productive-scenario.js?v=2.29.0';
+import {scheduledProjects,projectImpact,IMPACT} from './productive-scenario.js?v=2.30.0';
 
 export const SCENARIO_NAMES={tendencial:'Tendencial',moderado:'Moderado',intensivo:'Intensivo',total:'Total',personalizado:'Personalizado'};
 export function scenarioOptions(data,state){
